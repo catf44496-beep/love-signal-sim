@@ -1,22 +1,61 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { 
-  Heart, MessageCircle, TrendingUp, Users, User, Star, MapPin, 
-  Clock, Send, Radio, MessageSquare, Activity, Zap, Eye, 
-  ChevronRight, Smartphone, X, MoreHorizontal, Share2, 
-  Layout, Sparkles, Home, Bell, Camera, Lock, PenTool, BookOpen,
-  Battery, Wifi, Signal, ArrowLeft, Image as ImageIcon, Mic,
-  Flame, Droplets, Wind, Hexagon, Fingerprint, Shield, Music,
-  Smile, Frown, Sun, CloudRain, Calendar, Gift, Coffee, Settings,
-  ChevronDown, ChevronUp, Quote, Play, SkipForward, Award, Key, Gem,
-  AlertTriangle, ThumbsUp, ThumbsDown, Hash, MessageSquareText, Search,
-  BookHeart, CheckCircle2, Wallet, Image, Info, Thermometer,
-  Sparkle, DoorOpen, LogOut, HelpCircle, MessageSquareCode, SkipBack,
-  Save, RotateCcw, Crown, AlertCircle, PlayCircle, Map, CheckCircle,
-  Feather, Clapperboard, Video, Aperture, MonitorPlay, RadioReceiver, Sliders,
-  Trophy, TrendingDown, Minus, ThumbsUp as LikeIcon, Film, Megaphone, Sticker, Umbrella,
-  MousePointer2, MoveHorizontal, XCircle, ChevronLeft
-} from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import {
+  ArrowLeft,
+  Battery,
+  BookHeart,
+  BookOpen,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Clapperboard,
+  CloudRain,
+  Coffee,
+  Crown,
+  Eye,
+  Film,
+  Gem,
+  Gift,
+  Grid,
+  Hash,
+  Heart,
+  HelpCircle,
+  Info,
+  ThumbsUp as LikeIcon,
+  Lock,
+  LogOut,
+  MapPin,
+  Megaphone,
+  MessageCircle,
+  MessageSquareCode,
+  MessageSquareText,
+  Mic,
+  Minus,
+  MonitorPlay,
+  MoreHorizontal,
+  PlayCircle,
+  Quote,
+  Radio,
+  RotateCcw,
+  Save,
+  Settings,
+  Shield,
+  Smile,
+  Sparkle,
+  Sparkles,
+  Star,
+  Sticker,
+  ThumbsUp,
+  TrendingDown,
+  TrendingUp,
+  User,
+  UserCheck,
+  Wind,
+  X,
+  XCircle,
+  Zap
+} from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 // --- 1. 类型定义 ---
 
@@ -258,7 +297,7 @@ const CHARACTERS: Character[] = [
   { 
     id: 'lu', name: '陆星辞', age: 25, job: '金融分析师', 
     avatarColor: 'bg-blue-100', 
-    avatarImage: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=400&auto=format&fit=crop', 
+    avatarImage: '/images/luxingci.png', 
     stats: { heartbeat: 10, jealousy: 0, syncRate: 15, mood: "觀察", trait: "深情·光", cpRate: 50 },
     impression: "气质独特。", 
     tags: ["精英", "反差萌", "深情"],
@@ -299,12 +338,12 @@ const CHARACTERS: Character[] = [
 const SCENARIOS: StoryScenario[] = [
     {
         id: 'ep1', phase: '第1期', episodeTitle: '初见信号', slogan: "若有似無的試探 · 宿命開場", rarity: "R",
-        coverImage: "https://images.unsplash.com/photo-1560026301-8834065d9361?q=80&w=2070&auto=format&fit=crop",
+        coverImage: "/images/episode1.png",
         weather: '微風 25℃', location: '心动别墅 (大门)', task: '入住与初识',
         directorMission: "完成入住，並在晚餐環節獲得至少一位男嘉賓的關注。", 
         text: `初夏的風捲著梔子花香，你拖著略顯沉重的行李箱停在別墅前。心跳莫名漏了一拍，彷彿預感到了門後等待著怎樣的際遇。\n\n推開大門的瞬間，客廳裡的三道視線同時聚焦過來。空氣在那一秒變得黏稠而曖昧。\n行李箱輪子卡在了門檻上，誰會是那個打破沉默走向你的人？`,
         options: [
-            { id: 'opt-lu-ep1', label: '回應陸星辭的注視', target: '陆星辞', desc: '他的目光像一張精密編織的網，禮貌卻帶著不容忽視的侵略性。', intro: "陸星辭合上手中的財經雜誌，起身的動作行雲流水。他沒有立刻說話，而是用行動接管了你的困窘。", story_result: "“給我吧。”\n\n他的聲音低沈悅耳，像是大提琴的琴弦震動。手指接過拉桿時，無意間擦過你的手背，指腹乾燥而溫熱。\n那一瞬間的觸碰彷彿帶了電，他微微垂眸，鏡片後的眼神深邃得讓人看不懂：“初次見面，我是陸星辭。”", avatar: CHARACTERS[0].avatarImage, cg_title: "指尖電流 · 紳士陷阱" },
+            { id: 'opt-lu-ep1', label: '回應陸星辭的注視', target: '陆星辞', desc: '他的目光像一張精密編織的網，禮貌卻帶著不容忽視的侵略性。', intro: "陸星辭合上手中的財經雜誌，起身的動作行雲流水。他沒有立刻說話，而是用行動接管了你的困窘。", story_result: "“給我吧。”\n\n他的聲音低沈悅耳，像是大提琴的琴弦震動。手指接過拉桿時，無意間擦過你的手背，指腹乾燥而溫熱。\n那一瞬間的觸碰彷彿帶了電，他微微垂眸，鏡片後的眼神深邃得讓人看不懂：“初次見面，我是陸星辭。”", avatar: '/images/行李.png', cg_title: "指尖電流 · 紳士陷阱" },
             { id: 'opt-shen-ep1', label: '對沈予點頭致意', target: '沈予', desc: '他站在光影交界處，金絲眼鏡折射出一絲冷冽，卻又莫名吸引人。', intro: "沈予推了推眼鏡，視線在你身上停留了三秒，彷彿在審視一件即將放入展館的藝術品。", story_result: "他沒有直接觸碰你的行李，而是先一步幫你推開了沈重的玄關大門。\n\n“小心台階。”\n\n聲音清冷，卻在轉身時為你擋住了刺眼的陽光。空氣中飄來淡淡的雪松香氣，那是屬於沈予的疏離與溫柔。", avatar: CHARACTERS[1].avatarImage, cg_title: "雪松香氣 · 克制關懷" },
             { id: 'opt-jiang-ep1', label: '接住江哲的笑容', target: '江哲', desc: '他像一顆不受控的小太陽，眼裡的熱烈幾乎要將空氣點燃。', intro: "“姐姐！”還沒等你反應過來，一道充滿活力的身影已經衝到了面前，帶起一陣清爽的運動香。", story_result: "江哲一把拎起你沈重的箱子，輕鬆得像是在拿玩具。\n\n“終於等到你了！我還以為今天要一直對著這兩個悶葫蘆呢！”\n他笑得露出兩顆虎牙，湊得很近，你甚至能感覺到他身上散發出的蓬勃熱氣：“我是江哲，以後體力活都歸我，你只管漂亮就好！”", avatar: CHARACTERS[2].avatarImage, cg_title: "直球狙擊 · 少年熱忱" },
         ]
@@ -713,50 +752,212 @@ const GlassBackground = () => {
 };
 
 const HeartBloom = () => {
+    // 使用惰性初始化避免在渲染期间调用 Math.random()
+    const [heartPositions] = useState<Array<{
+        left: number;
+        animationDelay: number;
+        animationDuration: number;
+        scale: number;
+    }>>(() => {
+        return Array.from({ length: 15 }).map(() => ({
+            left: Math.random() * 100,
+            animationDelay: Math.random() * 0.5,
+            animationDuration: 2 + Math.random() * 2,
+            scale: 0.5 + Math.random()
+        }));
+    });
+
     return <div className="absolute inset-0 overflow-hidden z-[160] pointer-events-none">
-        {Array.from({ length: 15 }).map((_, i) => (
+        {heartPositions.map((heart, i) => (
             <div key={i} className="absolute bottom-0 text-pink-400 animate-floatUp" style={{
-                left: `${Math.random() * 100}%`, animationDelay: `${Math.random() * 0.5}s`, animationDuration: `${2 + Math.random() * 2}s`, transform: `scale(${0.5 + Math.random()})`, opacity: 0
+                left: `${heart.left}%`,
+                animationDelay: `${heart.animationDelay}s`,
+                animationDuration: `${heart.animationDuration}s`,
+                transform: `scale(${heart.scale})`,
+                opacity: 0
             }}><Heart fill="currentColor" size={24} /></div>
         ))}
     </div>;
 };
 
 const EpisodeOpening = ({ scenario, onFinished }: { scenario: StoryScenario, onFinished: () => void }) => {
+    const onFinishedRef = useRef(onFinished);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+    
+    // 更新 ref 以始终使用最新的回调
     useEffect(() => {
-        const timer = setTimeout(onFinished, 4000); 
-        return () => clearTimeout(timer);
+        onFinishedRef.current = onFinished;
     }, [onFinished]);
+    
+    // 设置定时器，只执行一次
+    useEffect(() => {
+        timerRef.current = setTimeout(() => {
+            onFinishedRef.current();
+        }, 4000);
+        
+        return () => {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
+        };
+    }, []); // 空依赖数组，只在组件挂载时执行一次
+
+    const handleSkip = () => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
+        onFinishedRef.current();
+    };
 
     return (
-        <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center overflow-hidden animate-fadeIn">
-            <div className="absolute inset-0 z-0 opacity-40">
-                <img src={scenario.coverImage} className="w-full h-full object-cover animate-zoomIn" />
+        <div 
+            className="fixed inset-0 z-[200] bg-gradient-to-br from-pink-950 via-purple-950 to-indigo-950 flex flex-col items-center justify-center overflow-hidden animate-fadeIn cursor-pointer"
+            onClick={handleSkip}
+        >
+            {/* 背景模糊的封面图 */}
+            <div className="absolute inset-0 z-0 opacity-20">
+                <img src={scenario.coverImage} className="w-full h-full object-cover blur-2xl scale-110" />
             </div>
-            <div className="absolute inset-0 z-0 bg-gradient-to-t from-black via-black/50 to-black/80"></div>
             
-            <div className="relative z-10 text-center space-y-4">
-                <div className="text-pink-500 font-mono text-sm tracking-[0.5em] animate-slideDown border-b border-pink-500 pb-2 inline-block">
-                    {scenario.phase}
+            {/* 拍摄设备网格覆盖层 */}
+            <div className="absolute inset-0 z-[5] opacity-10" style={{
+                backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+                backgroundSize: '40px 40px'
+            }}></div>
+            
+            {/* 摄像机视角边框 */}
+            <div className="absolute inset-4 border-4 border-red-500/30 rounded-lg z-[6] animate-pulse"></div>
+            <div className="absolute inset-6 border-2 border-white/20 rounded-lg z-[6]"></div>
+            
+            {/* 左上角：拍摄信息 */}
+            <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
+                <div className="flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-red-500/50">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+                    <span className="text-red-400 font-mono text-sm font-bold tracking-widest">REC</span>
+                    <span className="text-white/60 font-mono text-xs">00:00:00:00</span>
+                </div>
+                <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20">
+                    <span className="text-white/80 font-mono text-xs">CAM 01 • 4K • 24fps</span>
+                </div>
+            </div>
+            
+            {/* 右上角：节目信息 */}
+            <div className="absolute top-6 right-6 z-10 text-right">
+                <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-pink-500/50">
+                    <div className="text-pink-400 font-bold text-lg mb-1 flex items-center gap-2 justify-end">
+                        <Heart size={20} fill="currentColor" className="animate-pulse" />
+                        心动信号 5
+                    </div>
+                    <div className="text-white/60 text-xs font-mono">2026 夏季档</div>
+                </div>
+            </div>
+            
+            {/* 中央内容区域 */}
+            <div className="relative z-10 text-center space-y-6 px-8">
+                {/* 章节标识 */}
+                <div className="flex items-center justify-center gap-4 mb-4">
+                    <div className="h-px w-16 bg-pink-500/50"></div>
+                    <div className="text-pink-400 font-mono text-sm tracking-[0.5em] animate-slideDown border border-pink-500/50 px-4 py-2 rounded-full bg-pink-500/10 backdrop-blur-sm">
+                        {scenario.phase}
+                    </div>
+                    <div className="h-px w-16 bg-pink-500/50"></div>
                 </div>
                 
-                <h1 className="text-5xl md:text-6xl font-black text-white italic tracking-tighter uppercase drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-glitch">
+                {/* 章节标题 */}
+                <h1 className="text-6xl md:text-7xl font-black text-white italic tracking-tight uppercase drop-shadow-[0_0_20px_rgba(236,72,153,0.6)] animate-glitch">
                     {scenario.episodeTitle}
                 </h1>
                 
-                <p className="text-white/80 text-lg font-light tracking-widest animate-fadeIn delay-700 italic">
-                     “ {scenario.slogan} ”
+                {/* 标语 */}
+                <p className="text-white/90 text-xl font-light tracking-wider animate-fadeIn delay-700 italic px-8">
+                    「 {scenario.slogan} 」
                 </p>
 
-                <div className="mt-8 flex items-center justify-center gap-2 animate-pulse">
-                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <span className="text-white/50 text-xs font-mono">RECORDING START</span>
+                {/* 拍摄状态指示器 */}
+                <div className="mt-8 flex items-center justify-center gap-4 animate-pulse">
+                    <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-green-500/50">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
+                        <span className="text-green-400 text-xs font-mono font-bold">ON AIR</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-blue-500/50">
+                        <Clapperboard size={16} className="text-blue-400" />
+                        <span className="text-blue-400 text-xs font-mono">拍摄中</span>
+                    </div>
                 </div>
             </div>
+            
+            {/* 底部：拍摄时间轴 */}
+            <div className="absolute bottom-6 left-6 right-6 z-10">
+                <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="text-white/80 font-mono text-xs">
+                            <span className="text-pink-400">时间码</span> 00:00:00:00
+                        </div>
+                        <div className="h-4 w-px bg-white/30"></div>
+                        <div className="text-white/60 font-mono text-xs">
+                            场景: {scenario.location}
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <MonitorPlay size={16} className="text-white/60" />
+                        <span className="text-white/60 font-mono text-xs">多机位录制</span>
+                    </div>
+                </div>
+            </div>
+            
+            {/* 摄像机图标装饰 */}
+            <div className="absolute bottom-20 left-12 z-[8] opacity-30">
+                <Clapperboard size={64} className="text-pink-500/30 rotate-12" />
+            </div>
+            <div className="absolute top-20 right-16 z-[8] opacity-30">
+                <Film className="text-purple-500/30 -rotate-12" size={48} />
+            </div>
+            
+            {/* 扫描线效果 */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-pink-500/50 to-transparent animate-scanline"></div>
+            
+            {/* 跳过提示 */}
+            <div className="absolute bottom-24 left-1/2 -translate-x-1/2 text-white/40 text-xs font-mono animate-pulse pointer-events-none z-20 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+                点击跳过开场
+            </div>
+        </div>
+    );
+};
 
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-white/20 animate-scanline"></div>
-            <div className="absolute bottom-10 right-10 text-white/20 font-mono text-xs">
-                CAM_A [REC]
+// 邀请卡片组件（使用背景图片）
+const InvitationCard = ({ scenario: _scenario, onConfirm }: { scenario: StoryScenario, onConfirm: () => void }) => {
+    // 背景图片URL - 使用 public/images/kaipian.gif
+    const backgroundImageUrl = '/images/kaipian.gif';
+    
+    return (
+        <div 
+            className="fixed inset-0 z-[200] flex items-center justify-center animate-fadeIn overflow-hidden cursor-pointer"
+            onClick={onConfirm}
+        >
+            {/* 背景图片 - 全屏显示 */}
+            <img 
+                src={backgroundImageUrl}
+                alt="邀请函"
+                className="absolute inset-0 w-full h-full object-cover"
+            />
+            
+            {/* 确认按钮 - 底部居中 */}
+            <button 
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onConfirm();
+                }}
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 px-8 py-4 bg-white/20 backdrop-blur-md text-white rounded-full font-bold text-lg shadow-2xl hover:bg-white/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group border-2 border-white/40"
+            >
+                <Sparkles size={20} className="group-hover:animate-pulse" />
+                <span>接受邀请</span>
+                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+            
+            {/* 点击提示 */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-xs font-mono animate-pulse pointer-events-none z-10">
+                点击任意位置继续
             </div>
         </div>
     );
@@ -942,15 +1143,19 @@ const FullScreenStoryView = ({
     );
 };
 
-const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCompleted, isLocked, onStartStory }: { 
+const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCompleted, isLocked, onStartStory, completedOptions }: { 
     scenario: StoryScenario, 
     onClose: () => void, 
     onOptionClick: (id: string) => void,
     isCurrent: boolean,
     isCompleted: boolean,
     isLocked: boolean,
-    onStartStory?: (option: StoryOption) => void
+    onStartStory?: (option: StoryOption) => void,
+    completedOptions?: Set<string>
 }) => {
+    // 如果当前场景已完成至少一个选项，也显示支线剧情
+    const hasCompletedOption = completedOptions && scenario.options.some(opt => completedOptions.has(opt.id));
+    const showSideStories = isCompleted || (isCurrent && hasCompletedOption);
     return (
         <div className="fixed inset-0 z-[150] bg-black/90 backdrop-blur-xl flex flex-col animate-scaleUp">
             {/* Modal Header (Tools) */}
@@ -1025,65 +1230,90 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
                     {/* Options (Only if Current) */}
                     {isCurrent && (
                         <div className="space-y-3 pt-2">
-                            <div className="flex items-center gap-2 mb-2">
-                                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                                <span className="text-xs font-bold text-white/50 uppercase">Action Required</span>
-                            </div>
-                            {scenario.options.map(opt => (
-                                <button 
-                                    key={opt.id} 
-                                    onClick={() => {
-                                        if (onStartStory) {
-                                            onStartStory(opt);
-                                            onClose();
-                                        } else {
-                                            onOptionClick(opt.id);
-                                        }
-                                    }} 
-                                    className="w-full text-left p-4 rounded-xl bg-white/10 border border-white/10 hover:bg-pink-600/80 hover:border-pink-500 transition-all flex items-center gap-4 group active:scale-[0.98]"
-                                >
-                                    <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-white/20 group-hover:border-white transition-colors">
-                                        <img src={opt.avatar} className="w-full h-full object-cover" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h4 className="font-bold text-white text-sm group-hover:text-white transition-colors">{opt.label}</h4>
-                                        <p className="text-[10px] text-white/50 line-clamp-1 group-hover:text-white/80">{opt.desc}</p>
-                                    </div>
-                                    <ChevronRight size={20} className="text-white/30 group-hover:text-white" />
-                                </button>
-                            ))}
+                            {scenario.options.map(opt => {
+                                const isOptionCompleted = completedOptions?.has(opt.id);
+                                return (
+                                    <button 
+                                        key={opt.id} 
+                                        onClick={() => {
+                                            if (onStartStory) {
+                                                onStartStory(opt);
+                                                onClose();
+                                            } else {
+                                                onOptionClick(opt.id);
+                                            }
+                                        }} 
+                                        className={`w-full text-left p-4 rounded-xl border transition-all flex items-center gap-4 group active:scale-[0.98] ${
+                                            isOptionCompleted 
+                                                ? 'bg-purple-900/30 border-purple-500/30 hover:bg-purple-600/50 hover:border-purple-400' 
+                                                : 'bg-white/10 border-white/10 hover:bg-pink-600/80 hover:border-pink-500'
+                                        }`}
+                                    >
+                                        <div className={`w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 transition-colors ${
+                                            isOptionCompleted 
+                                                ? 'border-purple-400/40 group-hover:border-purple-300' 
+                                                : 'border-white/20 group-hover:border-white'
+                                        }`}>
+                                            <img src={opt.avatar} className="w-full h-full object-cover" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className="font-bold text-white text-sm group-hover:text-white transition-colors">{opt.label}</h4>
+                                                {isOptionCompleted && (
+                                                    <span className="text-[9px] px-1.5 py-0.5 bg-green-500/30 text-green-200 rounded font-bold">已完成</span>
+                                                )}
+                                            </div>
+                                            <p className="text-[10px] text-white/50 line-clamp-1 group-hover:text-white/80">{opt.desc}</p>
+                                        </div>
+                                        <ChevronRight size={20} className="text-white/30 group-hover:text-white" />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
 
-                    {/* Side Stories (Only if Completed) */}
-                    {isCompleted && (
+                    {/* Side Stories (如果已完成或当前场景已完成至少一个选项) */}
+                    {showSideStories && (
                         <div className="space-y-3 pt-2">
                             <div className="flex items-center gap-2 mb-3">
                                 <Sparkles size={14} className="text-purple-400" />
                                 <span className="text-xs font-bold text-purple-400 uppercase tracking-wider">支线剧情</span>
                                 <div className="flex-1 h-px bg-gradient-to-r from-purple-500/50 to-transparent"></div>
                             </div>
-                            {scenario.options.map((opt) => (
-                                <button 
-                                    key={`side-${opt.id}`} 
-                                    onClick={() => onOptionClick(opt.id)} 
-                                    className="w-full text-left p-4 rounded-xl bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-500/30 hover:from-purple-600/50 hover:to-pink-600/50 hover:border-purple-400 transition-all flex items-center gap-4 group active:scale-[0.98] relative overflow-hidden"
-                                >
-                                    <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-400/20 transition-colors"></div>
-                                    <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-purple-400/40 group-hover:border-purple-300 transition-colors relative z-10">
-                                        <img src={opt.avatar} className="w-full h-full object-cover" />
-                                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent"></div>
-                                    </div>
-                                    <div className="flex-1 relative z-10">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h4 className="font-bold text-white text-sm group-hover:text-purple-200 transition-colors">{opt.label}</h4>
-                                            <span className="text-[9px] px-1.5 py-0.5 bg-purple-500/30 text-purple-200 rounded font-bold">支线</span>
+                            {scenario.options.map((opt) => {
+                                const isOptionCompleted = completedOptions?.has(opt.id);
+                                return (
+                                    <button 
+                                        key={`side-${opt.id}`} 
+                                        onClick={() => onOptionClick(opt.id)} 
+                                        className="w-full text-left p-4 rounded-xl bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-500/30 hover:from-purple-600/50 hover:to-pink-600/50 hover:border-purple-400 transition-all flex items-center gap-4 group active:scale-[0.98] relative overflow-hidden"
+                                    >
+                                        <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-400/20 transition-colors"></div>
+                                        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-purple-400/40 group-hover:border-purple-300 transition-colors relative z-10">
+                                            <img src={opt.avatar} className="w-full h-full object-cover" />
+                                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent"></div>
+                                            {isOptionCompleted && (
+                                                <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
+                                                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                                        <ThumbsUp size={12} className="text-white" />
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
-                                        <p className="text-[10px] text-white/60 line-clamp-1 group-hover:text-white/80">{opt.desc}</p>
-                                    </div>
-                                    <ChevronRight size={20} className="text-purple-400/50 group-hover:text-purple-300 relative z-10" />
-                                </button>
-                            ))}
+                                        <div className="flex-1 relative z-10">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className="font-bold text-white text-sm group-hover:text-purple-200 transition-colors">{opt.label}</h4>
+                                                <span className="text-[9px] px-1.5 py-0.5 bg-purple-500/30 text-purple-200 rounded font-bold">支线</span>
+                                                {isOptionCompleted && (
+                                                    <span className="text-[9px] px-1.5 py-0.5 bg-green-500/30 text-green-200 rounded font-bold">已完成</span>
+                                                )}
+                                            </div>
+                                            <p className="text-[10px] text-white/60 line-clamp-1 group-hover:text-white/80">{opt.desc}</p>
+                                        </div>
+                                        <ChevronRight size={20} className="text-purple-400/50 group-hover:text-purple-300 relative z-10" />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
                     
@@ -1171,11 +1401,15 @@ const ObservationRoomModal = ({ posts, onClose }: { posts: ObserverPost[], onClo
 };
 
 const WeiboDetailView = ({ topic, onBack }: { topic: HotSearchItem | CPItem['superTopic'] & {topic?:string}, onBack: () => void }) => {
-    const title = 'topic' in topic ? topic.topic : topic.title;
-    const initialPosts = 'detailedPosts' in topic ? topic.detailedPosts : topic.posts;
-    const readCount = 'readCount' in topic ? topic.readCount : topic.readCount;
-    const discussCount = 'discussCount' in topic ? topic.discussCount : topic.postCount;
-    const level = 'level' in topic ? topic.level : undefined;
+    const isHotSearchItem = (t: typeof topic): t is HotSearchItem => 'detailedPosts' in t || 'discussCount' in t;
+    
+    const title = isHotSearchItem(topic) ? topic.topic : topic.title;
+    const initialPosts = isHotSearchItem(topic) 
+        ? (topic.detailedPosts || [])
+        : topic.posts || [];
+    const readCount = isHotSearchItem(topic) ? topic.readCount : topic.readCount;
+    const discussCount = isHotSearchItem(topic) ? topic.discussCount : topic.postCount;
+    const level = isHotSearchItem(topic) ? undefined : topic.level;
 
     const [posts, setPosts] = useState(initialPosts || []);
     const [inputText, setInputText] = useState("");
@@ -1548,6 +1782,9 @@ const EndingSelector = ({ characters, onClose, onSelect }: { characters: Charact
 };
 
 const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolean, onClose: () => void }) => {
+    // 使用惰性初始化避免在渲染期间调用 Math.random()
+    const [sceneNumber] = useState(() => Math.floor(Math.random() * 9) + 1);
+    
     return (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
             {/* Heart Bloom Effect on Show */}
@@ -1575,7 +1812,7 @@ const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolea
                       <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                           <div className="flex justify-between items-end">
                               <h3 className="text-xl font-bold font-serif italic">{isDate ? option.title : option.target}</h3>
-                              <span className="text-[10px] opacity-80 font-mono tracking-widest">SCENE 0{Math.floor(Math.random()*9)+1}</span>
+                              <span className="text-[10px] opacity-80 font-mono tracking-widest">SCENE 0{sceneNumber}</span>
                           </div>
                           <div className="text-xs text-pink-200 mt-1 flex items-center gap-1">
                               <Clapperboard size={12} fill="currentColor" /> {option.cgTitle || option.cg_title || option.keyword}
@@ -1615,6 +1852,205 @@ const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolea
 };
 
 // 新增：StoryDecisionOverlay
+// Instagram风格的社交主页组件
+interface SocialPost {
+    id: string;
+    image: string;
+    likes: number;
+    comments: number;
+    caption?: string;
+    date: string;
+}
+
+// 为每个角色生成示例帖子数据
+const generateSocialPosts = (charId: string): SocialPost[] => {
+    const baseImages = {
+        'lu': [
+            'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?q=80&w=400&auto=format&fit=crop',
+        ],
+        'shen': [
+            'https://images.unsplash.com/photo-1614726365723-49cfae927846?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop',
+        ],
+        'jiang': [
+            'https://images.unsplash.com/photo-1620646233562-f2a31adcc44a?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?q=80&w=400&auto=format&fit=crop',
+        ]
+    };
+    
+    const captions = {
+        'lu': ['早上的第一杯咖啡', '工作间隙', '周末时光', '思考人生', '记录生活', '心情不错'],
+        'shen': ['设计灵感', '午后时光', '生活中的美', '创作日常', '简单生活', '分享瞬间'],
+        'jiang': ['训练日常', '充满活力的一天', '运动时光', '正能量', '保持热爱', '阳光正好']
+    };
+    
+    const images = baseImages[charId as keyof typeof baseImages] || baseImages['lu'];
+    const postCaptions = captions[charId as keyof typeof captions] || captions['lu'];
+    
+    // 固定的数据，避免使用Math.random
+    const likesData = [1234, 5678, 2345, 3456, 4567, 6789, 3456, 7890, 2345, 5678, 3456, 6789];
+    const commentsData = [45, 78, 56, 67, 89, 123, 56, 134, 45, 78, 56, 123];
+    const datesData = ['3天前', '5天前', '1周前', '2周前', '3周前', '1个月前', '2周前', '1个月前', '3周前', '1个月前', '2周前', '1个月前'];
+    
+    return Array.from({ length: 12 }).map((_, i) => ({
+        id: `${charId}_post_${i}`,
+        image: images[i % images.length],
+        likes: likesData[i],
+        comments: commentsData[i],
+        caption: postCaptions[i % postCaptions.length],
+        date: datesData[i]
+    }));
+};
+
+const InstagramProfileView = ({ char, onClose }: { char: Character, onClose: () => void }) => {
+    const [posts] = useState<SocialPost[]>(() => generateSocialPosts(char.id));
+    const [activeTab, setActiveTab] = useState<'posts' | 'tagged'>('posts');
+    
+    // 固定的统计数据，根据角色ID生成
+    const stats = useMemo(() => {
+        const baseFollowers = { 'lu': 35000, 'shen': 28000, 'jiang': 42000 };
+        const baseFollowing = { 'lu': 245, 'shen': 189, 'jiang': 312 };
+        return {
+            posts: posts.length,
+            followers: baseFollowers[char.id as keyof typeof baseFollowers] || 30000,
+            following: baseFollowing[char.id as keyof typeof baseFollowing] || 200
+        };
+    }, [char.id, posts.length]);
+    
+    return (
+        <div className="fixed inset-0 z-[110] bg-white flex flex-col animate-fadeIn">
+            {/* 顶部导航栏 */}
+            <div className="h-14 border-b border-gray-300 flex items-center justify-between px-4 bg-white sticky top-0 z-20">
+                <div className="flex items-center gap-4">
+                    <button onClick={onClose} className="text-black hover:opacity-70 transition-opacity">
+                        <ArrowLeft size={24} />
+                    </button>
+                    <span className="text-lg font-semibold">{char.name}</span>
+                </div>
+                <button className="text-black hover:opacity-70 transition-opacity">
+                    <MoreHorizontal size={24} />
+                </button>
+            </div>
+            
+            {/* 滚动内容 */}
+            <div className="flex-1 overflow-y-auto bg-white">
+                {/* 用户信息区域 */}
+                <div className="px-4 py-6 border-b border-gray-300">
+                    <div className="flex items-start gap-4 mb-4">
+                        {/* 头像 */}
+                        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300 flex-shrink-0">
+                            <img src={char.avatarImage} alt={char.name} className="w-full h-full object-cover" />
+                        </div>
+                        
+                        {/* 统计信息 */}
+                        <div className="flex-1 flex items-center justify-around">
+                            <div className="text-center">
+                                <div className="text-lg font-semibold">{stats.posts}</div>
+                                <div className="text-sm text-gray-600">帖子</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-lg font-semibold">{stats.followers.toLocaleString()}</div>
+                                <div className="text-sm text-gray-600">粉丝</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-lg font-semibold">{stats.following}</div>
+                                <div className="text-sm text-gray-600">关注</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* 用户名和简介 */}
+                    <div className="mb-3">
+                        <div className="text-sm font-semibold mb-1">{char.name}</div>
+                        <div className="text-sm text-gray-800 mb-1">{char.job}</div>
+                        <div className="text-sm text-gray-600 whitespace-pre-line">
+                            {char.profile.surface}
+                            {'\n'}
+                            {char.profile.hobbies.join(' · ')}
+                        </div>
+                    </div>
+                    
+                    {/* 关注按钮 */}
+                    <button className="w-full py-2 bg-blue-500 text-white rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors active:scale-98">
+                        关注
+                    </button>
+                </div>
+                
+                {/* Tab栏 */}
+                <div className="flex border-t border-gray-300">
+                    <button 
+                        onClick={() => setActiveTab('posts')}
+                        className={`flex-1 py-3 flex items-center justify-center gap-2 border-b-2 transition-colors ${
+                            activeTab === 'posts' 
+                                ? 'border-black text-black' 
+                                : 'border-transparent text-gray-400'
+                        }`}
+                    >
+                        <Grid size={20} strokeWidth={activeTab === 'posts' ? 2.5 : 1.5} />
+                    </button>
+                    <button 
+                        onClick={() => setActiveTab('tagged')}
+                        className={`flex-1 py-3 flex items-center justify-center gap-2 border-b-2 transition-colors ${
+                            activeTab === 'tagged' 
+                                ? 'border-black text-black' 
+                                : 'border-transparent text-gray-400'
+                        }`}
+                    >
+                        <UserCheck size={20} strokeWidth={activeTab === 'tagged' ? 2.5 : 1.5} />
+                    </button>
+                </div>
+                
+                {/* 帖子网格 */}
+                <div className="grid grid-cols-3 gap-px bg-gray-300">
+                    {activeTab === 'posts' ? (
+                        posts.map(post => (
+                            <div 
+                                key={post.id} 
+                                className="relative aspect-square bg-gray-100 group cursor-pointer hover:opacity-90 transition-opacity"
+                            >
+                                <img 
+                                    src={post.image} 
+                                    alt={post.caption} 
+                                    className="w-full h-full object-cover"
+                                />
+                                {/* 悬停显示点赞和评论数 */}
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6 text-white">
+                                    <div className="flex items-center gap-2">
+                                        <Heart size={20} fill="white" />
+                                        <span className="font-semibold">{post.likes.toLocaleString()}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <MessageCircle size={20} fill="white" />
+                                        <span className="font-semibold">{post.comments}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-span-3 py-20 text-center text-gray-400">
+                            <UserCheck size={48} className="mx-auto mb-3 opacity-50" />
+                            <div className="text-sm">暂无标记的照片</div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const StoryDecisionOverlay = ({ option, onDecision }: { option: StoryOption, onDecision: (type: 'stay' | 'leave' | 'think') => void }) => {
     return (
         <div className="fixed inset-0 z-[140] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-fadeIn">
@@ -1717,6 +2153,14 @@ export default function LoveSignalSim() {
   const [expandedScenario, setExpandedScenario] = useState<StoryScenario | null>(null);
   const [fullScreenStory, setFullScreenStory] = useState<{ scenario: StoryScenario, option: StoryOption | null } | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null); // Ref for carousel scrolling
+  const prevScenarioIdxRef = useRef<number>(-1); // 跟踪上一次的场景索引
+  
+  // State for Invitation Card (only for ep1)
+  const [showInvitationCard, setShowInvitationCard] = useState(false);
+  const [invitationScenario, setInvitationScenario] = useState<StoryScenario | null>(null);
+  
+  // 跟踪已完成的选项，允许用户查看其他支线
+  const [completedOptions, setCompletedOptions] = useState<Set<string>>(new Set());
 
   const activeChat = chats.find(c => c.id === activeChatId);
   const activeChatChar = characters.find(c => c.id === activeChat?.charId); 
@@ -1732,6 +2176,10 @@ export default function LoveSignalSim() {
             setCharacters(parsed.characters);
             setCurrentScenarioIdx(parsed.currentScenarioIdx);
             setChats(parsed.chats);
+            // 恢复已完成的选项
+            if (parsed.completedOptions && Array.isArray(parsed.completedOptions)) {
+                setCompletedOptions(new Set(parsed.completedOptions));
+            }
         } catch (e) {
             console.error("Save file corrupted");
         }
@@ -1742,6 +2190,11 @@ export default function LoveSignalSim() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // 监听场景变化，更新引用（但不自动触发开屏动画）
+  useEffect(() => {
+    prevScenarioIdxRef.current = currentScenarioIdx;
+  }, [currentScenarioIdx]);
 
   const formatTimeCode = (seconds: number) => {
       const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
@@ -1755,6 +2208,7 @@ export default function LoveSignalSim() {
         characters,
         currentScenarioIdx,
         chats,
+        completedOptions: Array.from(completedOptions), // Set 转换为数组以便序列化
         timestamp: new Date().toISOString()
     };
     localStorage.setItem('lovesignal_save_v1', JSON.stringify(saveData));
@@ -1770,10 +2224,17 @@ export default function LoveSignalSim() {
   }
 
   const dynamicCpRanking = useMemo(() => {
+     // 生成基于 CP ID 的稳定随机偏移量（使用简单的哈希函数）
+     const getStableOffset = (id: number): number => {
+         // 使用简单的哈希算法生成 0-5000 之间的稳定值
+         const hash = id * 7919 % 5000; // 7919 是一个质数
+         return hash;
+     };
+     
      return (socialData.cpRanking || []).map(cp => {
          const char = characters.find(c => c.id === cp.relatedCharId);
          if (char) {
-             const dynamicHot = Math.floor(cp.hot + (char.stats.heartbeat * 2000) + (Math.random() * 5000));
+             const dynamicHot = Math.floor(cp.hot + (char.stats.heartbeat * 2000) + getStableOffset(cp.id));
              return { ...cp, hot: dynamicHot };
          }
          return cp;
@@ -1903,7 +2364,11 @@ export default function LoveSignalSim() {
       setHasNewObservation(true);
       setHasNewSocialInfo(true); 
 
-      if (currentScenarioIdx < SCENARIOS.length - 1) { setCurrentScenarioIdx(prev => prev + 1); } else { setCurrentScenarioIdx(0); }
+      if (currentScenarioIdx < SCENARIOS.length - 1) { 
+        setCurrentScenarioIdx(prev => prev + 1);
+      } else { 
+        setCurrentScenarioIdx(0);
+      }
       saveGame();
   };
 
@@ -1922,13 +2387,18 @@ export default function LoveSignalSim() {
       setPlayingOpening(true);
   }
 
-  // Handle Story Overlay Close - maybe trigger next episode here or offer button
+  // Handle Story Overlay Close - 不自动进入下一集，允许用户选择其他支线
   const handleStoryOverlayClose = () => {
-      setActiveStory(null);
-      // Optional: Auto advance after seeing result
-      if (!activeStory?.isDate) {
-           advanceEpisode();
+      // 标记选项为已完成，允许用户查看其他支线
+      if (activeStory?.data?.id && !activeStory.isDate) {
+          setCompletedOptions(prev => {
+              const newSet = new Set(prev);
+              newSet.add(activeStory.data.id);
+              return newSet;
+          });
       }
+      setActiveStory(null);
+      // 不自动进入下一集，让用户可以选择其他支线
   };
   
   // Scroll Helpers
@@ -1968,7 +2438,16 @@ export default function LoveSignalSim() {
                   {playingOpening && (
                       <EpisodeOpening 
                           scenario={currentScenario} 
-                          onFinished={() => setPlayingOpening(false)} 
+                          onFinished={() => {
+                              setPlayingOpening(false);
+                              // 开屏动画结束后，根据场景ID显示邀请卡片或详情
+                              const scenarioToShow = invitationScenario || currentScenario;
+                              if (scenarioToShow.id === 'ep1') {
+                                  setShowInvitationCard(true);
+                              } else {
+                                  setExpandedScenario(scenarioToShow);
+                              }
+                          }} 
                       />
                   )}
                   
@@ -2069,7 +2548,21 @@ export default function LoveSignalSim() {
                                              className={`flex-shrink-0 w-80 snap-center relative transition-all duration-500 cursor-pointer ${isCurrent ? 'scale-100 opacity-100' : 'scale-95 opacity-60'}`}
                                              onClick={() => {
                                                  if (isLocked) return;
-                                                 setExpandedScenario(scenario);
+                                                 // 只有点击当前场景时才显示开屏动画
+                                                 if (isCurrent) {
+                                                     // 保存场景信息，开屏动画结束后使用
+                                                     setInvitationScenario(scenario);
+                                                     // 显示开屏动画
+                                                     setPlayingOpening(true);
+                                                 } else {
+                                                     // 已完成场景直接显示详情，不需要开屏动画
+                                                     if (scenario.id === 'ep1') {
+                                                         setInvitationScenario(scenario);
+                                                         setShowInvitationCard(true);
+                                                     } else {
+                                                         setExpandedScenario(scenario);
+                                                     }
+                                                 }
                                              }}
                                         >
                                             <div className={`absolute top-3 left-3 z-20 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
@@ -2354,6 +2847,17 @@ export default function LoveSignalSim() {
           )}
 
           {/* Modals & Overlays */}
+          {showInvitationCard && invitationScenario && (
+              <InvitationCard 
+                  scenario={invitationScenario}
+                  onConfirm={() => {
+                      setShowInvitationCard(false);
+                      setExpandedScenario(invitationScenario);
+                      setInvitationScenario(null);
+                  }}
+              />
+          )}
+
           {fullScreenStory && (
               <FullScreenStoryView
                   scenario={fullScreenStory.scenario}
@@ -2372,6 +2876,7 @@ export default function LoveSignalSim() {
                 isCurrent={expandedScenario.id === currentScenario.id}
                 isCompleted={SCENARIOS.findIndex(s => s.id === expandedScenario.id) < currentScenarioIdx}
                 isLocked={SCENARIOS.findIndex(s => s.id === expandedScenario.id) > currentScenarioIdx}
+                completedOptions={completedOptions}
               />
           )}
 
@@ -2380,7 +2885,7 @@ export default function LoveSignalSim() {
           {selectedTopic && <WeiboDetailView topic={selectedTopic} onBack={() => setSelectedTopic(null)} />}
           {showCalendar && <CalendarView onClose={() => setShowCalendar(false)} />}
           {viewingDiary && <DiaryReader charId={viewingDiary} onClose={() => setViewingDiary(null)} />}
-          {viewingProfile && <CharacterProfileView char={CHARACTERS.find(c => c.id === viewingProfile)!} onClose={() => setViewingProfile(null)} />}
+          {viewingProfile && <InstagramProfileView char={CHARACTERS.find(c => c.id === viewingProfile)!} onClose={() => setViewingProfile(null)} />}
           {showDateSelector && <DateSelector onClose={() => setShowDateSelector(false)} onSelect={handleDateSelect} />}
           {showEndingSelector && <EndingSelector characters={characters} onClose={() => setShowEndingSelector(false)} onSelect={handleEndingSelect} />}
           {activeStory && <StoryOverlay option={activeStory.data} isDate={activeStory.isDate} onClose={() => handleStoryOverlayClose()} />}
@@ -2444,6 +2949,15 @@ export default function LoveSignalSim() {
         }
         .animate-slideDown { animation: slideDown 0.5s ease-out forwards; }
         @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes floatParticle {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-30px) translateX(15px) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(-60px) translateX(30px) scale(0.8); opacity: 0.2; }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.5); opacity: 0.8; }
+        }
       `}</style>
     </div>
   );
