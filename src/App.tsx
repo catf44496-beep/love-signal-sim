@@ -963,6 +963,56 @@ const InvitationCard = ({ scenario: _scenario, onConfirm }: { scenario: StorySce
     );
 };
 
+// 欢迎文字组件
+const WelcomeText = ({ onContinue }: { onContinue: () => void }) => {
+    return (
+        <div 
+            className="fixed inset-0 z-[200] flex items-center justify-center animate-fadeIn bg-gradient-to-br from-purple-900/95 via-pink-900/95 to-indigo-900/95 backdrop-blur-sm"
+            onClick={onContinue}
+        >
+            <div className="max-w-2xl mx-auto px-8 text-center space-y-8">
+                {/* 标题 */}
+                <h1 className="text-5xl font-bold text-white mb-8 animate-slideUp" style={{ 
+                    textShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(236, 72, 153, 0.3)',
+                    fontFamily: 'serif'
+                }}>
+                    欢迎来到《心动小屋》
+                </h1>
+                
+                {/* 欢迎文字 */}
+                <div className="space-y-6 text-white/90 text-xl leading-relaxed animate-fadeIn" style={{ 
+                    animationDelay: '0.3s',
+                    animationFillMode: 'both'
+                }}>
+                    <p className="text-2xl font-medium">
+                        你是第4位入住的女嘉宾。
+                    </p>
+                    <p className="text-lg">
+                        深吸一口气，推开别墅的大门，属于你的恋爱故事即将开始.......
+                    </p>
+                </div>
+                
+                {/* 继续按钮 */}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onContinue();
+                    }}
+                    className="mt-12 px-8 py-4 bg-white/20 backdrop-blur-md text-white rounded-full font-bold text-lg shadow-2xl hover:bg-white/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group border-2 border-white/40 mx-auto"
+                >
+                    <span>进入心动小屋</span>
+                    <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+                
+                {/* 点击提示 */}
+                <div className="mt-6 text-white/60 text-sm font-mono animate-pulse pointer-events-none">
+                    点击任意位置继续
+                </div>
+            </div>
+        </div>
+    );
+};
+
 // 全屏剧情体验组件（视觉小说风格）
 const FullScreenStoryView = ({ 
     scenario, 
@@ -984,31 +1034,86 @@ const FullScreenStoryView = ({
         if (option?.dialogues && option.dialogues.length > 0) {
             return option.dialogues;
         }
-        // 如果没有对话数据，从story_result创建对话
-        if (option?.story_result) {
-            const lines = option.story_result.split('\n\n').filter(l => l.trim());
-            return lines.map((line, idx) => {
-                // 尝试识别说话者（简单的启发式）
-                if (line.includes('"') || line.includes('"') || line.includes('：')) {
-                    const match = line.match(/[""](.*?)[""]/);
-                    if (match) {
-                        return {
-                            speaker: option.target,
-                            text: match[1],
-                            characterId: CHARACTERS.find(c => c.name === option.target)?.id
-                        } as Dialogue;
-                    }
-                }
-                return {
-                    speaker: 'narrator',
-                    text: line
-                } as Dialogue;
-            });
+        
+        const result: Dialogue[] = [];
+        
+        // 1. 先添加 intro（如果有）
+        if (option?.intro) {
+            result.push({
+                speaker: 'narrator',
+                text: option.intro
+            } as Dialogue);
         }
-        return [{
-            speaker: 'narrator',
-            text: scenario.text || '劇情即將開始...'
-        } as Dialogue];
+        
+        // 2. 解析 story_result，提取所有对话和旁白
+        if (option?.story_result) {
+            const fullText = option.story_result;
+            const characterId = CHARACTERS.find(c => c.name === option.target)?.id;
+            
+            // 使用正则表达式匹配所有引号中的内容（支持中文引号和英文引号）
+            const quotePattern = /[""](.*?)[""]/g;
+            let lastIndex = 0;
+            let match;
+            
+            while ((match = quotePattern.exec(fullText)) !== null) {
+                // 添加引号前的旁白（如果有）
+                const beforeQuote = fullText.substring(lastIndex, match.index).trim();
+                if (beforeQuote) {
+                    // 按段落分割旁白
+                    const narratorLines = beforeQuote.split('\n\n').filter(l => l.trim());
+                    narratorLines.forEach(line => {
+                        result.push({
+                            speaker: 'narrator',
+                            text: line
+                        } as Dialogue);
+                    });
+                }
+                
+                // 添加对话
+                result.push({
+                    speaker: option.target,
+                    text: match[1],
+                    characterId: characterId
+                } as Dialogue);
+                
+                lastIndex = match.index + match[0].length;
+            }
+            
+            // 添加最后剩余的旁白（如果有）
+            const afterLastQuote = fullText.substring(lastIndex).trim();
+            if (afterLastQuote) {
+                const narratorLines = afterLastQuote.split('\n\n').filter(l => l.trim());
+                narratorLines.forEach(line => {
+                    result.push({
+                        speaker: 'narrator',
+                        text: line
+                    } as Dialogue);
+                });
+            }
+            
+            // 如果没有找到任何引号，将整个文本作为旁白
+            // 检查是否只添加了 intro（如果有的话）
+            const onlyIntroAdded = option.intro && result.length === 1 && result[0].speaker === 'narrator' && result[0].text === option.intro;
+            if (onlyIntroAdded || (!option.intro && result.length === 0)) {
+                const lines = fullText.split('\n\n').filter(l => l.trim());
+                lines.forEach(line => {
+                    result.push({
+                        speaker: 'narrator',
+                        text: line
+                    } as Dialogue);
+                });
+            }
+        }
+        
+        // 如果没有任何内容，返回默认文本
+        if (result.length === 0) {
+            result.push({
+                speaker: 'narrator',
+                text: scenario.text || '劇情即將開始...'
+            } as Dialogue);
+        }
+        
+        return result;
     }, [option, scenario]);
 
     const currentDialogue = dialogues[currentDialogueIndex];
@@ -1057,6 +1162,13 @@ const FullScreenStoryView = ({
             onComplete();
         }
     };
+    
+    // 跳过对话功能
+    const handleSkipDialogue = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        // 直接完成所有对话，跳到最后
+        onComplete();
+    };
 
     return (
         <div 
@@ -1067,10 +1179,19 @@ const FullScreenStoryView = ({
             <div className="absolute inset-0">
                 <img 
                     src={option?.avatar || scenario.coverImage} 
-                    className="w-full h-full object-cover opacity-30"
+                    className={`w-full h-full object-cover ${
+                        option?.id === 'opt-lu-ep1' ? 'opacity-60' : 'opacity-30'
+                    }`}
+                    style={option?.id === 'opt-lu-ep1' ? { filter: 'brightness(1.2)' } : {}}
                     alt="背景"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40"></div>
+                <div 
+                    className={`absolute inset-0 bg-gradient-to-t ${
+                        option?.id === 'opt-lu-ep1' 
+                            ? 'from-black/40 via-black/30 to-black/20' 
+                            : 'from-black via-black/60 to-black/40'
+                    }`}
+                ></div>
             </div>
 
             {/* 人物立绘区域 */}
@@ -1091,13 +1212,13 @@ const FullScreenStoryView = ({
                 )}
             </div>
 
-            {/* 对话框区域 */}
-            <div className="relative bottom-0 left-0 right-0 p-6 animate-slideUp">
-                <div className="max-w-4xl mx-auto">
-                    {/* 说话者名字 */}
+            {/* 对话框区域 - 横向布局 */}
+            <div className="relative bottom-0 left-0 right-0 p-4 pb-8 animate-slideUp">
+                <div className="max-w-6xl mx-auto flex items-end gap-4">
+                    {/* 说话者名字标签 - 横向 */}
                     {currentDialogue && currentDialogue.speaker !== 'narrator' && (
-                        <div className="mb-4 flex items-center gap-3">
-                            <div className="bg-gradient-to-r from-pink-500 to-purple-600 px-4 py-2 rounded-t-lg">
+                        <div className="flex-shrink-0 mb-2">
+                            <div className="bg-gradient-to-r from-pink-500 to-purple-600 px-4 py-2 rounded-lg whitespace-nowrap">
                                 <span className="text-white font-bold text-base">
                                     {currentDialogue.speaker}
                                 </span>
@@ -1105,13 +1226,13 @@ const FullScreenStoryView = ({
                         </div>
                     )}
                     
-                    {/* 对话内容 */}
-                    <div className="bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl relative">
+                    {/* 对话内容 - 横向 */}
+                    <div className="flex-1 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl relative min-h-[120px] flex items-center">
                         {/* 装饰元素 */}
                         <div className="absolute top-2 left-2 w-2 h-2 bg-pink-500 rounded-full opacity-50"></div>
                         <div className="absolute top-2 right-2 w-2 h-2 bg-purple-500 rounded-full opacity-50"></div>
                         
-                        <p className="text-white text-lg leading-relaxed min-h-[80px] font-light">
+                        <p className="text-white text-lg leading-relaxed font-light flex-1">
                             {showDialogue ? dialogueText : ''}
                             {dialogueText === currentDialogue?.text && (
                                 <span className="inline-block ml-2 w-2 h-6 bg-pink-400 animate-pulse"></span>
@@ -1139,6 +1260,15 @@ const FullScreenStoryView = ({
             >
                 <X size={20} />
             </button>
+
+            {/* 跳过对话按钮 */}
+            <button
+                onClick={handleSkipDialogue}
+                className="absolute top-4 left-4 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full flex items-center gap-2 text-white/70 hover:text-white hover:bg-black/80 transition-colors z-10 text-sm font-medium"
+            >
+                <Zap size={16} />
+                <span>跳过对话</span>
+            </button>
         </div>
     );
 };
@@ -1153,7 +1283,7 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
     onStartStory?: (option: StoryOption) => void,
     completedOptions?: Set<string>
 }) => {
-    // 如果当前场景已完成至少一个选项，也显示支线剧情
+    // 如果当前场景已完成至少一个选项，也显示其他角色选项
     const hasCompletedOption = completedOptions && scenario.options.some(opt => completedOptions.has(opt.id));
     const showSideStories = isCompleted || (isCurrent && hasCompletedOption);
     return (
@@ -1227,8 +1357,8 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
                         </div>
                     )}
 
-                    {/* Options (Only if Current) */}
-                    {isCurrent && (
+                    {/* Options (Only if Current, but not for ep1 - ep1 will auto-play all dialogues) */}
+                    {isCurrent && scenario.id !== 'ep1' && (
                         <div className="space-y-3 pt-2">
                             {scenario.options.map(opt => {
                                 const isOptionCompleted = completedOptions?.has(opt.id);
@@ -1277,7 +1407,7 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
                         <div className="space-y-3 pt-2">
                             <div className="flex items-center gap-2 mb-3">
                                 <Sparkles size={14} className="text-purple-400" />
-                                <span className="text-xs font-bold text-purple-400 uppercase tracking-wider">支线剧情</span>
+                                <span className="text-xs font-bold text-purple-400 uppercase tracking-wider">其他角色</span>
                                 <div className="flex-1 h-px bg-gradient-to-r from-purple-500/50 to-transparent"></div>
                             </div>
                             {scenario.options.map((opt) => {
@@ -1303,7 +1433,6 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
                                         <div className="flex-1 relative z-10">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <h4 className="font-bold text-white text-sm group-hover:text-purple-200 transition-colors">{opt.label}</h4>
-                                                <span className="text-[9px] px-1.5 py-0.5 bg-purple-500/30 text-purple-200 rounded font-bold">支线</span>
                                                 {isOptionCompleted && (
                                                     <span className="text-[9px] px-1.5 py-0.5 bg-green-500/30 text-green-200 rounded font-bold">已完成</span>
                                                 )}
@@ -2121,6 +2250,260 @@ const StoryDecisionOverlay = ({ option, onDecision }: { option: StoryOption, onD
     );
 };
 
+// --- 下一个剧情选择器组件 ---
+const NextStorySelector = ({ 
+    scenario, 
+    completedOptionId,
+    onSelectOption, 
+    onClose 
+}: { 
+    scenario: StoryScenario, 
+    completedOptionId: string,
+    onSelectOption: (option: StoryOption) => void,
+    onClose: () => void
+}) => {
+    // 获取其他选项（排除刚完成的）
+    const otherOptions = scenario.options.filter(opt => opt.id !== completedOptionId);
+    
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeIn">
+            <div className="relative w-full max-w-2xl mx-4 bg-gradient-to-br from-purple-900/95 via-pink-900/95 to-purple-800/95 rounded-3xl border-2 border-pink-500/30 shadow-2xl overflow-hidden animate-scaleUp">
+                {/* 背景装饰 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-purple-400/10"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl"></div>
+                
+                {/* 内容 */}
+                <div className="relative z-10 p-8">
+                    {/* 标题 */}
+                    <div className="text-center mb-6">
+                        <h2 className="text-2xl font-bold text-white mb-2">选择其他角色</h2>
+                        <p className="text-white/60 text-sm">探索不同的相遇与对话</p>
+                    </div>
+                    
+                    {/* 选项列表 */}
+                    <div className="space-y-3 mb-6">
+                        {otherOptions.map((opt) => {
+                            return (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => onSelectOption(opt)}
+                                    className="w-full text-left p-5 rounded-xl bg-gradient-to-r from-white/10 to-white/5 border-2 border-white/20 hover:border-pink-400/50 hover:from-pink-600/30 hover:to-purple-600/30 transition-all flex items-center gap-4 group active:scale-[0.98] relative overflow-hidden"
+                                >
+                                    {/* 背景光效 */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-pink-500/0 via-pink-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    
+                                    {/* 头像 */}
+                                    <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-white/30 group-hover:border-pink-400 transition-colors relative z-10">
+                                        <img src={opt.avatar} className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-transparent"></div>
+                                    </div>
+                                    
+                                    {/* 文本信息 */}
+                                    <div className="flex-1 relative z-10">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <h4 className="font-bold text-white text-base group-hover:text-pink-200 transition-colors">{opt.label}</h4>
+                                        </div>
+                                        <p className="text-xs text-white/70 line-clamp-2 group-hover:text-white/90">{opt.desc}</p>
+                                    </div>
+                                    
+                                    {/* 箭头图标 */}
+                                    <div className="relative z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <ChevronRight size={20} className="text-pink-400" />
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                    
+                    {/* 关闭按钮 */}
+                    <button
+                        onClick={onClose}
+                        className="w-full py-3 bg-white/5 border border-white/10 text-white/60 rounded-xl font-bold text-sm hover:bg-white/10 hover:text-white active:scale-95 transition-all"
+                    >
+                        稍后选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- 女主介绍对话组件 ---
+const PlayerIntroDialogue = ({ 
+    onContinue 
+}: { 
+    onContinue: () => void;
+}) => {
+    const [showText, setShowText] = useState(false);
+    const [dialogueText, setDialogueText] = useState('');
+    const fullText = "大家好，我是新来的嘉宾苏若。刚才谢谢你们帮忙。";
+    
+    useEffect(() => {
+        // 延迟显示对话
+        const timer = setTimeout(() => {
+            setShowText(true);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, []);
+    
+    useEffect(() => {
+        if (showText) {
+            setDialogueText('');
+            let charIndex = 0;
+            const interval = setInterval(() => {
+                if (charIndex < fullText.length) {
+                    setDialogueText(fullText.slice(0, charIndex + 1));
+                    charIndex++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 50);
+            return () => clearInterval(interval);
+        }
+    }, [showText, fullText]);
+    
+    const handleClick = () => {
+        if (dialogueText !== fullText) {
+            // 如果还在打字中，直接显示完整文本
+            setDialogueText(fullText);
+        } else {
+            // 对话完成，继续下一步
+            onContinue();
+        }
+    };
+    
+    return (
+        <div 
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fadeIn"
+            onClick={handleClick}
+        >
+            <div className="relative w-full max-w-2xl mx-4 bg-gradient-to-br from-pink-900/95 via-purple-900/95 to-pink-800/95 rounded-3xl border-2 border-pink-500/30 shadow-2xl overflow-hidden">
+                {/* 背景装饰 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-pink-400/10"></div>
+                
+                {/* 对话内容 */}
+                <div className="relative z-10 p-8">
+                    {/* 说话者标识 */}
+                    <div className="mb-4">
+                        <div className="inline-block px-4 py-2 rounded-full bg-pink-500/30 border border-pink-400/50">
+                            <span className="text-pink-200 font-bold text-sm">你（苏若）</span>
+                        </div>
+                    </div>
+                    
+                    {/* 对话文本 */}
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                        <p className="text-white text-lg leading-relaxed font-medium min-h-[60px]">
+                            {dialogueText}
+                            {dialogueText !== fullText && <span className="animate-pulse">|</span>}
+                        </p>
+                    </div>
+                    
+                    {/* 提示 */}
+                    <div className="mt-4 text-center">
+                        <p className="text-white/50 text-sm">点击继续</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- 决策卡片选择界面组件 ---
+const DecisionCardSelector = ({ 
+    options, 
+    onSelectOption, 
+    onClose 
+}: { 
+    options: StoryOption[], 
+    onSelectOption: (option: StoryOption) => void,
+    onClose: () => void
+}) => {
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fadeIn">
+            <div className="relative w-full max-w-4xl mx-4 bg-gradient-to-br from-purple-900/95 via-pink-900/95 to-purple-800/95 rounded-3xl border-2 border-pink-500/30 shadow-2xl overflow-hidden animate-scaleUp">
+                {/* 背景装饰 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-purple-400/10"></div>
+                <div className="absolute top-0 right-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+                
+                {/* 内容 */}
+                <div className="relative z-10 p-8">
+                    {/* 标题 */}
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl font-bold text-white mb-3">你想趁这个机会，和谁多聊两句？</h2>
+                        <p className="text-white/60 text-base">选择你想深入了解的人</p>
+                    </div>
+                    
+                    {/* 决策卡片网格 - 纵向排列（三排） */}
+                    <div className="flex flex-col gap-4 mb-6">
+                        {options.map((opt, index) => {
+                            const character = CHARACTERS.find(c => c.name === opt.target);
+                            return (
+                                <button
+                                    key={opt.id}
+                                    onClick={() => onSelectOption(opt)}
+                                    className="group relative bg-gradient-to-br from-white/10 to-white/5 border-2 border-white/20 hover:border-pink-400/50 rounded-2xl p-5 hover:from-pink-600/30 hover:to-purple-600/30 transition-all active:scale-[0.98] overflow-hidden flex items-center gap-4"
+                                >
+                                    {/* 背景光效 */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/0 via-pink-500/10 to-purple-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    
+                                    {/* 头像区域 */}
+                                    <div className="relative flex-shrink-0">
+                                        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white/30 group-hover:border-pink-400 transition-colors relative z-10">
+                                            <img src={opt.avatar || character?.avatarImage} className="w-full h-full object-cover" />
+                                            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-transparent"></div>
+                                        </div>
+                                        {/* 编号标记 */}
+                                        <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-pink-500/20 border border-pink-400/30 flex items-center justify-center text-pink-300 text-xs font-bold">
+                                            {index + 1}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* 文本信息 - 横向布局 */}
+                                    <div className="relative z-10 flex-1 text-left">
+                                        <h4 className="font-bold text-white text-lg mb-1 group-hover:text-pink-200 transition-colors">
+                                            {opt.id === 'opt-lu-ep1' ? '陆星辞' : opt.id === 'opt-shen-ep1' ? '沈予' : opt.id === 'opt-jiang-ep1' ? '江哲' : opt.label}
+                                        </h4>
+                                        <p className="text-sm text-white/70 group-hover:text-white/90">
+                                            {opt.id === 'opt-lu-ep1' ? '刚才觉得他很干练' : opt.id === 'opt-shen-ep1' ? '刚才觉得他很贴心' : opt.id === 'opt-jiang-ep1' ? '刚才觉得他很靠谱' : opt.desc}
+                                        </p>
+                                        <div className="inline-flex items-center gap-2 text-pink-400 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity mt-2">
+                                            <span>选择回应</span>
+                                            <ChevronRight size={12} />
+                                        </div>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                    
+                    {/* 提示文字 */}
+                    <div className="text-center text-white/50 text-sm mb-4">
+                        <p>点击任意卡片开始与TA的对话</p>
+                    </div>
+                    
+                    {/* 关闭按钮 */}
+                    <button
+                        onClick={onClose}
+                        className="w-full py-3 bg-white/5 border border-white/10 text-white/60 rounded-xl font-bold text-sm hover:bg-white/10 hover:text-white active:scale-95 transition-all"
+                    >
+                        稍后选择
+                    </button>
+                </div>
+            </div>
+            
+            {/* 关闭按钮（右上角） */}
+            <button
+                onClick={onClose}
+                className="absolute top-4 right-4 w-10 h-10 bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-colors z-20"
+            >
+                <X size={20} />
+            </button>
+        </div>
+    );
+};
+
 // --- 4. 主 APP 结构 ---
 
 export default function LoveSignalSim() {
@@ -2159,8 +2542,31 @@ export default function LoveSignalSim() {
   const [showInvitationCard, setShowInvitationCard] = useState(false);
   const [invitationScenario, setInvitationScenario] = useState<StoryScenario | null>(null);
   
-  // 跟踪已完成的选项，允许用户查看其他支线
+  // 欢迎文字显示状态
+  const [showWelcomeText, setShowWelcomeText] = useState(false);
+  
+  // 跟踪已完成的选项，允许用户查看其他角色
   const [completedOptions, setCompletedOptions] = useState<Set<string>>(new Set());
+  
+  // 下一个剧情选择器状态
+  const [showNextStorySelector, setShowNextStorySelector] = useState(false);
+  const [nextStorySelectorData, setNextStorySelectorData] = useState<{ scenario: StoryScenario, completedOptionId: string } | null>(null);
+  
+  // 自动播放对话序列的状态（用于 ep1 等需要连续播放多个选项的场景）
+  const [autoPlaySequence, setAutoPlaySequence] = useState<{ scenario: StoryScenario, optionIds: string[], currentIndex: number } | null>(null);
+  
+  // 决策卡片选择器状态
+  const [showDecisionCardSelector, setShowDecisionCardSelector] = useState(false);
+  const [decisionCardOptions, setDecisionCardOptions] = useState<StoryOption[]>([]);
+  
+  // 内心状态对话序列（用于 ep1 回应陆星辞后显示其他两人的内心状态）
+  const [innerThoughtsSequence, setInnerThoughtsSequence] = useState<{ dialogues: Dialogue[], currentIndex: number } | null>(null);
+  
+  // 待显示的内心状态选项（用于在剧情结果关闭后显示）
+  const [pendingInnerThoughtsOption, setPendingInnerThoughtsOption] = useState<{ scenario: StoryScenario, option: StoryOption } | null>(null);
+  
+  // 女主介绍对话显示状态（用于 ep1 三个对话结束后）
+  const [showPlayerIntroDialogue, setShowPlayerIntroDialogue] = useState(false);
 
   const activeChat = chats.find(c => c.id === activeChatId);
   const activeChatChar = characters.find(c => c.id === activeChat?.charId); 
@@ -2265,16 +2671,119 @@ export default function LoveSignalSim() {
 
   // 处理全屏剧情开始
   const handleStartStory = (option: StoryOption) => {
-      setFullScreenStory({ scenario: expandedScenario || currentScenario, option });
+      const scenario = expandedScenario || currentScenario;
+      
+      // 如果是 ep1 且还没有开始自动播放序列，初始化序列
+      if (scenario.id === 'ep1' && !autoPlaySequence) {
+          const optionIds = scenario.options.map(opt => opt.id);
+          const currentIndex = optionIds.indexOf(option.id);
+          
+          // 如果是第一个选项（陆星辞），初始化自动播放序列
+          // 这样完成第一个后会自动播放后续选项
+          if (currentIndex === 0 && optionIds.length > 1) {
+              setAutoPlaySequence({ scenario, optionIds, currentIndex: 0 });
+          }
+      }
+      
+      setFullScreenStory({ scenario, option });
   };
 
   // 处理全屏剧情完成
   const handleStoryComplete = () => {
       if (fullScreenStory?.option) {
-          // 剧情完成后，触发选项选择
-          handleOptionClick(fullScreenStory.option.id);
+          const completedOptionId = fullScreenStory.option.id;
+          const scenario = fullScreenStory.scenario;
+          
+          // 如果是内心状态对话完成，显示剩余两人的选项卡片
+          if (completedOptionId.startsWith('inner-thoughts-ep1')) {
+              setCompletedOptions(prev => {
+                  const newSet = new Set(prev);
+                  newSet.add(completedOptionId);
+                  return newSet;
+              });
+              setInnerThoughtsSequence(null);
+              setFullScreenStory(null);
+              
+              // 获取已完成的所有选项（包括内心状态）
+              const allCompletedOptions = new Set(completedOptions);
+              allCompletedOptions.add(completedOptionId);
+              
+              // 获取剩余未完成的选项（不包括内心状态）
+              const remainingOptions = scenario.options.filter(opt => !allCompletedOptions.has(opt.id));
+              
+              if (remainingOptions.length > 0) {
+                  // 显示剩余选项的决策卡片
+                  setDecisionCardOptions(remainingOptions);
+                  setShowDecisionCardSelector(true);
+              } else {
+                  // 所有选项都完成了，解锁下一个章节
+                  if (currentScenarioIdx < SCENARIOS.length - 1) {
+                      setCurrentScenarioIdx(prev => prev + 1);
+                      saveGame();
+                  }
+              }
+              return;
+          }
+          
+          // 标记选项为已完成
+          setCompletedOptions(prev => {
+              const newSet = new Set(prev);
+              newSet.add(completedOptionId);
+              return newSet;
+          });
+          
+          // 检查是否在自动播放序列中
+          if (autoPlaySequence && autoPlaySequence.scenario.id === scenario.id) {
+              // 正在自动播放序列中
+              const { scenario: seqScenario, optionIds, currentIndex } = autoPlaySequence;
+              
+              // 先关闭当前的对话
+              setFullScreenStory(null);
+              
+              if (currentIndex < optionIds.length - 1) {
+                  // 还有下一个选项，自动播放
+                  const nextOptionId = optionIds[currentIndex + 1];
+                  const nextOption = seqScenario.options.find(opt => opt.id === nextOptionId);
+                  
+                  if (nextOption) {
+                      // 更新序列索引
+                      setAutoPlaySequence({ scenario: seqScenario, optionIds, currentIndex: currentIndex + 1 });
+                      // 延迟一点时间后播放下一个选项
+                      setTimeout(() => {
+                          setFullScreenStory({ scenario: seqScenario, option: nextOption });
+                      }, 500);
+                      return; // 不继续执行后面的代码
+                  }
+              } else {
+                  // 所有选项都播放完了
+                  setAutoPlaySequence(null);
+                  
+                  // 如果是 ep1，先显示女主介绍对话
+                  if (seqScenario.id === 'ep1') {
+                      setShowPlayerIntroDialogue(true);
+                  } else {
+                      // 其他场景，显示决策卡片选择器
+                      if (seqScenario.options.length > 0) {
+                          setDecisionCardOptions(seqScenario.options);
+                          setShowDecisionCardSelector(true);
+                      } else {
+                          // 使用第一个选项作为决策选项
+                          const firstOption = seqScenario.options[0];
+                          if (firstOption) {
+                              setDecisionOption(firstOption);
+                          }
+                      }
+                  }
+              }
+          } else {
+              // 不在自动播放序列中，正常处理（显示选择界面或其他）
+              // 对于 ep1，如果用户单独选择了某个选项，不自动播放序列
+              setFullScreenStory(null);
+              handleOptionClick(completedOptionId);
+          }
+      } else {
+          setFullScreenStory(null);
       }
-      setFullScreenStory(null);
   };
   
   const handleDecision = (type: 'stay' | 'leave' | 'think') => {
@@ -2328,11 +2837,213 @@ export default function LoveSignalSim() {
           setTimeout(() => setShowHeartBloom(false), 4000);
           setActiveStory({data: decisionOption, isDate: false});
           
-          // Logic to auto-advance if not special scene could go here, but usually we wait for user to click next
-          if (currentScenarioIdx < SCENARIOS.length - 1) {
-             // Optional: Auto advance after story overlay closed? 
-             // Currently manual via "Next" button in timeline view which is now removed.
-             // We need a way to advance. Let's add it to StoryOverlay close or separate button.
+          // 如果是 ep1 且回应了某个角色，显示其他两人的内心状态
+          if (currentScenario.id === 'ep1' && (charName === '陆星辞' || charName === '沈予' || charName === '江哲')) {
+              let innerThoughts: Dialogue[] = [];
+              let innerThoughtsId = '';
+              let innerThoughtsTitle = '';
+              let innerThoughtsDesc = '';
+              let introText = '';
+              
+              if (charName === '陆星辞') {
+                  // 回应陆星辞后，显示沈予和江哲的内心状态
+                  innerThoughtsId = 'inner-thoughts-ep1-lu';
+                  innerThoughtsTitle = '內心獨白 · 暗流湧動';
+                  innerThoughtsDesc = '沈予與江哲的內心獨白';
+                  introText = '看著你們的背影消失在玄關...';
+                  innerThoughts = [
+                      {
+                          speaker: 'narrator',
+                          text: '看著你們的背影消失在玄關，客廳裡的空氣似乎靜止了。'
+                      },
+                      {
+                          speaker: '沈予',
+                          text: '（推了推眼鏡）陸星辭...一如既往地先發制人。',
+                          characterId: 'shen',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '沈予的目光在空蕩的門口停留了兩秒，指尖無意識地敲擊著沙發扶手。'
+                      },
+                      {
+                          speaker: '沈予',
+                          text: '看來這場遊戲，會比我想像的更有趣。',
+                          characterId: 'shen',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '另一邊，江哲靠在牆邊，笑容依舊燦爛，眼神卻多了幾分深意。'
+                      },
+                      {
+                          speaker: '江哲',
+                          text: '（輕笑）老陸動作還真快啊...',
+                          characterId: 'jiang',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: '江哲',
+                          text: '不過，接下來才是真正的好戲。姐姐，我們很快就會再見的。',
+                          characterId: 'jiang',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '別墅的夜晚，才剛剛開始。'
+                      }
+                  ];
+              } else if (charName === '沈予') {
+                  // 回应沈予后，显示陆星辞和江哲的内心状态
+                  innerThoughtsId = 'inner-thoughts-ep1-shen';
+                  innerThoughtsTitle = '內心獨白 · 觀察者的注視';
+                  innerThoughtsDesc = '陸星辭與江哲的內心獨白';
+                  introText = '看著你們走向二樓，客廳裡的氛圍悄然改變...';
+                  innerThoughts = [
+                      {
+                          speaker: 'narrator',
+                          text: '看著你們走向二樓，客廳裡的氛圍悄然改變。'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '陸星辭放下手中的雜誌，鏡片後的目光追隨著你們的背影，嘴角勾起一抹難以察覺的弧度。'
+                      },
+                      {
+                          speaker: '陆星辞',
+                          text: '（低語）沈予...還是那麼謹慎。',
+                          characterId: 'lu',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '他輕撫著雜誌的封面，彷彿在思考著什麼。'
+                      },
+                      {
+                          speaker: '陆星辞',
+                          text: '不過，這場遊戲才剛剛開始。我會讓你知道，誰才是真正適合你的人。',
+                          characterId: 'lu',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '另一邊，江哲收起了笑容，眼神中閃過一絲複雜的情緒。'
+                      },
+                      {
+                          speaker: '江哲',
+                          text: '（握緊拳頭）沈予哥...還真是溫柔啊。',
+                          characterId: 'jiang',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: '江哲',
+                          text: '但我不會輸的。姐姐，我會用我的方式，讓你看到真正的我。',
+                          characterId: 'jiang',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '空氣中瀰漫著一種微妙的張力，彷彿預示著接下來的故事將更加精彩。'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '別墅的夜晚，暗流湧動。'
+                      }
+                  ];
+              } else if (charName === '江哲') {
+                  // 回应江哲后，显示陆星辞和沈予的内心状态
+                  innerThoughtsId = 'inner-thoughts-ep1-jiang';
+                  innerThoughtsTitle = '內心獨白 · 少年的勝利';
+                  innerThoughtsDesc = '陸星辭與沈予的內心獨白';
+                  introText = '看著你們歡快的背影，客廳裡的空氣似乎凝結了...';
+                  innerThoughts = [
+                      {
+                          speaker: 'narrator',
+                          text: '看著你們歡快的背影，客廳裡的空氣似乎凝結了。'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '陸星辭輕推眼鏡，目光深沉地注視著你們離去的方向。'
+                      },
+                      {
+                          speaker: '陆星辞',
+                          text: '（冷笑）江哲...還真是直球啊。',
+                          characterId: 'lu',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '他合上雜誌，指尖輕敲著扶手，眼神中閃過一絲危險的光芒。'
+                      },
+                      {
+                          speaker: '陆星辞',
+                          text: '不過，直球也有直球的弱點。我會用更巧妙的方式，贏得你的心。',
+                          characterId: 'lu',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '另一邊，沈予沉默不語，手中的咖啡杯輕輕搖晃。'
+                      },
+                      {
+                          speaker: '沈予',
+                          text: '（輕嘆）年輕...確實是優勢。',
+                          characterId: 'shen',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '他推了推眼鏡，目光中帶著一絲不易察覺的複雜情緒。'
+                      },
+                      {
+                          speaker: '沈予',
+                          text: '但成熟和穩重，也有它獨特的魅力。我會證明給你看。',
+                          characterId: 'shen',
+                          emotion: 'normal'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '客廳裡的沉默，似乎在訴說著一場無聲的較量。'
+                      },
+                      {
+                          speaker: 'narrator',
+                          text: '別墅的夜晚，暗流湧動。'
+                      }
+                  ];
+              }
+              
+              // 设置内心状态序列
+              setInnerThoughtsSequence({ dialogues: innerThoughts, currentIndex: 0 });
+              
+              // 创建内心状态选项用于 FullScreenStoryView
+              const innerThoughtsOption: StoryOption = {
+                  id: innerThoughtsId,
+                  label: '內心狀態',
+                  target: '内心',
+                  desc: innerThoughtsDesc,
+                  intro: introText,
+                  story_result: innerThoughts.map(d => {
+                      if (d.speaker === 'narrator') {
+                          return d.text;
+                      } else {
+                          return `"${d.text}"`;
+                      }
+                  }).join('\n\n'),
+                  avatar: currentScenario.coverImage,
+                  cg_title: innerThoughtsTitle,
+                  dialogues: innerThoughts
+              };
+              
+              // 保存待显示的内心状态，在剧情结果关闭后显示（不自动跳转）
+              setPendingInnerThoughtsOption({ scenario: currentScenario, option: innerThoughtsOption });
+          }
+      } else if (type === 'leave' || type === 'think') {
+          // 如果选择保持距离或犹豫，重新显示三个人的决策卡片
+          if (currentScenario.id === 'ep1') {
+              // 显示所有三个选项的决策卡片
+              if (currentScenario.options.length > 0) {
+                  setDecisionCardOptions(currentScenario.options);
+                  setShowDecisionCardSelector(true);
+              }
           }
       }
   };
@@ -2387,18 +3098,119 @@ export default function LoveSignalSim() {
       setPlayingOpening(true);
   }
 
-  // Handle Story Overlay Close - 不自动进入下一集，允许用户选择其他支线
+  // Handle Story Overlay Close - 不自动进入下一集，允许用户选择其他角色
   const handleStoryOverlayClose = () => {
-      // 标记选项为已完成，允许用户查看其他支线
+      // 标记选项为已完成，允许用户查看其他角色
       if (activeStory?.data?.id && !activeStory.isDate) {
+          const completedOptionId = activeStory.data.id;
+          const isInnerThoughts = completedOptionId.startsWith('inner-thoughts-ep1');
+          
           setCompletedOptions(prev => {
               const newSet = new Set(prev);
-              newSet.add(activeStory.data.id);
+              newSet.add(completedOptionId);
               return newSet;
           });
+          
+          // 如果是内心状态对话完成，显示剩余两人的选项卡片
+          if (isInnerThoughts) {
+              setInnerThoughtsSequence(null);
+              const scenario = currentScenario;
+              // 获取已完成的所有选项
+              const allCompletedOptions = new Set(completedOptions);
+              allCompletedOptions.add(completedOptionId);
+              
+              // 获取剩余未完成的选项
+              const remainingOptions = scenario.options.filter(opt => !allCompletedOptions.has(opt.id));
+              
+              if (remainingOptions.length > 0) {
+                  // 显示剩余选项的决策卡片
+                  setDecisionCardOptions(remainingOptions);
+                  setShowDecisionCardSelector(true);
+              } else {
+                  // 所有选项都完成了，解锁下一个章节
+                  if (currentScenarioIdx < SCENARIOS.length - 1) {
+                      setCurrentScenarioIdx(prev => prev + 1);
+                      saveGame();
+                  }
+              }
+              setActiveStory(null);
+              return;
+          }
+          
+          // 如果是 ep1 完成了回应（stay），检查是否有待显示的内心状态
+          if (currentScenario.id === 'ep1' && completedOptionId.startsWith('opt-')) {
+              setActiveStory(null);
+              
+              // 如果有待显示的内心状态，先显示内心状态
+              if (pendingInnerThoughtsOption) {
+                  setFullScreenStory({ 
+                      scenario: pendingInnerThoughtsOption.scenario, 
+                      option: pendingInnerThoughtsOption.option 
+                  });
+                  setPendingInnerThoughtsOption(null); // 清除待显示状态
+                  return; // 不显示决策卡片，先显示内心状态
+              }
+              
+              // 如果没有内心状态，显示剩余两人的选项卡片
+              const scenario = currentScenario;
+              // 获取已完成的所有选项
+              const allCompletedOptions = new Set(completedOptions);
+              allCompletedOptions.add(completedOptionId);
+              
+              // 获取剩余未完成的选项
+              const remainingOptions = scenario.options.filter(opt => !allCompletedOptions.has(opt.id));
+              
+              if (remainingOptions.length > 0) {
+                  // 显示剩余选项的决策卡片
+                  setDecisionCardOptions(remainingOptions);
+                  setShowDecisionCardSelector(true);
+              } else {
+                  // 所有选项都完成了，解锁下一个章节
+                  if (currentScenarioIdx < SCENARIOS.length - 1) {
+                      setCurrentScenarioIdx(prev => prev + 1);
+                      saveGame();
+                  }
+              }
+              return;
+          }
+          
+          // 检查当前场景是否还有其他选项
+          const scenario = currentScenario;
+          const otherOptions = scenario.options.filter(opt => opt.id !== completedOptionId);
+          
+          // 如果有其他选项，显示选择界面
+          if (otherOptions.length > 0) {
+              setNextStorySelectorData({ scenario, completedOptionId });
+              setShowNextStorySelector(true);
+          }
       }
       setActiveStory(null);
-      // 不自动进入下一集，让用户可以选择其他支线
+  };
+  
+  // 处理下一个剧情选择
+  const handleNextStorySelect = (option: StoryOption) => {
+      // 关闭选择界面
+      setShowNextStorySelector(false);
+      setNextStorySelectorData(null);
+      
+      // 直接开始选中的剧情
+      setDecisionOption(option);
+  };
+  
+  // 关闭下一个剧情选择器
+  const handleCloseNextStorySelector = () => {
+      setShowNextStorySelector(false);
+      setNextStorySelectorData(null);
+  };
+  
+  // 处理决策卡片选择
+  const handleDecisionCardSelect = (option: StoryOption) => {
+      // 关闭决策卡片选择器
+      setShowDecisionCardSelector(false);
+      setDecisionCardOptions([]);
+      
+      // 显示该选项的决策界面
+      setDecisionOption(option);
   };
   
   // Scroll Helpers
@@ -2852,8 +3664,32 @@ export default function LoveSignalSim() {
                   scenario={invitationScenario}
                   onConfirm={() => {
                       setShowInvitationCard(false);
+                      // 先显示欢迎文字
+                      setShowWelcomeText(true);
+                  }}
+              />
+          )}
+          
+          {showWelcomeText && invitationScenario && (
+              <WelcomeText 
+                  onContinue={() => {
+                      setShowWelcomeText(false);
                       setExpandedScenario(invitationScenario);
                       setInvitationScenario(null);
+                  }}
+              />
+          )}
+
+          {showPlayerIntroDialogue && (
+              <PlayerIntroDialogue 
+                  onContinue={() => {
+                      setShowPlayerIntroDialogue(false);
+                      // 显示三个决策卡片供玩家选择
+                      const currentScenario = SCENARIOS.find(s => s.id === 'ep1');
+                      if (currentScenario && currentScenario.options.length > 0) {
+                          setDecisionCardOptions(currentScenario.options);
+                          setShowDecisionCardSelector(true);
+                      }
                   }}
               />
           )}
@@ -2889,6 +3725,36 @@ export default function LoveSignalSim() {
           {showDateSelector && <DateSelector onClose={() => setShowDateSelector(false)} onSelect={handleDateSelect} />}
           {showEndingSelector && <EndingSelector characters={characters} onClose={() => setShowEndingSelector(false)} onSelect={handleEndingSelect} />}
           {activeStory && <StoryOverlay option={activeStory.data} isDate={activeStory.isDate} onClose={() => handleStoryOverlayClose()} />}
+          {showNextStorySelector && nextStorySelectorData && (
+              <NextStorySelector 
+                  scenario={nextStorySelectorData.scenario}
+                  completedOptionId={nextStorySelectorData.completedOptionId}
+                  onSelectOption={handleNextStorySelect}
+                  onClose={handleCloseNextStorySelector}
+              />
+          )}
+          {showDecisionCardSelector && decisionCardOptions.length > 0 && (
+              <DecisionCardSelector 
+                  options={decisionCardOptions}
+                  onSelectOption={handleDecisionCardSelect}
+                  onClose={() => {
+                      setShowDecisionCardSelector(false);
+                      setDecisionCardOptions([]);
+                      
+                      // 如果有关闭决策卡片选择器时，检查是否有待显示的内心状态
+                      if (pendingInnerThoughtsOption) {
+                          // 延迟一点时间后显示内心状态，让玩家有时间看清关闭效果
+                          setTimeout(() => {
+                              setFullScreenStory({ 
+                                  scenario: pendingInnerThoughtsOption.scenario, 
+                                  option: pendingInnerThoughtsOption.option 
+                              });
+                              setPendingInnerThoughtsOption(null);
+                          }, 300);
+                      }
+                  }}
+              />
+          )}
           {showHeartBloom && <HeartBloom />}
       </div>
       
