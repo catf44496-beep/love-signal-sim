@@ -1141,10 +1141,11 @@ const FullScreenStoryView = ({
     }, [currentDialogueIndex, showDialogue, currentDialogue]);
 
     useEffect(() => {
-        // 显示剧情介绍后，延迟显示对话
+        // 显示剧情介绍后，延迟显示对话（移动端缩短延迟时间）
+        const delay = window.innerWidth <= 768 ? 500 : 2000;
         const timer = setTimeout(() => {
             setShowDialogue(true);
-        }, 2000);
+        }, delay);
         return () => clearTimeout(timer);
     }, []);
 
@@ -1214,11 +1215,11 @@ const FullScreenStoryView = ({
             </div>
 
             {/* 对话框区域 - 移动端优化 */}
-            <div className="relative bottom-0 left-0 right-0 p-3 sm:p-4 pb-6 sm:pb-8 animate-slideUp safe-area-bottom">
+            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 pb-6 sm:pb-8 animate-slideUp safe-area-bottom z-50">
                 <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-end gap-2 sm:gap-4">
                     {/* 说话者名字标签 */}
                     {currentDialogue && currentDialogue.speaker !== 'narrator' && (
-                        <div className="flex-shrink-0 mb-0 sm:mb-2 w-full sm:w-auto">
+                        <div className="flex-shrink-0 mb-0 sm:mb-2 w-full sm:w-auto z-50">
                             <div className="bg-gradient-to-r from-pink-500 to-purple-600 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg whitespace-nowrap inline-block">
                                 <span className="text-white font-bold text-sm sm:text-base">
                                     {currentDialogue.speaker}
@@ -1228,21 +1229,21 @@ const FullScreenStoryView = ({
                     )}
                     
                     {/* 对话内容 */}
-                    <div className="flex-1 w-full bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl relative min-h-[100px] sm:min-h-[120px] flex items-center">
+                    <div className="flex-1 w-full bg-black/90 backdrop-blur-xl border-2 border-white/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl relative min-h-[100px] sm:min-h-[120px] flex items-center z-50">
                         {/* 装饰元素 */}
                         <div className="absolute top-2 left-2 w-2 h-2 bg-pink-500 rounded-full opacity-50"></div>
                         <div className="absolute top-2 right-2 w-2 h-2 bg-purple-500 rounded-full opacity-50"></div>
                         
-                        <p className="text-white text-base sm:text-lg leading-relaxed font-light flex-1 break-words">
-                            {showDialogue ? dialogueText : ''}
+                        <p className="text-white text-base sm:text-lg leading-relaxed font-light flex-1 break-words relative z-10">
+                            {showDialogue ? (dialogueText || currentDialogue?.text || '') : (currentDialogue?.text || '')}
                             {dialogueText === currentDialogue?.text && (
                                 <span className="inline-block ml-2 w-2 h-4 sm:h-6 bg-pink-400 animate-pulse"></span>
                             )}
                         </p>
                         
                         {/* 提示点击继续 */}
-                        {dialogueText === currentDialogue?.text && (
-                            <div className="absolute bottom-2 sm:bottom-4 right-4 sm:right-6 text-white/50 text-xs animate-pulse flex items-center gap-2">
+                        {dialogueText === currentDialogue?.text && currentDialogue && (
+                            <div className="absolute bottom-2 sm:bottom-4 right-4 sm:right-6 text-white/70 text-xs animate-pulse flex items-center gap-2 z-20">
                                 <span className="hidden sm:inline">点击继续</span>
                                 <span className="sm:hidden">点击</span>
                                 <ChevronRight size={14} className="sm:w-4 sm:h-4" />

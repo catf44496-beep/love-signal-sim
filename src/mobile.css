@@ -165,4 +165,20 @@
     font-size: 0.9375rem;
     line-height: 1.6;
   }
+  
+  /* 确保对话框在移动端可见 */
+  [class*="backdrop-blur-xl"] {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+  }
+  
+  /* 对话框文字确保可见 */
+  .text-white {
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+  
+  /* 确保对话框区域不被遮挡 */
+  .z-50 {
+    z-index: 50 !important;
+  }
 }
