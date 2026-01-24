@@ -1,0 +1,20 @@
+{
+  "name": "心动信号 - 恋爱模拟器",
+  "short_name": "心动信号",
+  "description": "沉浸式恋爱模拟游戏",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#120024",
+  "theme_color": "#120024",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "lang": "zh-CN"
+}

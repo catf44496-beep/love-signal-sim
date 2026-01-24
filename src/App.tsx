@@ -728,6 +728,7 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
     }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EPISODE_MESSAGES: Record<string, PostEpisodeMessage[]> = {
     'ep1': [
         { charId: 'lu', text: "今天辛苦了。早點休息，明天見。" },
@@ -782,7 +783,7 @@ const HeartBloom = () => {
 
 const EpisodeOpening = ({ scenario, onFinished }: { scenario: StoryScenario, onFinished: () => void }) => {
     const onFinishedRef = useRef(onFinished);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     
     // 更新 ref 以始终使用最新的回调
     useEffect(() => {
@@ -2527,7 +2528,7 @@ export default function LoveSignalSim() {
    
   const [hasNewObservation, setHasNewObservation] = useState(false);
   const [showObservationRoom, setShowObservationRoom] = useState(false);
-  const [showSaveSuccess, setShowSaveSuccess] = useState(false); 
+  const [_showSaveSuccess, setShowSaveSuccess] = useState(false); 
   const [timeCode, setTimeCode] = useState(0); 
   const [hasNewSocialInfo, setHasNewSocialInfo] = useState(false); 
   const [playingOpening, setPlayingOpening] = useState(false);
@@ -2560,7 +2561,7 @@ export default function LoveSignalSim() {
   const [decisionCardOptions, setDecisionCardOptions] = useState<StoryOption[]>([]);
   
   // 内心状态对话序列（用于 ep1 回应陆星辞后显示其他两人的内心状态）
-  const [innerThoughtsSequence, setInnerThoughtsSequence] = useState<{ dialogues: Dialogue[], currentIndex: number } | null>(null);
+  const [_innerThoughtsSequence, setInnerThoughtsSequence] = useState<{ dialogues: Dialogue[], currentIndex: number } | null>(null);
   
   // 待显示的内心状态选项（用于在剧情结果关闭后显示）
   const [pendingInnerThoughtsOption, setPendingInnerThoughtsOption] = useState<{ scenario: StoryScenario, option: StoryOption } | null>(null);
@@ -3048,41 +3049,6 @@ export default function LoveSignalSim() {
       }
   };
 
-  // Function to advance episode, usually called after story overlay is closed or specific action
-  const advanceEpisode = () => {
-      const finishedEpId = currentScenario.id;
-      const newMessages = EPISODE_MESSAGES[finishedEpId];
-      if (newMessages) {
-           setChats(prevChats => {
-              const updatedChats = [...prevChats];
-              newMessages.forEach(msg => {
-                  const chatIndex = updatedChats.findIndex(c => c.charId === msg.charId);
-                  if (chatIndex !== -1) {
-                      updatedChats[chatIndex] = {
-                          ...updatedChats[chatIndex],
-                          unread: updatedChats[chatIndex].unread + 1,
-                          lastMessage: msg.text,
-                          lastTime: "剛剛",
-                          messages: [...updatedChats[chatIndex].messages, {
-                              id: `sys_${Date.now()}_${msg.charId}`, senderId: msg.charId, text: msg.text, type: 'text', time: "剛剛"
-                          }]
-                      };
-                  }
-              });
-              return updatedChats;
-          });
-      }
-      setHasNewObservation(true);
-      setHasNewSocialInfo(true); 
-
-      if (currentScenarioIdx < SCENARIOS.length - 1) { 
-        setCurrentScenarioIdx(prev => prev + 1);
-      } else { 
-        setCurrentScenarioIdx(0);
-      }
-      saveGame();
-  };
-
   const handleDateSelect = (date: DateScenario) => { setShowDateSelector(false); setShowHeartBloom(true); setTimeout(() => setShowHeartBloom(false), 4000); setActiveStory({data: date, isDate: true}); };
   const handleEndingSelect = (ending: EndingScenario) => { setShowEndingSelector(false); setShowHeartBloom(true); setTimeout(() => setShowHeartBloom(false), 4000); setActiveStory({data: ending, isDate: true}); };
 
@@ -3092,11 +3058,6 @@ export default function LoveSignalSim() {
           setHasNewSocialInfo(false);
       }
   };
-
-  const handlePlayOpening = (e: React.MouseEvent) => {
-      e.stopPropagation();
-      setPlayingOpening(true);
-  }
 
   // Handle Story Overlay Close - 不自动进入下一集，允许用户选择其他角色
   const handleStoryOverlayClose = () => {
@@ -3228,10 +3189,10 @@ export default function LoveSignalSim() {
 
   return (
       <div className="flex justify-center items-center min-h-screen bg-gray-900 font-sans selection:bg-pink-200">
-          <div className="w-full max-w-[430px] h-[100vh] sm:h-[850px] bg-black/30 sm:rounded-[3rem] sm:border-[8px] sm:border-gray-800 sm:shadow-2xl relative overflow-hidden flex flex-col ring-1 ring-white/10 backdrop-blur-3xl">
+          <div className="w-full max-w-[430px] h-[100vh] sm:h-[850px] bg-black/30 sm:rounded-[3rem] sm:border-[8px] sm:border-gray-800 sm:shadow-2xl relative overflow-hidden flex flex-col ring-1 ring-white/10 backdrop-blur-3xl safe-area-top safe-area-bottom">
               
               {/* V7.0 Status Bar: Camera Overlay */}
-              <div className="h-14 flex justify-between items-center px-6 pt-4 text-white z-30 bg-gradient-to-b from-black/80 to-transparent absolute top-0 w-full pointer-events-none">
+              <div className="h-14 sm:h-16 flex justify-between items-center px-4 sm:px-6 pt-4 text-white z-30 bg-gradient-to-b from-black/80 to-transparent absolute top-0 w-full pointer-events-none safe-area-top">
                   <div className="flex items-center gap-2">
                        <div className="w-2.5 h-2.5 bg-red-600 rounded-full animate-pulse shadow-[0_0_10px_red]"></div>
                        <span className="font-mono text-xs font-bold tracking-widest text-red-500">REC</span>
@@ -3265,7 +3226,7 @@ export default function LoveSignalSim() {
                   
                   {/* === TAB: 剧情 (HOME) - TIMELINE VIEW === */}
                   {activeTab === 'home' && (
-                    <div className="p-4 space-y-6 pb-24 animate-fadeIn relative z-10 pt-16">
+                    <div className="p-3 sm:p-4 space-y-4 sm:space-y-6 pb-24 animate-fadeIn relative z-10 pt-16 sm:pt-20">
                         {/* Header Tools */}
                         <div className="flex justify-between items-center mb-2 px-2">
                             <div className="flex gap-3">

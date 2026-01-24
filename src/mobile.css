@@ -1,0 +1,111 @@
+/* 移动端优化样式 */
+
+/* 防止移动端双击缩放 */
+* {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 移动端字体优化 */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  
+  /* 移动端按钮优化 */
+  button, 
+  [role="button"],
+  .cursor-pointer {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* 移动端文本选择优化 */
+  * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* 允许输入框选择文本 */
+  input, 
+  textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+  
+  /* 移动端滚动优化 */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 固定定位元素在移动端的优化 */
+  .fixed,
+  [class*="fixed"] {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* 移动端图片优化 */
+  img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: -webkit-optimize-contrast;
+  }
+  
+  /* 移动端动画性能优化 */
+  * {
+    will-change: auto;
+  }
+  
+  /* 移动端安全区域适配（iPhone X 等） */
+  @supports (padding: max(0px)) {
+    .safe-area-top {
+      padding-top: max(1rem, env(safe-area-inset-top));
+    }
+    
+    .safe-area-bottom {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+    
+    .safe-area-left {
+      padding-left: max(1rem, env(safe-area-inset-left));
+    }
+    
+    .safe-area-right {
+      padding-right: max(1rem, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* 小屏幕设备优化 */
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* 高分辨率屏幕优化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
