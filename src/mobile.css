@@ -200,4 +200,22 @@
     -webkit-overflow-scrolling: touch;
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
+  
+  /* 确保开始剧情按钮在移动端可见 */
+  .sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+  
+  /* 模态框滚动区域优化 */
+  [class*="overflow-y-auto"] {
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+  
+  /* 确保按钮不被遮挡 */
+  button[class*="bg-gradient-to-r"] {
+    position: relative;
+    z-index: 100 !important;
+  }
 }

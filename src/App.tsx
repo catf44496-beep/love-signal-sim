@@ -1293,9 +1293,9 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
     const hasCompletedOption = completedOptions && scenario.options.some(opt => completedOptions.has(opt.id));
     const showSideStories = isCompleted || (isCurrent && hasCompletedOption);
     return (
-        <div className="fixed inset-0 z-[150] bg-black/90 backdrop-blur-xl flex flex-col animate-scaleUp">
+        <div className="fixed inset-0 z-[150] bg-black/90 backdrop-blur-xl flex flex-col animate-scaleUp overflow-hidden">
             {/* Modal Header (Tools) */}
-            <div className="h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 border-b border-white/10 relative z-20 safe-area-top">
+            <div className="h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 border-b border-white/10 relative z-20 safe-area-top flex-shrink-0">
                 <div className="flex items-center gap-2">
                     <span className="text-xs font-mono text-pink-500 border border-pink-500 px-2 py-0.5 rounded">{scenario.phase}</span>
                     <h2 className="text-lg font-bold text-white line-clamp-1">{scenario.episodeTitle}</h2>
@@ -1305,19 +1305,19 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
                 </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto no-scrollbar relative pb-4 sm:pb-0">
+            <div className="flex-1 overflow-y-auto no-scrollbar relative pb-20 sm:pb-4">
                 {/* Poster / Cover */}
-                <div className="h-64 relative">
+                <div className="h-48 sm:h-64 relative">
                     <img src={scenario.coverImage} className={`w-full h-full object-cover ${isLocked ? 'grayscale blur-sm' : ''}`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#120024] via-transparent to-transparent"></div>
                     
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <p className="text-xl text-white/90 italic font-serif leading-relaxed">“ {scenario.slogan} ”</p>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                        <p className="text-lg sm:text-xl text-white/90 italic font-serif leading-relaxed">" {scenario.slogan} "</p>
                     </div>
                 </div>
 
                 {/* Content Body */}
-                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 pb-6 sm:pb-6">
+                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 pb-24 sm:pb-6">
                     {/* Story Text */}
                     <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                         <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-2 flex items-center gap-2">
@@ -1345,18 +1345,23 @@ const EpisodeDetailModal = ({ scenario, onClose, onOptionClick, isCurrent, isCom
 
                     {/* 剧情开始按钮（如果解锁） */}
                     {!isLocked && (
-                        <div className="pt-4 pb-4 sm:pb-0">
+                        <div className="pt-4 pb-4 sm:pb-0 sticky bottom-0 z-50 bg-black/90 backdrop-blur-sm -mx-4 sm:-mx-6 px-4 sm:px-6 py-4 sm:py-0">
                             <button 
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
+                                    console.log('开始剧情按钮被点击', scenario.id, scenario.options);
                                     onClose();
                                     // 如果有选项，默认选择第一个；否则直接显示剧情介绍
                                     if (scenario.options.length > 0 && onStartStory) {
+                                        console.log('调用 onStartStory', scenario.options[0]);
                                         onStartStory(scenario.options[0]);
+                                    } else {
+                                        console.warn('没有选项或 onStartStory 未定义');
                                     }
                                 }}
-                                className="w-full py-4 sm:py-4 min-h-[56px] bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 text-white rounded-xl font-bold text-base sm:text-base shadow-lg shadow-pink-900/50 hover:shadow-pink-600/50 active:scale-95 transition-all flex items-center justify-center gap-3 group border border-white/20 touch-manipulation z-50 relative"
+                                className="w-full py-4 sm:py-4 min-h-[56px] bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 text-white rounded-xl font-bold text-base sm:text-base shadow-lg shadow-pink-900/50 hover:shadow-pink-600/50 active:scale-95 transition-all flex items-center justify-center gap-3 group border-2 border-white/30 touch-manipulation relative z-50"
+                                style={{ WebkitTapHighlightColor: 'rgba(255, 255, 255, 0.3)' }}
                             >
                                 <PlayCircle size={20} className="group-hover:scale-110 transition-transform flex-shrink-0" />
                                 <span>开始剧情</span>
