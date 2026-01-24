@@ -1195,80 +1195,82 @@ const FullScreenStoryView = ({
                 ></div>
             </div>
 
-            {/* 人物立绘区域 */}
-            <div className="relative flex-1 flex items-end justify-center pb-32">
+            {/* 人物立绘区域 - 移动端优化 */}
+            <div className="relative flex-1 flex items-end justify-center pb-24 sm:pb-32 px-2">
                 {currentCharacter && currentDialogue?.speaker !== 'narrator' && (
                     <div className="relative max-w-md w-full mx-auto animate-fadeIn">
                         <img 
                             src={currentCharacter.avatarImage} 
                             alt={currentCharacter.name}
                             className="w-full h-auto object-contain drop-shadow-2xl"
-                            style={{ maxHeight: '70vh' }}
+                            style={{ maxHeight: '60vh' }}
                         />
-                        {/* 名字标签 */}
-                        <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20">
-                            <span className="text-white font-bold text-lg">{currentCharacter.name}</span>
+                        {/* 名字标签 - 移动端优化 */}
+                        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-black/60 backdrop-blur-md px-2 sm:px-4 py-1 sm:py-2 rounded-lg border border-white/20">
+                            <span className="text-white font-bold text-sm sm:text-lg">{currentCharacter.name}</span>
                         </div>
                     </div>
                 )}
             </div>
 
-            {/* 对话框区域 - 横向布局 */}
-            <div className="relative bottom-0 left-0 right-0 p-4 pb-8 animate-slideUp">
-                <div className="max-w-6xl mx-auto flex items-end gap-4">
-                    {/* 说话者名字标签 - 横向 */}
+            {/* 对话框区域 - 移动端优化 */}
+            <div className="relative bottom-0 left-0 right-0 p-3 sm:p-4 pb-6 sm:pb-8 animate-slideUp safe-area-bottom">
+                <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-end gap-2 sm:gap-4">
+                    {/* 说话者名字标签 */}
                     {currentDialogue && currentDialogue.speaker !== 'narrator' && (
-                        <div className="flex-shrink-0 mb-2">
-                            <div className="bg-gradient-to-r from-pink-500 to-purple-600 px-4 py-2 rounded-lg whitespace-nowrap">
-                                <span className="text-white font-bold text-base">
+                        <div className="flex-shrink-0 mb-0 sm:mb-2 w-full sm:w-auto">
+                            <div className="bg-gradient-to-r from-pink-500 to-purple-600 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg whitespace-nowrap inline-block">
+                                <span className="text-white font-bold text-sm sm:text-base">
                                     {currentDialogue.speaker}
                                 </span>
                             </div>
                         </div>
                     )}
                     
-                    {/* 对话内容 - 横向 */}
-                    <div className="flex-1 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl relative min-h-[120px] flex items-center">
+                    {/* 对话内容 */}
+                    <div className="flex-1 w-full bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl relative min-h-[100px] sm:min-h-[120px] flex items-center">
                         {/* 装饰元素 */}
                         <div className="absolute top-2 left-2 w-2 h-2 bg-pink-500 rounded-full opacity-50"></div>
                         <div className="absolute top-2 right-2 w-2 h-2 bg-purple-500 rounded-full opacity-50"></div>
                         
-                        <p className="text-white text-lg leading-relaxed font-light flex-1">
+                        <p className="text-white text-base sm:text-lg leading-relaxed font-light flex-1 break-words">
                             {showDialogue ? dialogueText : ''}
                             {dialogueText === currentDialogue?.text && (
-                                <span className="inline-block ml-2 w-2 h-6 bg-pink-400 animate-pulse"></span>
+                                <span className="inline-block ml-2 w-2 h-4 sm:h-6 bg-pink-400 animate-pulse"></span>
                             )}
                         </p>
                         
                         {/* 提示点击继续 */}
                         {dialogueText === currentDialogue?.text && (
-                            <div className="absolute bottom-4 right-6 text-white/50 text-xs animate-pulse flex items-center gap-2">
-                                <span>点击继续</span>
-                                <ChevronRight size={16} />
+                            <div className="absolute bottom-2 sm:bottom-4 right-4 sm:right-6 text-white/50 text-xs animate-pulse flex items-center gap-2">
+                                <span className="hidden sm:inline">点击继续</span>
+                                <span className="sm:hidden">点击</span>
+                                <ChevronRight size={14} className="sm:w-4 sm:h-4" />
                             </div>
                         )}
                     </div>
                 </div>
             </div>
 
-            {/* 关闭按钮 */}
+            {/* 关闭按钮 - 移动端优化 */}
             <button 
                 onClick={(e) => {
                     e.stopPropagation();
                     onClose();
                 }}
-                className="absolute top-4 right-4 w-10 h-10 bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-colors z-10"
+                className="absolute top-2 sm:top-4 right-2 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/80 transition-colors z-10 touch-manipulation"
             >
-                <X size={20} />
+                <X size={18} className="sm:w-5 sm:h-5" />
             </button>
 
-            {/* 跳过对话按钮 */}
+            {/* 跳过对话按钮 - 移动端优化 */}
             <button
                 onClick={handleSkipDialogue}
-                className="absolute top-4 left-4 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full flex items-center gap-2 text-white/70 hover:text-white hover:bg-black/80 transition-colors z-10 text-sm font-medium"
+                className="absolute top-2 sm:top-4 left-2 sm:left-4 px-3 sm:px-4 py-1.5 sm:py-2 bg-black/60 backdrop-blur-md rounded-full flex items-center gap-1.5 sm:gap-2 text-white/70 hover:text-white hover:bg-black/80 transition-colors z-10 text-xs sm:text-sm font-medium touch-manipulation"
             >
-                <Zap size={16} />
-                <span>跳过对话</span>
+                <Zap size={14} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">跳过对话</span>
+                <span className="sm:hidden">跳过</span>
             </button>
         </div>
     );

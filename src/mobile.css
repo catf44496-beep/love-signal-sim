@@ -109,3 +109,38 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+
+/* 移动端对话框优化 */
+@media (max-width: 768px) {
+  /* 确保对话框文字可以换行 */
+  .break-words {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* 对话框容器优化 */
+  [class*="backdrop-blur-xl"] {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  
+  /* 确保固定定位的对话框在移动端正确显示 */
+  .fixed.inset-0 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* 移动端对话框文字大小优化 */
+  .text-base {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+}
