@@ -10,12 +10,26 @@
 @media (max-width: 768px) {
   html {
     font-size: 14px;
+    height: 100%;
+    overflow: hidden;
   }
   
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    overflow-y: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+  }
+  
+  #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
   }
   
   /* 移动端按钮优化 */
@@ -133,9 +147,17 @@
     bottom: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh; /* 使用动态视口高度 */
     max-width: 100vw;
     max-height: 100vh;
+    max-height: 100dvh;
     overflow: hidden;
+  }
+  
+  /* 主容器在移动端的优化 */
+  .h-screen {
+    height: 100vh;
+    height: 100dvh; /* 使用动态视口高度，适配移动浏览器地址栏 */
   }
   
   /* 移动端对话框文字大小优化 */

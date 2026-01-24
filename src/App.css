@@ -5,6 +5,16 @@
   text-align: center;
 }
 
+/* 移动端覆盖样式 */
+@media (max-width: 768px) {
+  #root {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

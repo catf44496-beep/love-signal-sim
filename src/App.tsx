@@ -3190,8 +3190,8 @@ export default function LoveSignalSim() {
   };
 
   return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-900 font-sans selection:bg-pink-200">
-          <div className="w-full max-w-[430px] h-[100vh] sm:h-[850px] bg-black/30 sm:rounded-[3rem] sm:border-[8px] sm:border-gray-800 sm:shadow-2xl relative overflow-hidden flex flex-col ring-1 ring-white/10 backdrop-blur-3xl safe-area-top safe-area-bottom">
+      <div className="flex justify-center items-center min-h-screen sm:min-h-screen bg-gray-900 font-sans selection:bg-pink-200 w-full overflow-hidden">
+          <div className="w-full max-w-[430px] h-screen sm:h-[850px] bg-black/30 sm:rounded-[3rem] sm:border-[8px] sm:border-gray-800 sm:shadow-2xl relative overflow-hidden flex flex-col ring-1 ring-white/10 backdrop-blur-3xl safe-area-top safe-area-bottom">
               
               {/* V7.0 Status Bar: Camera Overlay */}
               <div className="h-14 sm:h-16 flex justify-between items-center px-4 sm:px-6 pt-4 text-white z-30 bg-gradient-to-b from-black/80 to-transparent absolute top-0 w-full pointer-events-none safe-area-top">
