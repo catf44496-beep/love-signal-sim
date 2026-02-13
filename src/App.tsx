@@ -2795,17 +2795,11 @@ export default function LoveSignalSim() {
           
           // 如果是内心状态对话完成，显示剩余两人的选项卡片
           if (completedOptionId.startsWith('inner-thoughts-ep1')) {
-              setCompletedOptions(prev => {
-                  const newSet = new Set(prev);
-                  newSet.add(completedOptionId);
-                  return newSet;
-              });
-              setInnerThoughtsSequence(null);
-              setFullScreenStory(null);
-              
-              // 获取已完成的所有选项（包括内心状态）
               const allCompletedOptions = new Set(completedOptions);
               allCompletedOptions.add(completedOptionId);
+              setCompletedOptions(allCompletedOptions);
+              setInnerThoughtsSequence(null);
+              setFullScreenStory(null);
               
               // 获取剩余未完成的选项（不包括内心状态）
               const remainingOptions = scenario.options.filter(opt => !allCompletedOptions.has(opt.id));
@@ -3630,8 +3624,8 @@ export default function LoveSignalSim() {
                   {/* === TAB: 消息 (MESSAGE) === */}
                   {activeTab === 'message' && (
                       <div className="flex flex-col h-full bg-transparent animate-fadeIn relative z-10 pt-14">
-                          {activeChatId ? (
-                              <ChatDetailView chat={activeChat!} char={activeChatChar} onBack={() => setActiveChatId(null)} onSend={handleChatSend} />
+                          {activeChatId && activeChat ? (
+                              <ChatDetailView chat={activeChat} char={activeChatChar} onBack={() => setActiveChatId(null)} onSend={handleChatSend} />
                           ) : (
                               <>
                                   <div className="px-5 py-4 bg-white/5 border-b border-white/10 flex justify-between items-center shadow-lg sticky top-0 z-10 backdrop-blur-md">
@@ -3813,7 +3807,7 @@ export default function LoveSignalSim() {
           {selectedTopic && <WeiboDetailView topic={selectedTopic} onBack={() => setSelectedTopic(null)} />}
           {showCalendar && <CalendarView onClose={() => setShowCalendar(false)} />}
           {viewingDiary && <DiaryReader charId={viewingDiary} onClose={() => setViewingDiary(null)} />}
-          {viewingProfile && <InstagramProfileView char={CHARACTERS.find(c => c.id === viewingProfile)!} onClose={() => setViewingProfile(null)} />}
+          {viewingProfile && (() => { const profileChar = CHARACTERS.find(c => c.id === viewingProfile); return profileChar ? <InstagramProfileView char={profileChar} onClose={() => setViewingProfile(null)} /> : null; })()}
           {showDateSelector && <DateSelector onClose={() => setShowDateSelector(false)} onSelect={handleDateSelect} />}
           {showEndingSelector && <EndingSelector characters={characters} onClose={() => setShowEndingSelector(false)} onSelect={handleEndingSelect} />}
           {activeStory && <StoryOverlay option={activeStory.data} isDate={activeStory.isDate} onClose={() => handleStoryOverlayClose()} />}
@@ -3885,8 +3879,6 @@ export default function LoveSignalSim() {
         }
         .animate-slideLeft { animation: slideLeft linear infinite; }
         .animate-spin-slow { animation: spin 8s linear infinite; }
-        .animate-slideUp { animation: slideUp 0.3s ease-out forwards; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-glitch { animation: glitch 1s linear infinite; }
         @keyframes glitch {
           2%, 64% { transform: translate(2px,0) skew(0deg); }
