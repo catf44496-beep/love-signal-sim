@@ -269,6 +269,18 @@ interface PostEpisodeMessage {
     text: string;
 }
 
+type TabId = 'home' | 'social' | 'message' | 'profile';
+
+interface TopicDetail {
+    title: string;
+    readCount: string;
+    discussCount: string;
+    posts: WeiboPost[];
+    level?: string;
+}
+
+type StoryOverlayData = StoryOption | DateScenario | EndingScenario;
+
 // --- 2. 模拟数据 ---
 
 const PROTAGONIST = {
@@ -1616,16 +1628,12 @@ const ObservationRoomModal = ({ posts, onClose }: { posts: ObserverPost[], onClo
     );
 };
 
-const WeiboDetailView = ({ topic, onBack }: { topic: HotSearchItem | CPItem['superTopic'] & {topic?:string}, onBack: () => void }) => {
-    const isHotSearchItem = (t: typeof topic): t is HotSearchItem => 'detailedPosts' in t || 'discussCount' in t;
-    
-    const title = isHotSearchItem(topic) ? topic.topic : topic.title;
-    const initialPosts = isHotSearchItem(topic) 
-        ? (topic.detailedPosts || [])
-        : topic.posts || [];
-    const readCount = isHotSearchItem(topic) ? topic.readCount : topic.readCount;
-    const discussCount = isHotSearchItem(topic) ? topic.discussCount : topic.postCount;
-    const level = isHotSearchItem(topic) ? undefined : topic.level;
+const WeiboDetailView = ({ topic, onBack }: { topic: TopicDetail, onBack: () => void }) => {
+    const title = topic.title;
+    const initialPosts = topic.posts || [];
+    const readCount = topic.readCount;
+    const discussCount = topic.discussCount;
+    const level = topic.level;
 
     const [posts, setPosts] = useState(initialPosts || []);
     const [inputText, setInputText] = useState("");
@@ -1997,25 +2005,30 @@ const EndingSelector = ({ characters, onClose, onSelect }: { characters: Charact
     );
 };
 
-const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolean, onClose: () => void }) => {
+const StoryOverlay = ({ option, isDate, onClose }: { option: StoryOverlayData, isDate: boolean, onClose: () => void }) => {
     // 使用惰性初始化避免在渲染期间调用 Math.random()
     const [sceneNumber] = useState(() => Math.floor(Math.random() * 9) + 1);
-    
+
+    const imgSrc = isDate ? (option as DateScenario | EndingScenario).img : (option as StoryOption).avatar;
+    const heading = isDate ? (option as DateScenario | EndingScenario).title : (option as StoryOption).target;
+    const cgLabel = 'cgTitle' in option ? (option as DateScenario).cgTitle : 'cg_title' in option ? (option as StoryOption).cg_title : (option as EndingScenario).keyword;
+    const storyText = isDate ? option.story : ('story_result' in option ? (option as StoryOption).story_result : option.story);
+
     return (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
             {/* Heart Bloom Effect on Show */}
             <HeartBloom />
-            
+
             <div className="bg-gray-900/95 p-3 pb-8 w-full max-w-sm shadow-2xl transform rotate-1 animate-scaleUp relative rounded-lg border border-white/10 backdrop-blur-xl">
                 <div className="absolute top-2 left-2 text-[10px] font-mono text-red-500 font-bold z-30 animate-pulse">● REC</div>
                 <div className="absolute top-2 right-2 text-[10px] font-mono text-gray-400 font-bold z-30">CAM 01</div>
-                
+
                 <button onClick={onClose} className="absolute -top-3 -right-3 bg-white text-black rounded-full p-2 shadow-lg z-20 hover:scale-110 transition-transform"><X size={16}/></button>
-                
+
                 {/* Monitor Frame */}
                 <div className="relative aspect-[4/5] bg-black mb-4 overflow-hidden shadow-inner border-2 border-gray-800 rounded-lg">
-                      <img src={isDate ? option.img : option.avatar} className="w-full h-full object-cover opacity-90" />
-                      
+                      <img src={imgSrc} className="w-full h-full object-cover opacity-90" />
+
                       {/* Viewfinder Overlay */}
                       <div className="absolute inset-0 border-[20px] border-transparent pointer-events-none">
                           <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
@@ -2027,18 +2040,18 @@ const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolea
 
                       <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                           <div className="flex justify-between items-end">
-                              <h3 className="text-xl font-bold font-serif italic">{isDate ? option.title : option.target}</h3>
+                              <h3 className="text-xl font-bold font-serif italic">{heading}</h3>
                               <span className="text-[10px] opacity-80 font-mono tracking-widest">SCENE 0{sceneNumber}</span>
                           </div>
                           <div className="text-xs text-pink-200 mt-1 flex items-center gap-1">
-                              <Clapperboard size={12} fill="currentColor" /> {option.cgTitle || option.cg_title || option.keyword}
+                              <Clapperboard size={12} fill="currentColor" /> {cgLabel}
                           </div>
                       </div>
                 </div>
 
                 <div className="px-2">
                       <p className="text-sm text-gray-300 leading-relaxed font-handwriting text-justify mb-4 first-letter:text-2xl first-letter:text-pink-500 first-letter:font-bold">
-                          {isDate ? option.story : (option.story_result || option.story)}
+                          {storyText}
                       </p>
                       
                       {/* 结局加成展示 */}
@@ -2596,7 +2609,7 @@ const DecisionCardSelector = ({
 export default function LoveSignalSim() {
   const [activeTab, setActiveTab] = useState<'home' | 'social' | 'message' | 'profile'>('home');
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
-  const [selectedTopic, setSelectedTopic] = useState<any | null>(null); 
+  const [selectedTopic, setSelectedTopic] = useState<TopicDetail | null>(null);
   const [chats, setChats] = useState(INITIAL_CHATS);
   const [characters, setCharacters] = useState(CHARACTERS);
   const [currentScenarioIdx, setCurrentScenarioIdx] = useState(0);
@@ -2606,7 +2619,7 @@ export default function LoveSignalSim() {
   const [showDateSelector, setShowDateSelector] = useState(false);
   const [showEndingSelector, setShowEndingSelector] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [activeStory, setActiveStory] = useState<{data: any, isDate: boolean} | null>(null);
+  const [activeStory, setActiveStory] = useState<{data: StoryOverlayData, isDate: boolean} | null>(null);
   const [showHeartBloom, setShowHeartBloom] = useState(false);
   const [expandedCpId, setExpandedCpId] = useState<number | null>(null);
   const [viewingProfile, setViewingProfile] = useState<string | null>(null);
@@ -2673,7 +2686,7 @@ export default function LoveSignalSim() {
             if (parsed.completedOptions && Array.isArray(parsed.completedOptions)) {
                 setCompletedOptions(new Set(parsed.completedOptions));
             }
-        } catch (e) {
+        } catch {
             console.error("Save file corrupted");
         }
     }
@@ -3724,7 +3737,7 @@ export default function LoveSignalSim() {
                   ].map(tab => (
                       <button 
                           key={tab.id}
-                          onClick={() => handleTabChange(tab.id as any)}
+                          onClick={() => handleTabChange(tab.id as TabId)}
                           className={`flex flex-col items-center gap-1 p-2 w-16 transition-all ${activeTab === tab.id ? 'text-pink-400 scale-105' : 'text-gray-500 hover:text-gray-300'}`}
                       >
                           <div className="relative">
@@ -3801,7 +3814,7 @@ export default function LoveSignalSim() {
           {selectedTopic && <WeiboDetailView topic={selectedTopic} onBack={() => setSelectedTopic(null)} />}
           {showCalendar && <CalendarView onClose={() => setShowCalendar(false)} />}
           {viewingDiary && <DiaryReader charId={viewingDiary} onClose={() => setViewingDiary(null)} />}
-          {viewingProfile && <InstagramProfileView char={CHARACTERS.find(c => c.id === viewingProfile)!} onClose={() => setViewingProfile(null)} />}
+          {viewingProfile && (() => { const char = CHARACTERS.find(c => c.id === viewingProfile); return char ? <InstagramProfileView char={char} onClose={() => setViewingProfile(null)} /> : null; })()}
           {showDateSelector && <DateSelector onClose={() => setShowDateSelector(false)} onSelect={handleDateSelect} />}
           {showEndingSelector && <EndingSelector characters={characters} onClose={() => setShowEndingSelector(false)} onSelect={handleEndingSelect} />}
           {activeStory && <StoryOverlay option={activeStory.data} isDate={activeStory.isDate} onClose={() => handleStoryOverlayClose()} />}
