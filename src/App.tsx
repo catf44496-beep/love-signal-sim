@@ -272,7 +272,7 @@ interface PostEpisodeMessage {
 // --- 2. 模拟数据 ---
 
 const PROTAGONIST = {
-  name: "苏若",
+  name: "林柚",
   age: 24,
   job: "插画师 / 观察员",
   level: "人气嘉宾",
@@ -295,57 +295,57 @@ const PROTAGONIST = {
 
 const CHARACTERS: Character[] = [
   { 
-    id: 'lu', name: '陆星辞', age: 25, job: '金融分析师', 
+    id: 'lu', name: '顾易臣', age: 32, job: '离婚律师',
     avatarColor: 'bg-blue-100', 
     avatarImage: '/images/luxingci.png', 
-    stats: { heartbeat: 10, jealousy: 0, syncRate: 15, mood: "觀察", trait: "深情·光", cpRate: 50 },
+    stats: { heartbeat: 10, jealousy: 0, syncRate: 15, mood: "觀察", trait: "理性·光", cpRate: 50 },
     impression: "气质独特。", 
-    tags: ["精英", "反差萌", "深情"],
+    tags: ["理性", "成熟", "谨慎"],
     profile: {
-        surface: "温润如玉的学霸，举止绅士，语气温和但逻辑严密。",
-        inner: "极强的胜负欲和掌控欲。習慣將一切私有化。",
-        hobbies: ["阅读经济学", "网球", "收藏钢笔"]
+        surface: "冷静理性的离婚律师，见过太多婚姻的破裂，对感情既谨慎又渴望。口才出众，逻辑清晰。",
+        inner: "职业让他看透人性的复杂，但内心深处仍相信真爱的存在。习惯用法律思维分析感情，却渴望一次不需要条款的纯粹爱情。",
+        hobbies: ["阅读法律文献", "辩论", "品茶"]
     }
   },
   { 
-    id: 'shen', name: '沈予', age: 29, job: '建筑设计师', 
+    id: 'shen', name: '叶闻笙', age: 29, job: '心理医生',
     avatarColor: 'bg-slate-200', 
     avatarImage: 'https://images.unsplash.com/photo-1614726365723-49cfae927846?q=80&w=400&auto=format&fit=crop', 
     stats: { heartbeat: 15, jealousy: 0, syncRate: 20, mood: "平淡", trait: "稳重·冰", cpRate: 45 },
     impression: "安靜的女生。", 
-    tags: ["禁欲系", "导师", "成熟"],
+    tags: ["回避型", "专业", "成熟"],
     profile: {
-        surface: "清冷疏离的高岭之花，带着金丝眼镜，对生活品质要求极高。",
-        inner: "内心细腻且孤独，像一座谢绝参观的精密建筑。",
-        hobbies: ["手冲咖啡", "速写", "光影艺术展"]
+        surface: "冷静理性的心理医生，带着金丝眼镜，擅长分析他人却难以表达自己的情感。",
+        inner: "内心渴望连接却害怕被拒绝，用专业距离保护自己，像一座谢绝参观的内心堡垒。",
+        hobbies: ["阅读心理学文献", "冥想", "独自散步"]
     }
   },
   { 
-    id: 'jiang', name: '江哲', age: 23, job: '特警队长', 
-    avatarColor: 'bg-orange-100', 
-    avatarImage: 'https://images.unsplash.com/photo-1620646233562-f2a31adcc44a?q=80&w=400&auto=format&fit=crop', 
-    stats: { heartbeat: 20, jealousy: 0, syncRate: 10, mood: "好奇", trait: "热烈·火", cpRate: 60 },
-    impression: "姐姐好漂亮！", 
-    tags: ["小狼狗", "直球", "热烈"],
+    id: 'jiang', name: '江烈', age: 27, job: '独立游戏制作人',
+    avatarColor: 'bg-slate-100',
+    avatarImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop',
+    stats: { heartbeat: 15, jealousy: 0, syncRate: 10, mood: "分析中", trait: "理想·码", cpRate: 45 },
+    impression: "这个NPC的AI逻辑有点意思...",
+    tags: ["高智商颓废", "造梦师", "控制狂"],
     profile: {
-        surface: "阳光开朗的大男孩，笑容极具感染力，直率坦诚。",
-        inner: "有着超越年龄的责任感和保护欲。感情中的行动派。",
-        hobbies: ["极限运动", "体能训练", "吉他弹唱"]
+        surface: "永远穿着黑色连帽衫，抱着贴满贴纸的笔记本电脑，严重的黑眼圈。看人像在看数据，习惯把现实世界游戏化。",
+        inner: "前大厂金牌主策，因受不了氪金指标愤而离职。现在处于创作焦虑期，想做超越时代的艺术品，但资金链快断了。活在自己构建的虚拟逻辑里，是三个男主里唯一还在做梦的人。",
+        hobbies: ["写代码到凌晨", "打独立游戏", "在咖啡馆发呆构思世界观"]
     }
   },
 ];
 
 const SCENARIOS: StoryScenario[] = [
     {
-        id: 'ep1', phase: '第1期', episodeTitle: '初见信号', slogan: "若有似無的試探 · 宿命開場", rarity: "R",
+        id: 'ep1', phase: '第1期', episodeTitle: '初见信号', slogan: "若有似无的试探 · 宿命开场", rarity: "R",
         coverImage: "/images/episode1.png",
-        weather: '微風 25℃', location: '心动别墅 (大门)', task: '入住与初识',
-        directorMission: "完成入住，並在晚餐環節獲得至少一位男嘉賓的關注。", 
-        text: `初夏的風捲著梔子花香，你拖著略顯沉重的行李箱停在別墅前。心跳莫名漏了一拍，彷彿預感到了門後等待著怎樣的際遇。\n\n推開大門的瞬間，客廳裡的三道視線同時聚焦過來。空氣在那一秒變得黏稠而曖昧。\n行李箱輪子卡在了門檻上，誰會是那個打破沉默走向你的人？`,
+        weather: '微风 25℃', location: '心动别墅 (大门)', task: '入住与初识',
+        directorMission: "完成入住，并在晚餐环节获得至少一位男嘉宾的关注。", 
+        text: `初夏的风卷着栀子花香，你拖着略显沉重的行李箱停在别墅前。心跳莫名漏了一拍，仿佛预感到了门后等待着怎样的际遇。\n\n推开大门的瞬间，客厅里的视线同时聚焦过来——三位男嘉宾，还有两位已经先到的女嘉宾。\n\n一位气场两米八的红唇女人正端着红酒杯，用职业化的眼神扫过你，那是唐婉，危机公关总监。另一位甜美的女孩热情地朝你挥手，笑容灿烂得像夏天——苏小小，前女团成员。\n\n行李箱轮子卡在了门槛上，谁会打破沉默走向你？`,
         options: [
-            { id: 'opt-lu-ep1', label: '回應陸星辭的注視', target: '陆星辞', desc: '他的目光像一張精密編織的網，禮貌卻帶著不容忽視的侵略性。', intro: "陸星辭合上手中的財經雜誌，起身的動作行雲流水。他沒有立刻說話，而是用行動接管了你的困窘。", story_result: "“給我吧。”\n\n他的聲音低沈悅耳，像是大提琴的琴弦震動。手指接過拉桿時，無意間擦過你的手背，指腹乾燥而溫熱。\n那一瞬間的觸碰彷彿帶了電，他微微垂眸，鏡片後的眼神深邃得讓人看不懂：“初次見面，我是陸星辭。”", avatar: '/images/行李.png', cg_title: "指尖電流 · 紳士陷阱" },
-            { id: 'opt-shen-ep1', label: '對沈予點頭致意', target: '沈予', desc: '他站在光影交界處，金絲眼鏡折射出一絲冷冽，卻又莫名吸引人。', intro: "沈予推了推眼鏡，視線在你身上停留了三秒，彷彿在審視一件即將放入展館的藝術品。", story_result: "他沒有直接觸碰你的行李，而是先一步幫你推開了沈重的玄關大門。\n\n“小心台階。”\n\n聲音清冷，卻在轉身時為你擋住了刺眼的陽光。空氣中飄來淡淡的雪松香氣，那是屬於沈予的疏離與溫柔。", avatar: CHARACTERS[1].avatarImage, cg_title: "雪松香氣 · 克制關懷" },
-            { id: 'opt-jiang-ep1', label: '接住江哲的笑容', target: '江哲', desc: '他像一顆不受控的小太陽，眼裡的熱烈幾乎要將空氣點燃。', intro: "“姐姐！”還沒等你反應過來，一道充滿活力的身影已經衝到了面前，帶起一陣清爽的運動香。", story_result: "江哲一把拎起你沈重的箱子，輕鬆得像是在拿玩具。\n\n“終於等到你了！我還以為今天要一直對著這兩個悶葫蘆呢！”\n他笑得露出兩顆虎牙，湊得很近，你甚至能感覺到他身上散發出的蓬勃熱氣：“我是江哲，以後體力活都歸我，你只管漂亮就好！”", avatar: CHARACTERS[2].avatarImage, cg_title: "直球狙擊 · 少年熱忱" },
+            { id: 'opt-lu-ep1', label: '回应顾易臣的注视', target: '顾易臣', desc: '他的目光冷静而礼貌，带着职业性的审视，让人看不透在想什么。', intro: "顾易臣合上手中的法律文书，起身的动作从容不迫。作为最年长的男嘉宾，他自然地承担起了待客的礼节。", story_result: "\"需要帮忙吗？\"\n\n他的声音低沉平稳，带着职业性的礼貌。接过行李箱时，动作干脆利落，保持着恰到好处的距离。\n\n\"我是顾易臣，律师。\"他简短地自我介绍，目光扫过在场所有人，\"大家都到齐了，待会儿可以正式认识一下。\"\n\n他对每个人都是同样的态度——礼貌、周到，却也疏离。你看不出他对谁有特别的关注。\n\n唐婉端着酒杯，若有所思：\"这律师，滴水不漏。\"", avatar: '/images/行李.png', cg_title: "职业礼节 · 滴水不漏" },
+            { id: 'opt-shen-ep1', label: '对叶闻笙点头致意', target: '叶闻笙', desc: '他站在角落里，金丝眼镜后的眼神带着职业性的观察，保持着安全距离。', intro: "叶闻笙推了推眼镜，目光在每个新来的人身上都会停留几秒，像是职业习惯。", story_result: "他没有主动上前，只是在你走近时礼貌地点了点头。\n\n\"小心，门槛有点高。\"\n\n声音清冷，说完便收回了视线，继续翻看手中的书。他对所有人都保持着同样的距离——不冷漠，但也不热络。\n\n你注意到他的目光会时不时扫过客厅里的每个人，像是在默默观察着什么。\n\n苏小小小声说：\"叶医生好安静啊，不知道在想什么...\"", avatar: CHARACTERS[1].avatarImage, cg_title: "习惯观察 · 安全距离" },
+            { id: 'opt-jiang-ep1', label: '注意到角落里的江烈', target: '江烈', desc: '他窝在沙发角落，抱着笔记本电脑，黑眼圈很重，像是刚从另一个世界醒来。', intro: "江烈头也不抬地敲着键盘，似乎完全沉浸在自己的世界里。黑色连帽衫，贴满贴纸的笔记本，严重的黑眼圈——标准的程序员配置。", story_result: "你走近时，他才抬起头，用一种审视数据的眼神扫了你一眼。\n\n\"哦，新NPC上线了。\"\n\n他的声音带着熬夜后的沙哑，说完又低下头继续敲代码。过了几秒，像是想起什么，又补了一句：\"我是江烈，做游戏的。行李放那儿就行，有人会处理。\"\n\n他对所有人都是这种态度——礼貌但敷衍，像是现实世界只是他需要偶尔应付的副本。\n\n唐婉挑眉：\"这位...是来参加恋综还是来加班的？\"", avatar: CHARACTERS[2].avatarImage, cg_title: "现实副本 · 敷衍应付" },
         ]
     },
     {
@@ -355,9 +355,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "根據線索準確猜測出嘉賓的職業，並獲得關鍵好感度。", 
         text: `晚餐後的客廳燈光被調暗，每個人手裡都捏著一張關於自己的線索卡。\n這是戀綜最經典的環節，也是重新定義彼此關係的轉折點。\n\n當身份的迷霧散去，你會對誰產生新的心動信號？`,
         options: [
-            { id: 'opt-lu-ep2', label: '猜测陆星辞 (关键词：K线)', target: '陆星辞', desc: '他漫不經心地轉動著手中的鋼筆，氣場卻掌控全場。', intro: "“K線？”你試探著問道，目光落在他解開一顆釦子的領口，“你是做金融的？”", story_result: "“全對。”陸星辭挑了挑眉，眼底閃過一絲讚賞。\n\n“投行合夥人。不過...”他身體微微前傾，目光鎖定你，“在談判桌上我習慣評估風險，但在你這裡，我願意承擔所有不確定性。”\n精英的承諾，往往比情話更致命。", avatar: CHARACTERS[0].avatarImage, cg_title: "精英承諾 · 風險評估" },
-            { id: 'opt-shen-ep2', label: '猜测沈予 (关键词：凝固)', target: '沈予', desc: '他展示了一張線條繁複的手繪圖，指尖修長乾淨。', intro: "“凝固的音樂...是建築師嗎？”你輕聲問道。沈予摘下眼鏡，露出那雙好看的瑞鳳眼。", story_result: "“是建築設計師。”他用紙巾慢條斯理地擦拭鏡片，動作優雅得像電影慢鏡頭。\n\n“我習慣為空間構建秩序。但最近...”他抬眼看你，嘴角勾起極淡的弧度，“我發現有些心動，是無法用圖紙規劃的違章建築。”", avatar: CHARACTERS[1].avatarImage, cg_title: "違章心動 · 秩序崩塌" },
-            { id: 'opt-jiang-ep2', label: '猜测江哲 (关键词：守护)', target: '江哲', desc: '他拿出了一枚磨損的警徽，神情從嬉皮笑臉瞬間變得堅毅。', intro: "“守護...是警察嗎？”你驚訝地問。江哲不好意思地撓撓頭，耳根微紅。", story_result: "“特警隊長！”他挺直了背脊，眼裡有光，“平時訓練很苦，但我這肩膀靠得住！”\n\n他拍了拍自己的肩膀，眼神卻變得有些軟糯：“保護人民是責任，但如果可以...我想申請一份保護姐姐的專屬任務，期限是一輩子。”", avatar: CHARACTERS[2].avatarImage, cg_title: "專屬任務 · 安全感" },
+            { id: 'opt-lu-ep2', label: '猜测顾易臣 (关键词：条款)', target: '顾易臣', desc: '他漫不经心地转动着手中的钢笔，气场却掌控全场。', intro: "\"条款...是律师吗？\"你试探着问道，目光落在他解开一颗扣子的领口。", story_result: "\"离婚律师。\"顾易臣挑了挑眉，眼底闪过一丝赞赏。\n\n\"见过太多婚姻的破裂，所以对感情...\"他身体微微前倾，目光锁定你，\"我会更谨慎，也更珍惜。在法庭上我习惯评估风险，但在你这里，我愿意承担所有不确定性。\"\n\n律师的承诺，往往比情话更致命。", avatar: CHARACTERS[0].avatarImage, cg_title: "律师承诺 · 风险评估" },
+            { id: 'opt-shen-ep2', label: '猜测叶闻笙 (关键词：凝固)', target: '叶闻笙', desc: '他展示了一張線條繁複的手繪圖，指尖修長乾淨。', intro: "“凝固的音樂...是建築師嗎？”你輕聲問道。叶闻笙摘下眼鏡，露出那雙好看的瑞鳳眼。", story_result: "“是建築設計師。”他用紙巾慢條斯理地擦拭鏡片，動作優雅得像電影慢鏡頭。\n\n“我習慣為空間構建秩序。但最近...”他抬眼看你，嘴角勾起極淡的弧度，“我發現有些心動，是無法用圖紙規劃的違章建築。”", avatar: CHARACTERS[1].avatarImage, cg_title: "違章心動 · 秩序崩塌" },
+            { id: 'opt-jiang-ep2', label: '猜测江烈 (关键词：造梦)', target: '江烈', desc: '他展示了一段游戏画面，荒凉却绝美的废土世界，眼神里有光。', intro: "\"造梦...是做游戏的？\"你看着屏幕上那个孤独却美丽的世界。江烈难得地放下了笔记本，认真地看着你。", story_result: "\"独立游戏制作人。\"他的眼神亮了起来，这是他进别墅以来第一次露出真正的表情。\n\n\"以前在大厂做过爆款，但受不了氪金指标，就出来自己做了。\"他指着屏幕上的废土世界，\"这是我正在做的游戏，一个关于...在世界末日寻找希望的故事。\"\n\n他突然看向你：\"你是画画的对吧？你的画...面数很高，贴图很真实。不是我喜欢的风格，但...很有力量。\"", avatar: CHARACTERS[2].avatarImage, cg_title: "造梦师 · 理想主义" },
         ]
     },
     {
@@ -367,9 +367,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "在暴雨夜做出你的心動抉擇，觸發專屬隱藏劇情。", 
         text: `一場突如其來的暴雨切斷了別墅的信號，也隔絕了攝影機的窺探。\n窗外雷聲轟鳴，室內卻安靜得能聽見彼此的呼吸聲。\n\n這是規則之外的「禁區時間」。\n手機在黑暗中震動了三下，三個不同的定位，導向三個危險又迷人的夜晚。\n今晚，你想躲進誰的傘下？`,
         options: [
-            { id: 'opt-lu-ep3', label: '前往市图书馆 (陆星辞)', target: '陆星辞', desc: '定位在圖書館珍本區。那裡光線昏暗，只有書香和他身上的冷冽氣息。', intro: "圖書館的角落裡，陸星辭正背對著你整理書架。白襯衫被雨水打濕，隱約透出肌肉線條。", story_result: "你剛走近，就被他一把拉進了書架深處的死角。\n\n“噓...”他的手指抵在你的唇上，呼吸滾燙。\n他單手撐在你耳側，將你困在書架與胸膛之間，摘下眼鏡，眼神不再克制：“這裡沒有攝像頭...蘇若，我可以不做那個克制的陸星辭了嗎？”", avatar: CHARACTERS[0].avatarImage, cg_title: "書架咚 · 禁慾崩壞" },
-            { id: 'opt-shen-ep3', label: '前往私人工作室 (沈予)', target: '沈予', desc: '那是他從未對外公開的領地。今晚，他想讓你做唯一的訪客。', intro: "工作室的門虛掩著，透出暖黃的燈光。沈予正專注地凝視著一張設計圖，眉頭微蹙。", story_result: "“你來了。”沈予放下筆，聲音沙啞。\n\n他帶你走到巨大的落地窗前，看著窗外的雨幕。“建築講究平衡與支撐，但我最近發現...”他轉身，指尖輕輕拂過你的髮絲，“你在我心裡的比重，已經讓我的世界失衡了。你願意...做我的支點嗎？”", avatar: CHARACTERS[1].avatarImage, cg_title: "靈魂支點 · 私密領地" },
-            { id: 'opt-jiang-ep3', label: '前往体育馆 (江哲)', target: '江哲', desc: '空無一人的體育館，只有籃球撞擊地面的迴響和少年毫不掩飾的愛意。', intro: "江哲獨自一人在練習投籃，汗水順著下頜線滴落，濕透的球衣貼在身上，荷爾蒙爆棚。", story_result: "看到你來，他像只被淋濕的大金毛一樣撲過來，卻在最後一刻停住，怕身上的汗水弄髒你。\n\n“外面打雷好吵，我有點怕。”他撒謊都不打草稿，那雙亮晶晶的眼睛裡寫滿了渴望，“姐姐能不能...抱我一下？就一下，充電就好！”", avatar: CHARACTERS[2].avatarImage, cg_title: "濕身擁抱 · 撒嬌充電" },
+            { id: 'opt-lu-ep3', label: '前往市图书馆 (顾易臣)', target: '顾易臣', desc: '定位在圖書館珍本區。那裡光線昏暗，只有書香和他身上的冷冽氣息。', intro: "圖書館的角落裡，陸星辭正背對著你整理書架。白襯衫被雨水打濕，隱約透出肌肉線條。", story_result: "你剛走近，就被他一把拉進了書架深處的死角。\n\n“噓...”他的手指抵在你的唇上，呼吸滾燙。\n他單手撐在你耳側，將你困在書架與胸膛之間，摘下眼鏡，眼神不再克制：“這裡沒有攝像頭...蘇若，我可以不做那個克制的陸星辭了嗎？”", avatar: CHARACTERS[0].avatarImage, cg_title: "書架咚 · 禁慾崩壞" },
+            { id: 'opt-shen-ep3', label: '前往私人工作室 (叶闻笙)', target: '叶闻笙', desc: '那是他從未對外公開的領地。今晚，他想讓你做唯一的訪客。', intro: "工作室的門虛掩著，透出暖黃的燈光。叶闻笙正專注地凝視著一張設計圖，眉頭微蹙。", story_result: "“你來了。”叶闻笙放下筆，聲音沙啞。\n\n他帶你走到巨大的落地窗前，看著窗外的雨幕。“建築講究平衡與支撐，但我最近發現...”他轉身，指尖輕輕拂過你的髮絲，“你在我心裡的比重，已經讓我的世界失衡了。你願意...做我的支點嗎？”", avatar: CHARACTERS[1].avatarImage, cg_title: "靈魂支點 · 私密領地" },
+            { id: 'opt-jiang-ep3', label: '前往体育馆 (江烈)', target: '江烈', desc: '空無一人的體育館，只有籃球撞擊地面的迴響和少年毫不掩飾的愛意。', intro: "江烈獨自一人在練習投籃，汗水順著下頜線滴落，濕透的球衣貼在身上，荷爾蒙爆棚。", story_result: "看到你來，他像只被淋濕的大金毛一樣撲過來，卻在最後一刻停住，怕身上的汗水弄髒你。\n\n“外面打雷好吵，我有點怕。”他撒謊都不打草稿，那雙亮晶晶的眼睛裡寫滿了渴望，“姐姐能不能...抱我一下？就一下，充電就好！”", avatar: CHARACTERS[2].avatarImage, cg_title: "濕身擁抱 · 撒嬌充電" },
         ]
     },
     {
@@ -379,9 +379,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "與心動對象共同完成一道料理，提升默契度。",
         text: "廚房裡瀰漫著煙火氣，切菜板的聲音和湯鍋的咕嘟聲交織。誰會是那個與你在三餐四季中尋找共鳴的最佳搭檔？",
         options: [
-            { id: 'opt-lu-ep4', label: '陸星辭的紅酒燉牛肉', target: '陆星辞', desc: '他在廚房裡也像是在做實驗，精確而優雅，紅酒的香氣令人沈醉。', intro: "陸星辭挽起袖口，露出線條流暢的小臂。他精準地控制著火候，就像控制股市大盤一樣。", story_result: "你遞給他調料瓶時，指尖相觸。他低聲說：“這道菜需要時間慢慢燉，就像我們之間的關係。”", avatar: CHARACTERS[0].avatarImage, cg_title: "精準投餵" },
-            { id: 'opt-shen-ep4', label: '沈予的手沖咖啡', target: '沈予', desc: '午後的陽光和咖啡香氣，是他獨有的溫柔，時間彷彿在他身邊靜止。', intro: "沈予專注地注水，水流在濾紙上畫圈。陽光灑在他側臉，金絲眼鏡邊緣泛著光。", story_result: "他遞給你一杯剛沖好的咖啡：“試試看，這是我為你特調的豆子，帶一點花香和果酸。”", avatar: CHARACTERS[1].avatarImage, cg_title: "午後醇香" },
-            { id: 'opt-jiang-ep4', label: '江哲的愛心炒飯', target: '江哲', desc: '雖然賣相一般，甚至有點糊，但充滿了滿滿的少年心意。', intro: "江哲在廚房裡手忙腳亂，差點把鹽當成糖。他看到你來，不好意思地撓撓頭。", story_result: "“雖然賣相不好，但我保證好吃！”他期待地看著你吃下第一口，“怎麼樣怎麼樣？是不是有愛的味道？”", avatar: CHARACTERS[2].avatarImage, cg_title: "笨拙的愛" }
+            { id: 'opt-lu-ep4', label: '陸星辭的紅酒燉牛肉', target: '顾易臣', desc: '他在廚房裡也像是在做實驗，精確而優雅，紅酒的香氣令人沈醉。', intro: "陸星辭挽起袖口，露出線條流暢的小臂。他精準地控制著火候，就像控制股市大盤一樣。", story_result: "你遞給他調料瓶時，指尖相觸。他低聲說：“這道菜需要時間慢慢燉，就像我們之間的關係。”", avatar: CHARACTERS[0].avatarImage, cg_title: "精準投餵" },
+            { id: 'opt-shen-ep4', label: '叶闻笙的手沖咖啡', target: '叶闻笙', desc: '午後的陽光和咖啡香氣，是他獨有的溫柔，時間彷彿在他身邊靜止。', intro: "叶闻笙專注地注水，水流在濾紙上畫圈。陽光灑在他側臉，金絲眼鏡邊緣泛著光。", story_result: "他遞給你一杯剛沖好的咖啡：“試試看，這是我為你特調的豆子，帶一點花香和果酸。”", avatar: CHARACTERS[1].avatarImage, cg_title: "午後醇香" },
+            { id: 'opt-jiang-ep4', label: '江烈的愛心炒飯', target: '江烈', desc: '雖然賣相一般，甚至有點糊，但充滿了滿滿的少年心意。', intro: "江烈在廚房裡手忙腳亂，差點把鹽當成糖。他看到你來，不好意思地撓撓頭。", story_result: "“雖然賣相不好，但我保證好吃！”他期待地看著你吃下第一口，“怎麼樣怎麼樣？是不是有愛的味道？”", avatar: CHARACTERS[2].avatarImage, cg_title: "笨拙的愛" }
         ]
     },
     {
@@ -391,9 +391,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "在遊戲中探聽他的真實心意，或展現你的獨特魅力。",
         text: "夜色漸深，酒瓶轉動，指向了誰的秘密？真心話還是大冒險，這是一個問題。",
         options: [
-            { id: 'opt-lu-ep5', label: '質問陸星辭', target: '陆星辞', desc: '借著酒勁，問出那個一直藏在心裡、不敢問的問題。', intro: "酒瓶指向了陸星辭。你深吸一口氣，決定不再迴避。", story_result: "“你對我是認真的嗎？”你直視他的眼睛。他放下酒杯，眼神深邃：“比我做過的任何一筆投資都認真。”", avatar: CHARACTERS[0].avatarImage, cg_title: "酒後真言" },
-            { id: 'opt-shen-ep5', label: '挑戰沈予', target: '沈予', desc: '讓他摘下那層疏離的面具，露出真實的情緒波動。', intro: "“大冒險，對視十秒。”你提出了挑戰。沈予愣了一下，隨即摘下眼鏡。", story_result: "沒有了鏡片的遮擋，他的眼神溫柔得像一汪湖水。第五秒，他先移開了視線，耳尖微紅：“你贏了。”", avatar: CHARACTERS[1].avatarImage, cg_title: "破冰時刻" },
-            { id: 'opt-jiang-ep5', label: '逗弄江哲', target: '江哲', desc: '看他臉紅心跳、手足無措的樣子，是一種別樣的樂趣。', intro: "“真心話，你在這裡最喜歡誰？”江哲的臉瞬間爆紅，支支吾吾。", story_result: "“當然是...當然是大家都喜歡啊！”他看了你一眼，小聲補充，“但最喜歡姐姐。”", avatar: CHARACTERS[2].avatarImage, cg_title: "純情反應" }
+            { id: 'opt-lu-ep5', label: '質問陸星辭', target: '顾易臣', desc: '借著酒勁，問出那個一直藏在心裡、不敢問的問題。', intro: "酒瓶指向了陸星辭。你深吸一口氣，決定不再迴避。", story_result: "“你對我是認真的嗎？”你直視他的眼睛。他放下酒杯，眼神深邃：“比我做過的任何一筆投資都認真。”", avatar: CHARACTERS[0].avatarImage, cg_title: "酒後真言" },
+            { id: 'opt-shen-ep5', label: '挑戰叶闻笙', target: '叶闻笙', desc: '讓他摘下那層疏離的面具，露出真實的情緒波動。', intro: "“大冒險，對視十秒。”你提出了挑戰。叶闻笙愣了一下，隨即摘下眼鏡。", story_result: "沒有了鏡片的遮擋，他的眼神溫柔得像一汪湖水。第五秒，他先移開了視線，耳尖微紅：“你贏了。”", avatar: CHARACTERS[1].avatarImage, cg_title: "破冰時刻" },
+            { id: 'opt-jiang-ep5', label: '逗弄江烈', target: '江烈', desc: '看他臉紅心跳、手足無措的樣子，是一種別樣的樂趣。', intro: "“真心話，你在這裡最喜歡誰？”江烈的臉瞬間爆紅，支支吾吾。", story_result: "“當然是...當然是大家都喜歡啊！”他看了你一眼，小聲補充，“但最喜歡姐姐。”", avatar: CHARACTERS[2].avatarImage, cg_title: "純情反應" }
         ]
     },
     {
@@ -403,9 +403,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "在摩天輪頂端或旋轉木馬前許下心願，創造難忘回憶。",
         text: "遊樂園是製造心動的聖地。旋轉木馬的燈光和摩天輪的高度，誰會陪你坐到最後？",
         options: [
-            { id: 'opt-lu-ep6', label: '陸星辭的煙花秀', target: '陆星辞', desc: '他為你包下了整場煙花表演，只為博你一笑。', intro: "夜幕降臨，城堡上空突然綻放出絢爛的煙花。", story_result: "“喜歡嗎？”他站在你身後，為你擋住人群，“我想讓你知道，在我這裡，你永遠是焦點。”", avatar: CHARACTERS[0].avatarImage, cg_title: "獨家浪漫" },
-            { id: 'opt-shen-ep6', label: '沈予的鬼屋探險', target: '沈予', desc: '在恐懼中，緊緊握住他的手，感受他掌心的溫度。', intro: "鬼屋裡陰森恐怖，你下意識地抓住沈予的衣角。他反手握住你的手。", story_result: "“別怕，跟著我。”他的聲音在黑暗中格外安心。走出鬼屋時，他也沒有鬆開手。", avatar: CHARACTERS[1].avatarImage, cg_title: "吊橋效應" },
-            { id: 'opt-jiang-ep6', label: '江哲的過山車', target: '江哲', desc: '在極速的尖叫聲中，大聲喊出那句藏在心底的喜歡。', intro: "過山車衝上雲霄，江哲興奮地大喊大叫。風把他的頭髮吹得亂七八糟。", story_result: "“姐姐！我好開心啊！”他在風中大喊，“和你在一起的每一秒都好開心！”", avatar: CHARACTERS[2].avatarImage, cg_title: "極速心動" }
+            { id: 'opt-lu-ep6', label: '陸星辭的煙花秀', target: '顾易臣', desc: '他為你包下了整場煙花表演，只為博你一笑。', intro: "夜幕降臨，城堡上空突然綻放出絢爛的煙花。", story_result: "“喜歡嗎？”他站在你身後，為你擋住人群，“我想讓你知道，在我這裡，你永遠是焦點。”", avatar: CHARACTERS[0].avatarImage, cg_title: "獨家浪漫" },
+            { id: 'opt-shen-ep6', label: '叶闻笙的鬼屋探險', target: '叶闻笙', desc: '在恐懼中，緊緊握住他的手，感受他掌心的溫度。', intro: "鬼屋裡陰森恐怖，你下意識地抓住叶闻笙的衣角。他反手握住你的手。", story_result: "“別怕，跟著我。”他的聲音在黑暗中格外安心。走出鬼屋時，他也沒有鬆開手。", avatar: CHARACTERS[1].avatarImage, cg_title: "吊橋效應" },
+            { id: 'opt-jiang-ep6', label: '江烈的過山車', target: '江烈', desc: '在極速的尖叫聲中，大聲喊出那句藏在心底的喜歡。', intro: "過山車衝上雲霄，江烈興奮地大喊大叫。風把他的頭髮吹得亂七八糟。", story_result: "“姐姐！我好開心啊！”他在風中大喊，“和你在一起的每一秒都好開心！”", avatar: CHARACTERS[2].avatarImage, cg_title: "極速心動" }
         ]
     },
     {
@@ -415,9 +415,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "與心動對象共度帳篷時光，分享彼此的過去。",
         text: "遠離城市喧囂，海風微涼。帳篷裡只有一盞昏黃的燈，溫暖如春。",
         options: [
-            { id: 'opt-lu-ep7', label: '與陸星辭看日出', target: '陆星辞', desc: '裹著毛毯，並肩等待第一縷陽光灑在海面上。', intro: "凌晨四點，陸星辭叫醒了你。海邊很冷，他把外套披在你身上。", story_result: "太陽升起的那一刻，金光灑滿海面。他轉頭看你，眼裡倒映著朝陽和你：“早安，我的太陽。”", avatar: CHARACTERS[0].avatarImage, cg_title: "晨光熹微" },
-            { id: 'opt-shen-ep7', label: '與沈予撿貝殼', target: '沈予', desc: '在沙灘上漫步，尋找那顆獨一無二的珍珠。', intro: "沈予低頭專注地在沙灘上尋找著什麼。海浪拍打著他的褲腳。", story_result: "他撿起一枚白色的貝殼，遞給你：“這像不像我們初見那天，你穿的裙子的顏色？”", avatar: CHARACTERS[1].avatarImage, cg_title: "海之信物" },
-            { id: 'opt-jiang-ep7', label: '與江哲篝火晚會', target: '江哲', desc: '在火光中起舞，釋放所有熱情，聽他彈吉他唱歌。', intro: "江哲抱著吉他坐在篝火旁，火光映照著他認真的側臉。", story_result: "他唱了一首情歌，目光一直追隨著你。唱完後，他把吉他一扔，拉起你跳舞：“姐姐，今晚只屬於我們！”", avatar: CHARACTERS[2].avatarImage, cg_title: "熾熱之夜" }
+            { id: 'opt-lu-ep7', label: '與陸星辭看日出', target: '顾易臣', desc: '裹著毛毯，並肩等待第一縷陽光灑在海面上。', intro: "凌晨四點，陸星辭叫醒了你。海邊很冷，他把外套披在你身上。", story_result: "太陽升起的那一刻，金光灑滿海面。他轉頭看你，眼裡倒映著朝陽和你：“早安，我的太陽。”", avatar: CHARACTERS[0].avatarImage, cg_title: "晨光熹微" },
+            { id: 'opt-shen-ep7', label: '與叶闻笙撿貝殼', target: '叶闻笙', desc: '在沙灘上漫步，尋找那顆獨一無二的珍珠。', intro: "叶闻笙低頭專注地在沙灘上尋找著什麼。海浪拍打著他的褲腳。", story_result: "他撿起一枚白色的貝殼，遞給你：“這像不像我們初見那天，你穿的裙子的顏色？”", avatar: CHARACTERS[1].avatarImage, cg_title: "海之信物" },
+            { id: 'opt-jiang-ep7', label: '與江烈篝火晚會', target: '江烈', desc: '在火光中起舞，釋放所有熱情，聽他彈吉他唱歌。', intro: "江烈抱著吉他坐在篝火旁，火光映照著他認真的側臉。", story_result: "他唱了一首情歌，目光一直追隨著你。唱完後，他把吉他一扔，拉起你跳舞：“姐姐，今晚只屬於我們！”", avatar: CHARACTERS[2].avatarImage, cg_title: "熾熱之夜" }
         ]
     },
     {
@@ -427,9 +427,9 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "確認你的心意，為明天的最終告白做準備。",
         text: "明天就是最終抉擇，空氣中瀰漫著離別與期待。今晚，有些話必須說出口。",
         options: [
-            { id: 'opt-lu-ep8', label: '給陸星辭寫信', target: '陆星辞', desc: '紙短情長，用文字寫下你羞於啟齒的心意。', intro: "你坐在書桌前，提筆寫下這段時間的點點滴滴。陸星辭敲響了你的房門。", story_result: "他拿著一封同樣厚實的信：“看來我們想到一起去了。明天，我在終點等你。”", avatar: CHARACTERS[0].avatarImage, cg_title: "紙上情書" },
-            { id: 'opt-shen-ep8', label: '給沈予留錄音', target: '沈予', desc: '有些話，只想說給他聽，讓他反覆回味。', intro: "你躲在衣帽間，對著錄音筆輕聲訴說。沈予在門外靜靜聽著。", story_result: "推開門，他眼眶微紅：“蘇若，謝謝你願意走進我的世界。這是我聽過最動聽的聲音。”", avatar: CHARACTERS[1].avatarImage, cg_title: "語音留言" },
-            { id: 'opt-jiang-ep8', label: '給江哲送禮物', target: '江哲', desc: '一份親手挑選的小禮物，代表你對他的在意。', intro: "你把禮物盒遞給江哲。他驚喜得像個孩子，手都在抖。", story_result: "“這是給我的嗎？真的嗎？”他緊緊抱著禮物，“我也有禮物給你，但我把我自己打包送給你行不行？”", avatar: CHARACTERS[2].avatarImage, cg_title: "專屬驚喜" }
+            { id: 'opt-lu-ep8', label: '給陸星辭寫信', target: '顾易臣', desc: '紙短情長，用文字寫下你羞於啟齒的心意。', intro: "你坐在書桌前，提筆寫下這段時間的點點滴滴。陸星辭敲響了你的房門。", story_result: "他拿著一封同樣厚實的信：“看來我們想到一起去了。明天，我在終點等你。”", avatar: CHARACTERS[0].avatarImage, cg_title: "紙上情書" },
+            { id: 'opt-shen-ep8', label: '給叶闻笙留錄音', target: '叶闻笙', desc: '有些話，只想說給他聽，讓他反覆回味。', intro: "你躲在衣帽間，對著錄音筆輕聲訴說。叶闻笙在門外靜靜聽著。", story_result: "推開門，他眼眶微紅：“蘇若，謝謝你願意走進我的世界。這是我聽過最動聽的聲音。”", avatar: CHARACTERS[1].avatarImage, cg_title: "語音留言" },
+            { id: 'opt-jiang-ep8', label: '給江烈送禮物', target: '江烈', desc: '一份親手挑選的小禮物，代表你對他的在意。', intro: "你把禮物盒遞給江烈。他驚喜得像個孩子，手都在抖。", story_result: "“這是給我的嗎？真的嗎？”他緊緊抱著禮物，“我也有禮物給你，但我把我自己打包送給你行不行？”", avatar: CHARACTERS[2].avatarImage, cg_title: "專屬驚喜" }
         ]
     },
     {
@@ -439,25 +439,25 @@ const SCENARIOS: StoryScenario[] = [
         directorMission: "確認你的最終心動對象，並完成最後的告白。", 
         text: `今天是做出最終決定前的最後一次約會機會。\n沒有干擾，沒有任務，只有完全屬於兩個人的24小時。\n\n節目組遞給你三張風格迥異的邀請函，那是他們為你準備的「未來預演」。\n你的心，會帶你去向哪裡？`,
         options: [
-            { id: 'opt-lu-ep9', label: '私人游艇出海 (陆星辞)', target: '陆星辞', desc: '黑金卡片上只寫了一個碼頭坐標。那是遠離塵囂的海上孤島。', intro: "私人遊艇停靠在碼頭，陸星辭站在甲板上向你伸出手。海風吹起他的衣角，他背後是無盡的藍。", story_result: "遊艇駛向大海深處。他從口袋裡拿出一份規劃書——竟然是他為你規劃的未來十年。\n\n“我不想只爭朝夕，蘇若。”\n海風中，他的聲音堅定而深情，“我想預定你的未來。這份合約的期限是永久，違約金是我的全部身家。你...敢簽嗎？”", avatar: CHARACTERS[0].avatarImage, cg_title: "孤島獨處 · 餘生合約" },
-            { id: 'opt-shen-ep9', label: '沉浸式光影展 (沈予)', target: '沈予', desc: '一張手繪的門票，通往一座即將閉館的美術館。那是他為你造的夢。', intro: "美術館閉館了，但沈予手裡有鑰匙。他站在光影交錯的展廳中央，等待著帶你走進他的藝術世界。", story_result: "展廳中央，無數光點匯聚成你的模樣。\n\n沈予站在光影中央，向你伸出手：“藝術追求永恆，但我只追求你。”\n他牽著你停在一張空白的畫布前，遞給你一支筆：“我的世界曾是一片灰白，直到你出現。蘇若，這剩下的留白，我都交給你來填滿。”", avatar: CHARACTERS[1].avatarImage, cg_title: "光影交錯 · 唯一繆斯" },
-            { id: 'opt-jiang-ep9', label: '机车夜奔 (江哲)', target: '江哲', desc: '一個酷炫的粉色頭盔和一個定位。那是少年的野性與自由，只為你停留。', intro: "重型機車的引擎聲轟鳴，江哲拍了拍後座，眼神熾熱得像要把你融化。", story_result: "轟鳴的引擎聲劃破夜空，風在耳邊呼嘯。\n他在山頂停下，摘下頭盔，眼神亮得驚人：“姐姐，我想帶你去世界盡頭！只要你在我身後，我就無所不能！”\n他從身後抱住你，心跳快得像擂鼓：“別選別人，選我吧。我會把全世界最好的都捧到你面前！”", avatar: CHARACTERS[2].avatarImage, cg_title: "亡命天涯 · 極致浪漫" },
+            { id: 'opt-lu-ep9', label: '私人游艇出海 (顾易臣)', target: '顾易臣', desc: '黑金卡片上只寫了一個碼頭坐標。那是遠離塵囂的海上孤島。', intro: "私人遊艇停靠在碼頭，陸星辭站在甲板上向你伸出手。海風吹起他的衣角，他背後是無盡的藍。", story_result: "遊艇駛向大海深處。他從口袋裡拿出一份規劃書——竟然是他為你規劃的未來十年。\n\n“我不想只爭朝夕，蘇若。”\n海風中，他的聲音堅定而深情，“我想預定你的未來。這份合約的期限是永久，違約金是我的全部身家。你...敢簽嗎？”", avatar: CHARACTERS[0].avatarImage, cg_title: "孤島獨處 · 餘生合約" },
+            { id: 'opt-shen-ep9', label: '沉浸式光影展 (叶闻笙)', target: '叶闻笙', desc: '一張手繪的門票，通往一座即將閉館的美術館。那是他為你造的夢。', intro: "美術館閉館了，但叶闻笙手裡有鑰匙。他站在光影交錯的展廳中央，等待著帶你走進他的藝術世界。", story_result: "展廳中央，無數光點匯聚成你的模樣。\n\n叶闻笙站在光影中央，向你伸出手：“藝術追求永恆，但我只追求你。”\n他牽著你停在一張空白的畫布前，遞給你一支筆：“我的世界曾是一片灰白，直到你出現。蘇若，這剩下的留白，我都交給你來填滿。”", avatar: CHARACTERS[1].avatarImage, cg_title: "光影交錯 · 唯一繆斯" },
+            { id: 'opt-jiang-ep9', label: '机车夜奔 (江烈)', target: '江烈', desc: '一個酷炫的粉色頭盔和一個定位。那是少年的野性與自由，只為你停留。', intro: "重型機車的引擎聲轟鳴，江烈拍了拍後座，眼神熾熱得像要把你融化。", story_result: "轟鳴的引擎聲劃破夜空，風在耳邊呼嘯。\n他在山頂停下，摘下頭盔，眼神亮得驚人：“姐姐，我想帶你去世界盡頭！只要你在我身後，我就無所不能！”\n他從身後抱住你，心跳快得像擂鼓：“別選別人，選我吧。我會把全世界最好的都捧到你面前！”", avatar: CHARACTERS[2].avatarImage, cg_title: "亡命天涯 · 極致浪漫" },
         ]
     }
 ];
 
 const ENDINGS: EndingScenario[] = [
-    // 陆星辞结局
+    // 顾易臣结局
     { id: 'end_lu_true', charId: 'lu', title: '星河长明', keyword: '势均力敌', story: '他不再是那个高高在上的投资人，而是你最忠实的合伙人。你们在商场上并肩作战，在生活中相濡以沫。', img: CHARACTERS[0].avatarImage, icon: Crown, type: 'True End', buff: '豪门CP达成', requiredHeartbeat: 80 },
     { id: 'end_lu_norm', charId: 'lu', title: '都市传说', keyword: '相敬如宾', story: '你们是外界眼中的模范情侣，虽然少了些激情，但多了一份稳固的承诺。', img: CHARACTERS[0].avatarImage, icon: Coffee, type: 'Normal End', buff: '平淡是真', requiredHeartbeat: 40 },
     { id: 'end_lu_bad', charId: 'lu', title: '遗憾错过', keyword: '各自安好', story: '两条平行线虽然短暂交汇，但最终还是因为理念不同而渐行渐远。', img: CHARACTERS[0].avatarImage, icon: CloudRain, type: 'Bad End', buff: '遗憾美学', requiredHeartbeat: 0 },
     
-    // 沈予结局
+    // 叶闻笙结局
     { id: 'end_shen_true', charId: 'shen', title: '凝固永恒', keyword: '灵魂缪斯', story: '你是他建筑里唯一的感性变量。他在世界各地为你建房子，你用画笔填满他的空白。', img: CHARACTERS[1].avatarImage, icon: Sparkle, type: 'True End', buff: '艺术神仙眷侣', requiredHeartbeat: 80 },
     { id: 'end_shen_norm', charId: 'shen', title: '周末恋人', keyword: '舒适距离', story: '保持着适当的距离和神秘感，你们享受着这种若即若离的浪漫。', img: CHARACTERS[1].avatarImage, icon: Coffee, type: 'Normal End', buff: '文艺片结局', requiredHeartbeat: 40 },
     { id: 'end_shen_bad', charId: 'shen', title: '高岭之花', keyword: '难以触碰', story: '由于无法走进他封锁的内心，你们最终止步于欣赏，做回了朋友。', img: CHARACTERS[1].avatarImage, icon: Lock, type: 'Bad End', buff: 'BE美学', requiredHeartbeat: 0 },
 
-    // 江哲结局
+    // 江烈结局
     { id: 'end_jiang_true', charId: 'jiang', title: '热烈余生', keyword: '专属守护', story: '小狗终於长成了能为你遮风挡雨的狼犬。他的余生任务只有一个：宠你，爱你，保护你。', img: CHARACTERS[2].avatarImage, icon: Shield, type: 'True End', buff: '姐狗天花板', requiredHeartbeat: 80 },
     { id: 'end_jiang_norm', charId: 'jiang', title: '最佳拍档', keyword: '欢喜冤家', story: '哪怕吵吵闹闹也是一种幸福。你们的生活充满了烟火气和笑声。', img: CHARACTERS[2].avatarImage, icon: Smile, type: 'Normal End', buff: '甜蜜日常', requiredHeartbeat: 40 },
     { id: 'end_jiang_bad', charId: 'jiang', title: '盛夏光年', keyword: '短暂绚烂', story: '那个夏天的确很热烈，但正如烟花易冷，年少的喜欢有时抵不过现实的重量。', img: CHARACTERS[2].avatarImage, icon: Wind, type: 'Bad End', buff: '青春纪念册', requiredHeartbeat: 0 },
@@ -502,40 +502,40 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
             { 
                 id: 1, rank: 1, topic: "#心动信号5首播#", tag: "爆", readCount: "12.5亿", discussCount: "35万", comments: [], 
                 detailedPosts: [
-                    { id: 'p1', userName: '嗑CP的小姐姐', userTag: '星苏CP粉', isVip: true, time: '2分钟前', device: 'iPhone 14 Pro', content: '啊啊啊！这季嘉宾颜值绝了！特别是陆星辞和苏若这对，第一眼对视就有化学反应！星苏给我锁死！💕', likes: 5234, comments: 892, reposts: 456, tags: ['星苏', '心动信号'], isHot: true },
-                    { id: 'p2', userName: '理智追星人', userTag: '吃瓜群众', isVip: false, time: '5分钟前', device: 'Android', content: '客观评价一下：陆星辞接行李那个动作确实很绅士，但说有多特别也谈不上吧...这届观众是不是嗑太猛了？', likes: 123, comments: 234, reposts: 45 },
-                    { id: 'p3', userName: '星苏是真的', userTag: 'CP超话主持人', isVip: true, time: '8分钟前', device: 'iPhone 13', content: '【深度分析】陆星辞看苏若的眼神停留时间明显超过社交安全距离！这绝对是心动的信号！细节党已开始考古！\n\n#星苏# #心动信号5#', likes: 8902, comments: 1234, reposts: 567, tags: ['星苏'], isHot: true },
+                    { id: 'p1', userName: '嗑CP的小姐姐', userTag: '星苏CP粉', isVip: true, time: '2分钟前', device: 'iPhone 14 Pro', content: '啊啊啊！这季嘉宾颜值绝了！特别是顾易臣和林柚这对，第一眼对视就有化学反应！星苏给我锁死！💕', likes: 5234, comments: 892, reposts: 456, tags: ['星苏', '心动信号'], isHot: true },
+                    { id: 'p2', userName: '理智追星人', userTag: '吃瓜群众', isVip: false, time: '5分钟前', device: 'Android', content: '客观评价一下：顾易臣接行李那个动作确实很绅士，但说有多特别也谈不上吧...这届观众是不是嗑太猛了？', likes: 123, comments: 234, reposts: 45 },
+                    { id: 'p3', userName: '星苏是真的', userTag: 'CP超话主持人', isVip: true, time: '8分钟前', device: 'iPhone 13', content: '【深度分析】顾易臣看林柚的眼神停留时间明显超过社交安全距离！这绝对是心动的信号！细节党已开始考古！\n\n#星苏# #心动信号5#', likes: 8902, comments: 1234, reposts: 567, tags: ['星苏'], isHot: true },
                     { id: 'p4', userName: '水军001号', userTag: '', isVip: false, time: '10分钟前', device: '微博网页版', content: '这季真的不行，男嘉宾都很普通，女嘉宾更是没亮点。建议去看前几季，那才叫高质量。', likes: 2, comments: 45, reposts: 3 },
-                    { id: 'p5', userName: '姐狗天选', userTag: '年下控', isVip: false, time: '12分钟前', device: 'iPhone 12', content: '江哲叫姐姐那一声真的甜死我了！小奶狗谁不爱！年下就是最香的！🐕', likes: 3456, comments: 678, reposts: 234, tags: ['姐狗'], isHot: true },
-                    { id: 'p6', userName: '专业水军', userTag: '', isVip: false, time: '15分钟前', device: 'Android', content: '楼上那位，江哲明显就是装出来的，这种热情太假了。真正有深度的是沈予，你们都不懂。', likes: 12, comments: 89, reposts: 5 },
-                    { id: 'p7', userName: '嗑学博士', userTag: 'CP研究员', isVip: true, time: '18分钟前', device: 'iPad Pro', content: '【显微镜观察】\n1. 陆星辞扶行李箱时手指有停顿\n2. 苏若耳尖红了\n3. 两人对视3.2秒\n\n结论：这对绝对有戏！已下单民政局！🎎', likes: 12345, comments: 2345, reposts: 890, tags: ['星苏', '细节分析'], isHot: true },
+                    { id: 'p5', userName: '姐狗天选', userTag: '年下控', isVip: false, time: '12分钟前', device: 'iPhone 12', content: '江烈叫姐姐那一声真的甜死我了！小奶狗谁不爱！年下就是最香的！🐕', likes: 3456, comments: 678, reposts: 234, tags: ['姐狗'], isHot: true },
+                    { id: 'p6', userName: '专业水军', userTag: '', isVip: false, time: '15分钟前', device: 'Android', content: '楼上那位，江烈明显就是装出来的，这种热情太假了。真正有深度的是叶闻笙，你们都不懂。', likes: 12, comments: 89, reposts: 5 },
+                    { id: 'p7', userName: '嗑学博士', userTag: 'CP研究员', isVip: true, time: '18分钟前', device: 'iPad Pro', content: '【显微镜观察】\n1. 顾易臣扶行李箱时手指有停顿\n2. 林柚耳尖红了\n3. 两人对视3.2秒\n\n结论：这对绝对有戏！已下单民政局！🎎', likes: 12345, comments: 2345, reposts: 890, tags: ['星苏', '细节分析'], isHot: true },
                     { id: 'p8', userName: '理智粉反击', userTag: '真爱粉', isVip: false, time: '20分钟前', device: 'iPhone', content: '某些人是不是有毛病？好好的节目非要踩一捧一，每个嘉宾都很好，为什么要吵架？好好看节目不行吗？', likes: 2345, comments: 456, reposts: 123 }
                 ]
             },
             { 
-                id: 2, rank: 2, topic: "#苏若颜值#", tag: "沸", readCount: "5.3亿", discussCount: "12万", comments: [], 
+                id: 2, rank: 2, topic: "#林柚颜值#", tag: "沸", readCount: "5.3亿", discussCount: "12万", comments: [], 
                 detailedPosts: [
-                    { id: 'p21', userName: '颜值协会会长', userTag: '美妆博主', isVip: true, time: '1分钟前', device: 'iPhone 14 Pro Max', content: '苏若这个颜我真的服了！这是什么神仙颜值！素颜都这么能打！女生看了都想谈恋爱！✨', likes: 6789, comments: 1234, reposts: 567, tags: ['颜值', '心动信号'], isHot: true },
+                    { id: 'p21', userName: '颜值协会会长', userTag: '美妆博主', isVip: true, time: '1分钟前', device: 'iPhone 14 Pro Max', content: '林柚这个颜我真的服了！这是什么神仙颜值！素颜都这么能打！女生看了都想谈恋爱！✨', likes: 6789, comments: 1234, reposts: 567, tags: ['颜值', '心动信号'], isHot: true },
                     { id: 'p22', userName: '水军机器人', userTag: '', isVip: false, time: '3分钟前', device: '微博网页版', content: '一般般吧，现在的网红都长这样，没什么特别的。', likes: 3, comments: 234, reposts: 2 },
-                    { id: 'p23', userName: '真爱守护', userTag: '苏若粉丝', isVip: false, time: '5分钟前', device: 'Android', content: '某些人眼睛是瞎了吗？苏若这颜值还叫一般？你行你上啊！我们苏苏就是最美！不接受反驳！💖', likes: 4567, comments: 890, reposts: 345 }
+                    { id: 'p23', userName: '真爱守护', userTag: '林柚粉丝', isVip: false, time: '5分钟前', device: 'Android', content: '某些人眼睛是瞎了吗？林柚这颜值还叫一般？你行你上啊！我们苏苏就是最美！不接受反驳！💖', likes: 4567, comments: 890, reposts: 345 }
                 ]
             },
             { 
-                id: 3, rank: 3, topic: "#陆星辞绅士手#", tag: "热", readCount: "3.2亿", discussCount: "8万", comments: [], 
+                id: 3, rank: 3, topic: "#顾易臣绅士手#", tag: "热", readCount: "3.2亿", discussCount: "8万", comments: [], 
                 detailedPosts: [
-                    { id: 'p31', userName: '细节控', userTag: '星苏CP粉', isVip: true, time: '刚刚', device: 'iPhone', content: '陆星辞那个接行李箱的动作！注意看他的手！完全避开了身体接触，只在必要的地方握住！这就是真正的绅士啊！\n\n细节见人品，这个男人我粉定了！👔', likes: 4567, comments: 890, reposts: 345, tags: ['星苏', '细节'], isHot: true },
-                    { id: 'p32', userName: 'CP粉头', userTag: '星苏超话', isVip: true, time: '2分钟前', device: 'iPhone 13', content: '【嗑点分析】\n陆星辞：我来帮你\n苏若：谢谢（害羞）\n\n这就是心动的开始啊家人们！我已经开始写同人文了！📝', likes: 7890, comments: 1456, reposts: 567, tags: ['星苏'], isHot: true },
+                    { id: 'p31', userName: '细节控', userTag: '星苏CP粉', isVip: true, time: '刚刚', device: 'iPhone', content: '顾易臣那个接行李箱的动作！注意看他的手！完全避开了身体接触，只在必要的地方握住！这就是真正的绅士啊！\n\n细节见人品，这个男人我粉定了！👔', likes: 4567, comments: 890, reposts: 345, tags: ['星苏', '细节'], isHot: true },
+                    { id: 'p32', userName: 'CP粉头', userTag: '星苏超话', isVip: true, time: '2分钟前', device: 'iPhone 13', content: '【嗑点分析】\n顾易臣：我来帮你\n林柚：谢谢（害羞）\n\n这就是心动的开始啊家人们！我已经开始写同人文了！📝', likes: 7890, comments: 1456, reposts: 567, tags: ['星苏'], isHot: true },
                     { id: 'p33', userName: '黑粉专业户', userTag: '', isVip: false, time: '5分钟前', device: 'Android', content: '演的吧，故意装绅士博好感，这种套路我见多了。', likes: 15, comments: 234, reposts: 8 },
-                    { id: 'p34', userName: '护星大队', userTag: '陆星辞粉丝', isVip: false, time: '6分钟前', device: 'iPhone', content: '楼上那位，你是不是看谁都不顺眼？陆总这种从小接受良好教育的人，绅士是刻在骨子里的，不需要演！', likes: 3456, comments: 678, reposts: 234 }
+                    { id: 'p34', userName: '护星大队', userTag: '顾易臣粉丝', isVip: false, time: '6分钟前', device: 'iPhone', content: '楼上那位，你是不是看谁都不顺眼？陆总这种从小接受良好教育的人，绅士是刻在骨子里的，不需要演！', likes: 3456, comments: 678, reposts: 234 }
                 ]
             },
             { 
-                id: 4, rank: 4, topic: "#江哲叫姐姐#", tag: "新", readCount: "1.5亿", discussCount: "4万", comments: [], 
+                id: 4, rank: 4, topic: "#江烈叫姐姐#", tag: "新", readCount: "1.5亿", discussCount: "4万", comments: [], 
                 detailedPosts: [
-                    { id: 'p41', userName: '年下爱好者', userTag: '姐狗CP', isVip: false, time: '3分钟前', device: 'iPhone', content: '江哲那声"姐姐"真的叫到我心里去了！小奶狗撒娇谁顶得住啊！年下就是YYDS！🐕💕', likes: 5678, comments: 1234, reposts: 456, tags: ['姐狗'], isHot: true },
-                    { id: 'p42', userName: '姐狗CP粉', userTag: 'CP研究员', isVip: true, time: '5分钟前', device: 'iPad', content: '【嗑CP分析】\n江哲：姐姐！\n苏若：（笑）\n\n啊啊啊这个互动甜死我了！弟弟的直球攻势谁能拒绝！我已经开始嗑了！\n\n#姐狗# #年下最香#', likes: 8901, comments: 1678, reposts: 678, tags: ['姐狗'], isHot: true },
-                    { id: 'p43', userName: '理智路人', userTag: '', isVip: false, time: '8分钟前', device: 'Android', content: '江哲这样会不会太主动了？感觉有点刻意，不够自然。', likes: 234, comments: 567, reposts: 45 },
-                    { id: 'p44', userName: '护哲小分队', userTag: '江哲粉丝', isVip: false, time: '9分钟前', device: 'iPhone', content: '什么叫刻意？江哲就是这种性格啊！阳光开朗大男孩，对谁都是这样热情！这才是真实的他！你们不懂就不要乱说！', likes: 3456, comments: 789, reposts: 234 }
+                    { id: 'p41', userName: '年下爱好者', userTag: '姐狗CP', isVip: false, time: '3分钟前', device: 'iPhone', content: '江烈那声"姐姐"真的叫到我心里去了！小奶狗撒娇谁顶得住啊！年下就是YYDS！🐕💕', likes: 5678, comments: 1234, reposts: 456, tags: ['姐狗'], isHot: true },
+                    { id: 'p42', userName: '姐狗CP粉', userTag: 'CP研究员', isVip: true, time: '5分钟前', device: 'iPad', content: '【嗑CP分析】\n江烈：姐姐！\n林柚：（笑）\n\n啊啊啊这个互动甜死我了！弟弟的直球攻势谁能拒绝！我已经开始嗑了！\n\n#姐狗# #年下最香#', likes: 8901, comments: 1678, reposts: 678, tags: ['姐狗'], isHot: true },
+                    { id: 'p43', userName: '理智路人', userTag: '', isVip: false, time: '8分钟前', device: 'Android', content: '江烈这样会不会太主动了？感觉有点刻意，不够自然。', likes: 234, comments: 567, reposts: 45 },
+                    { id: 'p44', userName: '护哲小分队', userTag: '江烈粉丝', isVip: false, time: '9分钟前', device: 'iPhone', content: '什么叫刻意？江烈就是这种性格啊！阳光开朗大男孩，对谁都是这样热情！这才是真实的他！你们不懂就不要乱说！', likes: 3456, comments: 789, reposts: 234 }
                 ]
             },
             { id: 5, rank: 5, topic: "#心动别墅装修#", tag: "新", readCount: "8000万", discussCount: "1万", comments: [], detailedPosts: [] }
@@ -543,35 +543,35 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
         cpRanking: [
             { 
                 id: 1, name: "星苏", members: ["陆", "苏"], hot: 52000, desc: "初见即宿命", trend: 'up', tags: ["颜霸", "强强"], 
-                observerComment: "陆星辞第一眼眼神就不对劲，这绝对是猎人看到了猎物。", 
+                observerComment: "顾易臣第一眼眼神就不对劲，这绝对是猎人看到了猎物。", 
                 fanComments: ["眼神拉丝了家人们！", "给我锁死！", "星苏就是最配的！"], 
                 relatedCharId: 'lu', 
                 superTopic: { 
                     title: "星苏", level: "LV2", readCount: "1.2亿", postCount: "1.5万", 
                     posts: [
-                        { id: 'cp1', userName: '星苏CP粉头', userTag: '超话主持人', isVip: true, time: '5分钟前', device: 'iPhone', content: '【CP分析】星苏第一期的互动真的绝了！陆星辞那个眼神、那个动作，每一个细节都在说：我对你有意思！\n\n#星苏# #心动信号5#', likes: 5678, comments: 1234, reposts: 456, tags: ['星苏'], isHot: true },
+                        { id: 'cp1', userName: '星苏CP粉头', userTag: '超话主持人', isVip: true, time: '5分钟前', device: 'iPhone', content: '【CP分析】星苏第一期的互动真的绝了！顾易臣那个眼神、那个动作，每一个细节都在说：我对你有意思！\n\n#星苏# #心动信号5#', likes: 5678, comments: 1234, reposts: 456, tags: ['星苏'], isHot: true },
                         { id: 'cp2', userName: '嗑CP专业户', userTag: 'CP研究员', isVip: false, time: '8分钟前', device: 'Android', content: '星苏就是这一季的天选CP！从第一次见面就有化学反应！我已经开始写同人文了！', likes: 3456, comments: 789, reposts: 234, tags: ['星苏'] },
                         { id: 'cp3', userName: '水军账号', userTag: '', isVip: false, time: '10分钟前', device: '微博网页版', content: '这对明显不合适，年龄差距、性格差异都太大了。', likes: 3, comments: 567, reposts: 2 },
-                        { id: 'cp4', userName: '星苏护卫队', userTag: '真爱粉', isVip: false, time: '11分钟前', device: 'iPhone', content: '什么叫不合适？陆星辞和苏若明明就是最配的！势均力敌的爱情才是最好的！某些人不懂就不要乱说！', likes: 4567, comments: 890, reposts: 345 }
+                        { id: 'cp4', userName: '星苏护卫队', userTag: '真爱粉', isVip: false, time: '11分钟前', device: 'iPhone', content: '什么叫不合适？顾易臣和林柚明明就是最配的！势均力敌的爱情才是最好的！某些人不懂就不要乱说！', likes: 4567, comments: 890, reposts: 345 }
                     ]
                 }
             },
             { 
                 id: 2, name: "姐狗", members: ["江", "苏"], hot: 48000, desc: "热情小太阳", trend: 'up', tags: ["年下", "直球"], 
-                observerComment: "江哲太热情了，这种直球攻势很难招架。", 
+                observerComment: "江烈太热情了，这种直球攻势很难招架。", 
                 fanComments: ["修勾冲鸭！", "姐姐看看我！", "年下就是最香的！"], 
                 relatedCharId: 'jiang', 
                 superTopic: { 
                     title: "姐狗", level: "LV1", readCount: "9000万", postCount: "9000", 
                     posts: [
-                        { id: 'cp5', userName: '年下爱好者', userTag: '姐狗CP粉', isVip: true, time: '6分钟前', device: 'iPhone', content: '江哲叫姐姐那一声真的甜死我了！小奶狗撒娇谁能拒绝！年下就是YYDS！\n\n#姐狗# #年下最香#', likes: 4567, comments: 890, reposts: 345, tags: ['姐狗'], isHot: true },
-                        { id: 'cp6', userName: '姐狗天选', userTag: 'CP粉', isVip: false, time: '9分钟前', device: 'Android', content: '江哲这种直球又可爱的弟弟太香了！真诚的喜欢才是最珍贵的！', likes: 3456, comments: 789, reposts: 234, tags: ['姐狗'] }
+                        { id: 'cp5', userName: '年下爱好者', userTag: '姐狗CP粉', isVip: true, time: '6分钟前', device: 'iPhone', content: '江烈叫姐姐那一声真的甜死我了！小奶狗撒娇谁能拒绝！年下就是YYDS！\n\n#姐狗# #年下最香#', likes: 4567, comments: 890, reposts: 345, tags: ['姐狗'], isHot: true },
+                        { id: 'cp6', userName: '姐狗天选', userTag: 'CP粉', isVip: false, time: '9分钟前', device: 'Android', content: '江烈这种直球又可爱的弟弟太香了！真诚的喜欢才是最珍贵的！', likes: 3456, comments: 789, reposts: 234, tags: ['姐狗'] }
                     ]
                 }
             },
             { 
                 id: 3, name: "予若", members: ["沈", "苏"], hot: 45000, desc: "清冷氛围感", trend: 'stable', tags: ["慢热", "文艺"], 
-                observerComment: "沈予比较慢热，但是这种细水长流的感觉也不错。", 
+                observerComment: "叶闻笙比较慢热，但是这种细水长流的感觉也不错。", 
                 fanComments: ["都在细节里！", "艺术组上分！", "细水长流最浪漫！"], 
                 relatedCharId: 'shen', 
                 superTopic: { 
@@ -584,66 +584,66 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
         ],
         observerDiscussion: [
             { id: 'ob1', author: '楊丞琳', role: '心動偵探', title: '【微表情分析】陸星辭那個眼神！', content: '大家有沒有注意到，蘇若剛進來的時候，陸星辭本來在看雜誌，但他那個眼神停留的時間明顯超過了社交禮儀的安全區！這絕對是有好感！', time: '10分鐘前', replies: 156 },
-            { id: 'ob2', author: '姜振宇', role: '心理專家', title: '【心理學】江哲的防禦姿態', content: '雖然江哲看起來很熱情，但他在初次見面時身體其實是微微後傾的，這說明他內心其實有點緊張，是在用熱情掩飾羞澀。', time: '15分鐘前', replies: 89 },
-            { id: 'ob3', author: '李雪琴', role: '嗑學家', title: '【吐槽】沈予太端著了吧？', content: '沈老師那個“小心台階”也太官方了哈哈哈哈，但是我怎麼覺得這種高嶺之花一旦下神壇會很猛呢？期待打臉！', time: '20分鐘前', replies: 230 }
+            { id: 'ob2', author: '姜振宇', role: '心理專家', title: '【心理學】江烈的防禦姿態', content: '雖然江烈看起來很熱情，但他在初次見面時身體其實是微微後傾的，這說明他內心其實有點緊張，是在用熱情掩飾羞澀。', time: '15分鐘前', replies: 89 },
+            { id: 'ob3', author: '李雪琴', role: '嗑學家', title: '【吐槽】叶闻笙太端著了吧？', content: '沈老師那個“小心台階”也太官方了哈哈哈哈，但是我怎麼覺得這種高嶺之花一旦下神壇會很猛呢？期待打臉！', time: '20分鐘前', replies: 230 }
         ],
         fanDiscussions: [
             { id: 'f1', username: '吃瓜第一線', content: '陸星辭太會了！！那個接行李的動作我反覆看了十遍！', likes: 1205, avatarColor: 'bg-yellow-400' },
-            { id: 'f2', username: '蘇蘇的狗', content: '只有我喜歡江哲嗎？小狗多可愛啊！', likes: 892, avatarColor: 'bg-green-400' },
-            { id: 'f3', username: '建築美學', content: '沈予的聲音好好聽，低音炮殺我！', likes: 654, avatarColor: 'bg-blue-400' },
+            { id: 'f2', username: '蘇蘇的狗', content: '只有我喜歡江烈嗎？小狗多可愛啊！', likes: 892, avatarColor: 'bg-green-400' },
+            { id: 'f3', username: '建築美學', content: '叶闻笙的聲音好好聽，低音炮殺我！', likes: 654, avatarColor: 'bg-blue-400' },
             { id: 'f4', username: '路人甲', content: '這一季女嘉賓顏值好高，希望能有個好結局。', likes: 233, avatarColor: 'bg-gray-400' }
         ]
     },
     'ep2': {
         hotSearches: [
             { id: 1, rank: 1, topic: "#陸星辭 霸總小說照進現實#", tag: "爆", readCount: "15.5亿", discussCount: "48萬", comments: [], detailedPosts: [] },
-            { id: 2, rank: 2, topic: "#江哲 特警#", tag: "沸", readCount: "9.8亿", discussCount: "25萬", comments: [], detailedPosts: [] },
-            { id: 3, rank: 3, topic: "#沈予 建築師#", tag: "热", readCount: "6.2亿", discussCount: "15萬", comments: [], detailedPosts: [] },
+            { id: 2, rank: 2, topic: "#江烈 游戏制作人#", tag: "沸", readCount: "9.8亿", discussCount: "25万", comments: [], detailedPosts: [] },
+            { id: 3, rank: 3, topic: "#叶闻笙 建築師#", tag: "热", readCount: "6.2亿", discussCount: "15萬", comments: [], detailedPosts: [] },
             { id: 4, rank: 4, topic: "#蘇若 插畫師#", tag: "新", readCount: "3.5亿", discussCount: "8萬", comments: [], detailedPosts: [] }
         ],
         cpRanking: [
             { id: 1, name: "星蘇", members: ["陸", "蘇"], hot: 85000, desc: "豪門聯姻既視感", trend: 'up', tags: ["般配", "勢均力敵"], observerComment: "職業公佈後，兩人的氣場更合了。", fanComments: [], relatedCharId: 'lu', superTopic: { title: "星蘇", level: "LV4", readCount: "3億", postCount: "2萬", posts: [] } },
-            { id: 2, name: "姐狗", members: ["江", "蘇"], hot: 75000, desc: "守護騎士", trend: 'up', tags: ["反差", "守護"], observerComment: "特警配畫家，這什麼言情設定！", fanComments: [], relatedCharId: 'jiang', superTopic: { title: "姐狗", level: "LV3", readCount: "2.5億", postCount: "1.8萬", posts: [] } },
+            { id: 2, name: "烈柚", members: ["江", "柚"], hot: 75000, desc: "造梦师与画家", trend: 'up', tags: ["创作者", "理想主义"], observerComment: "游戏制作人配画家，这是什么神仙设定！虚拟与真实的碰撞！", fanComments: [], relatedCharId: 'jiang', superTopic: { title: "烈柚", level: "LV3", readCount: "2.5亿", postCount: "1.8万", posts: [] } },
             { id: 3, name: "予若", members: ["沈", "蘇"], hot: 72000, desc: "靈魂共振", trend: 'up', tags: ["品味", "知音"], observerComment: "都是搞藝術的，共同話題肯定多。", fanComments: [], relatedCharId: 'shen', superTopic: { title: "予若", level: "LV3", readCount: "2億", postCount: "1.5萬", posts: [] } }
         ],
         observerDiscussion: [
-            { id: 'ob1', author: '杜海濤', role: '氣氛擔當', title: '【震驚】這一季男嘉賓職業太卷了吧！', content: '金融巨鱷、建築新星、特警隊長...蘇若這要怎麼選啊？我都替她糾結！', time: '5分鐘前', replies: 340 }
+            { id: 'ob1', author: '杜海涛', role: '气氛担当', title: '【震惊】这一季男嘉宾职业太卷了吧！', content: '离婚律师、心理医生、游戏制作人...林柚这要怎么选啊？我都替她纠结！', time: '5分钟前', replies: 340 }
         ],
         fanDiscussions: [
             { id: 'f1', username: '顏值協會會長', content: '陸總好帥！我要爬牆了！', likes: 2300, avatarColor: 'bg-red-400' },
-            { id: 'f2', username: '今天嗑糖了嗎', content: '沈予看蘇若畫畫的眼神絕了，好寵溺啊！', likes: 1540, avatarColor: 'bg-indigo-400' },
-            { id: 'f3', username: '特警小迷妹', content: '江哲弟弟真的好有安全感，想嫁！', likes: 1100, avatarColor: 'bg-orange-400' }
+            { id: 'f2', username: '今天嗑糖了嗎', content: '叶闻笙看蘇若畫畫的眼神絕了，好寵溺啊！', likes: 1540, avatarColor: 'bg-indigo-400' },
+            { id: 'f3', username: '游戏制作人粉丝', content: '江烈做游戏的样子好专注！那种理想主义的光太吸引人了！', likes: 1100, avatarColor: 'bg-orange-400' }
         ]
     },
     'ep3': {
         hotSearches: [
             { 
-                id: 1, rank: 1, topic: "#陆星辞 图书馆书架咚#", tag: "爆", readCount: "21.5亿", discussCount: "88万", comments: [], 
+                id: 1, rank: 1, topic: "#顾易臣 图书馆书架咚#", tag: "爆", readCount: "21.5亿", discussCount: "88万", comments: [], 
                 detailedPosts: [
-                    { id: 'p301', userName: '星苏CP头子', userTag: '超话主持人', isVip: true, time: '刚刚', device: 'iPhone 14 Pro', content: '【炸裂现场】\n图书馆！书架咚！摘眼镜！\n"我可以不做那个克制的陆星辞了吗？"\n\n我人没了！！！！这是我能看的吗？？？\n\n#星苏# #书架咚#', likes: 23456, comments: 4567, reposts: 2345, tags: ['星苏', '名场面'], isHot: true },
-                    { id: 'p302', userName: 'CP嗑学博士', userTag: '细节分析', isVip: true, time: '1分钟前', device: 'iPad Pro', content: '【显微镜分析】\n1. 陆星辞白衬衫湿透，隐约透出肌肉线条\n2. 摘下眼镜那一刻，眼神从克制到危险\n3. "这里没有摄像头" - 暗示了什么？\n4. 手指抵唇的"嘘" - 禁欲感拉满\n\n结论：这是成年人之间的推拉！我宣布这是恋综天花板！🔥', likes: 18902, comments: 3456, reposts: 1234, tags: ['星苏', '细节'], isHot: true },
+                    { id: 'p301', userName: '星苏CP头子', userTag: '超话主持人', isVip: true, time: '刚刚', device: 'iPhone 14 Pro', content: '【炸裂现场】\n图书馆！书架咚！摘眼镜！\n"我可以不做那个克制的顾易臣了吗？"\n\n我人没了！！！！这是我能看的吗？？？\n\n#星苏# #书架咚#', likes: 23456, comments: 4567, reposts: 2345, tags: ['星苏', '名场面'], isHot: true },
+                    { id: 'p302', userName: 'CP嗑学博士', userTag: '细节分析', isVip: true, time: '1分钟前', device: 'iPad Pro', content: '【显微镜分析】\n1. 顾易臣白衬衫湿透，隐约透出肌肉线条\n2. 摘下眼镜那一刻，眼神从克制到危险\n3. "这里没有摄像头" - 暗示了什么？\n4. 手指抵唇的"嘘" - 禁欲感拉满\n\n结论：这是成年人之间的推拉！我宣布这是恋综天花板！🔥', likes: 18902, comments: 3456, reposts: 1234, tags: ['星苏', '细节'], isHot: true },
                     { id: 'p303', userName: '水军反串', userTag: '', isVip: false, time: '3分钟前', device: '微博网页版', content: '太假了，剧本明显，这种情节一看就是安排好的。', likes: 8, comments: 234, reposts: 5 },
-                    { id: 'p304', userName: '星苏护卫队', userTag: '真爱粉', isVip: false, time: '4分钟前', device: 'iPhone', content: '某些人是不是酸了？这种自然的化学反应能演出来？陆星辞的眼神、动作、语气，每一个细节都是真实的！不懂就别瞎说！', likes: 8901, comments: 1678, reposts: 678 },
+                    { id: 'p304', userName: '星苏护卫队', userTag: '真爱粉', isVip: false, time: '4分钟前', device: 'iPhone', content: '某些人是不是酸了？这种自然的化学反应能演出来？顾易臣的眼神、动作、语气，每一个细节都是真实的！不懂就别瞎说！', likes: 8901, comments: 1678, reposts: 678 },
                     { id: 'p305', userName: '嗑到昏迷', userTag: 'CP粉', isVip: false, time: '5分钟前', device: 'Android', content: '我宣布！星苏就是这一季的官配！书架咚这一下直接把我送走了！按头小分队在哪里！给我锁死这对！💑', likes: 14567, comments: 2789, reposts: 1123, tags: ['星苏'], isHot: true },
                     { id: 'p306', userName: '理智粉', userTag: '', isVip: false, time: '7分钟前', device: 'iPhone', content: '虽然很甜，但希望大家理性嗑CP，不要过度解读。给嘉宾一些私人空间。', likes: 3456, comments: 789, reposts: 234 }
                 ]
             },
             { 
-                id: 2, rank: 2, topic: "#沈予 这里的雨夜#", tag: "沸", readCount: "12.2亿", discussCount: "45万", comments: [], 
+                id: 2, rank: 2, topic: "#叶闻笙 这里的雨夜#", tag: "沸", readCount: "12.2亿", discussCount: "45万", comments: [], 
                 detailedPosts: [
-                    { id: 'p307', userName: '予若CP粉', userTag: '文艺青年', isVip: true, time: '2分钟前', device: 'iPhone', content: '沈予的雨夜工作室！那个"你在我心里的比重，已经让我的世界失衡了"！这是什么神仙告白！文艺又深情！\n\n#予若# #灵魂伴侣#', likes: 8901, comments: 1678, reposts: 678, tags: ['予若'], isHot: true },
-                    { id: 'p308', userName: '艺术组', userTag: 'CP研究员', isVip: false, time: '4分钟前', device: 'iPad', content: '【深度解读】沈予这段话完美诠释了建筑师和插画师的浪漫！建筑需要平衡与支撑，而你成了他的支点！这是什么绝美设定！', likes: 6789, comments: 1234, reposts: 567, tags: ['予若'] },
+                    { id: 'p307', userName: '予若CP粉', userTag: '文艺青年', isVip: true, time: '2分钟前', device: 'iPhone', content: '叶闻笙的雨夜工作室！那个"你在我心里的比重，已经让我的世界失衡了"！这是什么神仙告白！文艺又深情！\n\n#予若# #灵魂伴侣#', likes: 8901, comments: 1678, reposts: 678, tags: ['予若'], isHot: true },
+                    { id: 'p308', userName: '艺术组', userTag: 'CP研究员', isVip: false, time: '4分钟前', device: 'iPad', content: '【深度解读】叶闻笙这段话完美诠释了建筑师和插画师的浪漫！建筑需要平衡与支撑，而你成了他的支点！这是什么绝美设定！', likes: 6789, comments: 1234, reposts: 567, tags: ['予若'] },
                     { id: 'p309', userName: '黑粉专业户', userTag: '', isVip: false, time: '6分钟前', device: 'Android', content: '太装了，这种话正常人说不出来，肯定是提前准备好的台词。', likes: 12, comments: 345, reposts: 8 },
-                    { id: 'p310', userName: '予若守护', userTag: '真爱粉', isVip: false, time: '7分钟前', device: 'iPhone', content: '楼上那位，你不懂艺术家的浪漫就不要乱说！沈予这种深情是发自内心的！予若就是最配的！', likes: 4567, comments: 890, reposts: 345 }
+                    { id: 'p310', userName: '予若守护', userTag: '真爱粉', isVip: false, time: '7分钟前', device: 'iPhone', content: '楼上那位，你不懂艺术家的浪漫就不要乱说！叶闻笙这种深情是发自内心的！予若就是最配的！', likes: 4567, comments: 890, reposts: 345 }
                 ]
             },
             { 
-                id: 3, rank: 3, topic: "#江哲 湿身充电#", tag: "热", readCount: "8.1亿", discussCount: "28万", comments: [], 
+                id: 3, rank: 3, topic: "#江烈 湿身充电#", tag: "热", readCount: "8.1亿", discussCount: "28万", comments: [], 
                 detailedPosts: [
-                    { id: 'p311', userName: '姐狗天选', userTag: '年下控', isVip: true, time: '1分钟前', device: 'iPhone', content: '江哲湿身！还撒娇要抱抱充电！这是什么小奶狗！谁能拒绝淋湿的小狗！\n\n"姐姐能不能抱我一下？就一下，充电就好！"\n\n我直接去世！💕🐕', likes: 12345, comments: 2345, reposts: 890, tags: ['姐狗'], isHot: true },
-                    { id: 'p312', userName: '姐狗CP头子', userTag: 'CP粉', isVip: false, time: '3分钟前', device: 'Android', content: '年下就是最香的！江哲这种直球又可爱的弟弟谁不爱！湿身诱惑+撒娇双重攻击，苏若怎么顶得住！', likes: 8901, comments: 1678, reposts: 678, tags: ['姐狗'] },
+                    { id: 'p311', userName: '姐狗天选', userTag: '年下控', isVip: true, time: '1分钟前', device: 'iPhone', content: '江烈湿身！还撒娇要抱抱充电！这是什么小奶狗！谁能拒绝淋湿的小狗！\n\n"姐姐能不能抱我一下？就一下，充电就好！"\n\n我直接去世！💕🐕', likes: 12345, comments: 2345, reposts: 890, tags: ['姐狗'], isHot: true },
+                    { id: 'p312', userName: '姐狗CP头子', userTag: 'CP粉', isVip: false, time: '3分钟前', device: 'Android', content: '年下就是最香的！江烈这种直球又可爱的弟弟谁不爱！湿身诱惑+撒娇双重攻击，林柚怎么顶得住！', likes: 8901, comments: 1678, reposts: 678, tags: ['姐狗'] },
                     { id: 'p313', userName: '水军账号', userTag: '', isVip: false, time: '5分钟前', device: '微博网页版', content: '太幼稚了，这种撒娇适合高中生，不适合成年人。', likes: 5, comments: 234, reposts: 3 },
-                    { id: 'p314', userName: '护哲小分队', userTag: '江哲粉丝', isVip: false, time: '6分钟前', device: 'iPhone', content: '什么叫幼稚？真诚和直球就是江哲的魅力！这种毫不掩饰的喜欢才是最珍贵的！你们不懂！', likes: 5678, comments: 1234, reposts: 456 }
+                    { id: 'p314', userName: '护哲小分队', userTag: '江烈粉丝', isVip: false, time: '6分钟前', device: 'iPhone', content: '什么叫幼稚？真诚和直球就是江烈的魅力！这种毫不掩饰的喜欢才是最珍贵的！你们不懂！', likes: 5678, comments: 1234, reposts: 456 }
                 ]
             }
         ],
@@ -656,10 +656,10 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
                 superTopic: { 
                     title: "星苏", level: "LV12", readCount: "12.5亿", postCount: "8.9万", 
                     posts: [
-                        { id: 'cp301', userName: '星苏CP头子', userTag: '超话主持人', isVip: true, time: '刚刚', device: 'iPhone 14 Pro', content: '【炸裂！】图书馆书架咚！这是什么神仙名场面！\n\n"我可以不做那个克制的陆星辞了吗？"\n\n我直接昏迷！这是我能免费看的吗？？？\n\n#星苏# #书架咚#', likes: 23456, comments: 4567, reposts: 2345, tags: ['星苏'], isHot: true },
+                        { id: 'cp301', userName: '星苏CP头子', userTag: '超话主持人', isVip: true, time: '刚刚', device: 'iPhone 14 Pro', content: '【炸裂！】图书馆书架咚！这是什么神仙名场面！\n\n"我可以不做那个克制的顾易臣了吗？"\n\n我直接昏迷！这是我能免费看的吗？？？\n\n#星苏# #书架咚#', likes: 23456, comments: 4567, reposts: 2345, tags: ['星苏'], isHot: true },
                         { id: 'cp302', userName: 'CP嗑学博士', userTag: '细节分析', isVip: true, time: '2分钟前', device: 'iPad Pro', content: '【显微镜分析】星苏书架咚的每一个细节：\n1. 白衬衫湿透透出肌肉线条\n2. 摘眼镜的瞬间，眼神从克制到危险\n3. 手指抵唇的"嘘" - 禁欲感拉满\n4. "这里没有摄像头" - 暗示了什么？\n\n结论：成年人之间的推拉！恋综天花板！', likes: 18902, comments: 3456, reposts: 1234, tags: ['星苏', '细节'], isHot: true },
                         { id: 'cp303', userName: '水军反串黑', userTag: '', isVip: false, time: '5分钟前', device: '微博网页版', content: '太假了，明显是剧本，这种情节一看就是安排好的。', likes: 8, comments: 1234, reposts: 5 },
-                        { id: 'cp304', userName: '星苏护卫队', userTag: '真爱粉', isVip: false, time: '6分钟前', device: 'iPhone', content: '某些人是不是酸了？这种自然的化学反应能演出来？陆星辞的眼神、动作、语气，每一个细节都是真实的！不懂就别瞎说！我们星苏就是最真的！', likes: 8901, comments: 1678, reposts: 678 },
+                        { id: 'cp304', userName: '星苏护卫队', userTag: '真爱粉', isVip: false, time: '6分钟前', device: 'iPhone', content: '某些人是不是酸了？这种自然的化学反应能演出来？顾易臣的眼神、动作、语气，每一个细节都是真实的！不懂就别瞎说！我们星苏就是最真的！', likes: 8901, comments: 1678, reposts: 678 },
                         { id: 'cp305', userName: '嗑到昏迷', userTag: 'CP粉', isVip: false, time: '8分钟前', device: 'Android', content: '我宣布！星苏就是这一季的官配！书架咚这一下直接把我送走了！按头小分队在哪里！给我锁死这对！💑', likes: 14567, comments: 2789, reposts: 1123, tags: ['星苏'], isHot: true },
                         { id: 'cp306', userName: '理智粉', userTag: '', isVip: false, time: '10分钟前', device: 'iPhone', content: '虽然很甜，但希望大家理性嗑CP，不要过度解读。给嘉宾一些私人空间。', likes: 3456, comments: 567, reposts: 234 }
                     ]
@@ -667,16 +667,16 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
             },
             { 
                 id: 2, name: "予若", members: ["沈", "苏"], hot: 112000, desc: "灵魂伴侣", trend: 'stable', tags: ["文艺", "走心"], 
-                observerComment: "沈予这招以退为进很高明。", 
+                observerComment: "叶闻笙这招以退为进很高明。", 
                 fanComments: ["艺术组上大分！", "细水长流最浪漫！"], 
                 relatedCharId: 'shen', 
                 superTopic: { 
                     title: "予若_灵魂共振", level: "LV9", readCount: "8.5亿", postCount: "5.4万", 
                     posts: [
-                        { id: 'cp307', userName: '予若CP粉', userTag: '文艺青年', isVip: true, time: '3分钟前', device: 'iPhone', content: '沈予的雨夜工作室！那个"你在我心里的比重，已经让我的世界失衡了"！这是什么神仙告白！文艺又深情！\n\n#予若# #灵魂伴侣#', likes: 8901, comments: 1678, reposts: 678, tags: ['予若'], isHot: true },
-                        { id: 'cp308', userName: '艺术组', userTag: 'CP研究员', isVip: false, time: '7分钟前', device: 'iPad', content: '【深度解读】沈予这段话完美诠释了建筑师和插画师的浪漫！建筑需要平衡与支撑，而你成了他的支点！这是什么绝美设定！', likes: 6789, comments: 1234, reposts: 567, tags: ['予若'] },
+                        { id: 'cp307', userName: '予若CP粉', userTag: '文艺青年', isVip: true, time: '3分钟前', device: 'iPhone', content: '叶闻笙的雨夜工作室！那个"你在我心里的比重，已经让我的世界失衡了"！这是什么神仙告白！文艺又深情！\n\n#予若# #灵魂伴侣#', likes: 8901, comments: 1678, reposts: 678, tags: ['予若'], isHot: true },
+                        { id: 'cp308', userName: '艺术组', userTag: 'CP研究员', isVip: false, time: '7分钟前', device: 'iPad', content: '【深度解读】叶闻笙这段话完美诠释了建筑师和插画师的浪漫！建筑需要平衡与支撑，而你成了他的支点！这是什么绝美设定！', likes: 6789, comments: 1234, reposts: 567, tags: ['予若'] },
                         { id: 'cp309', userName: '黑粉专业户', userTag: '', isVip: false, time: '9分钟前', device: 'Android', content: '太装了，这种话正常人说不出来，肯定是提前准备好的台词。', likes: 12, comments: 456, reposts: 8 },
-                        { id: 'cp310', userName: '予若守护', userTag: '真爱粉', isVip: false, time: '10分钟前', device: 'iPhone', content: '楼上那位，你不懂艺术家的浪漫就不要乱说！沈予这种深情是发自内心的！予若就是最配的！', likes: 4567, comments: 890, reposts: 345 }
+                        { id: 'cp310', userName: '予若守护', userTag: '真爱粉', isVip: false, time: '10分钟前', device: 'iPhone', content: '楼上那位，你不懂艺术家的浪漫就不要乱说！叶闻笙这种深情是发自内心的！予若就是最配的！', likes: 4567, comments: 890, reposts: 345 }
                     ]
                 }
             },
@@ -688,10 +688,10 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
                 superTopic: { 
                     title: "苏苏的修勾", level: "LV8", readCount: "5.5亿", postCount: "3.2万", 
                     posts: [
-                        { id: 'cp311', userName: '姐狗天选', userTag: '年下控', isVip: true, time: '4分钟前', device: 'iPhone', content: '江哲湿身！还撒娇要抱抱充电！这是什么小奶狗！谁能拒绝淋湿的小狗！\n\n"姐姐能不能抱我一下？就一下，充电就好！"\n\n我直接去世！💕🐕', likes: 12345, comments: 2345, reposts: 890, tags: ['姐狗'], isHot: true },
-                        { id: 'cp312', userName: '姐狗CP头子', userTag: 'CP粉', isVip: false, time: '8分钟前', device: 'Android', content: '年下就是最香的！江哲这种直球又可爱的弟弟谁不爱！湿身诱惑+撒娇双重攻击，苏若怎么顶得住！', likes: 8901, comments: 1678, reposts: 678, tags: ['姐狗'] },
+                        { id: 'cp311', userName: '姐狗天选', userTag: '年下控', isVip: true, time: '4分钟前', device: 'iPhone', content: '江烈湿身！还撒娇要抱抱充电！这是什么小奶狗！谁能拒绝淋湿的小狗！\n\n"姐姐能不能抱我一下？就一下，充电就好！"\n\n我直接去世！💕🐕', likes: 12345, comments: 2345, reposts: 890, tags: ['姐狗'], isHot: true },
+                        { id: 'cp312', userName: '姐狗CP头子', userTag: 'CP粉', isVip: false, time: '8分钟前', device: 'Android', content: '年下就是最香的！江烈这种直球又可爱的弟弟谁不爱！湿身诱惑+撒娇双重攻击，林柚怎么顶得住！', likes: 8901, comments: 1678, reposts: 678, tags: ['姐狗'] },
                         { id: 'cp313', userName: '水军账号', userTag: '', isVip: false, time: '11分钟前', device: '微博网页版', content: '太幼稚了，这种撒娇适合高中生，不适合成年人。', likes: 5, comments: 345, reposts: 3 },
-                        { id: 'cp314', userName: '护哲小分队', userTag: '江哲粉丝', isVip: false, time: '12分钟前', device: 'iPhone', content: '什么叫幼稚？真诚和直球就是江哲的魅力！这种毫不掩饰的喜欢才是最珍贵的！你们不懂！', likes: 5678, comments: 1234, reposts: 456 }
+                        { id: 'cp314', userName: '护哲小分队', userTag: '江烈粉丝', isVip: false, time: '12分钟前', device: 'iPhone', content: '什么叫幼稚？真诚和直球就是江烈的魅力！这种毫不掩饰的喜欢才是最珍贵的！你们不懂！', likes: 5678, comments: 1234, reposts: 456 }
                     ]
                 }
             }
@@ -701,8 +701,8 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
         ],
         fanDiscussions: [
             { id: 'f1', username: '陸總的眼鏡', content: '啊啊啊啊啊啊啊啊啊啊啊！（尖叫）', likes: 5000, avatarColor: 'bg-purple-400' },
-            { id: 'f2', username: '沈予的畫筆', content: '雨夜工作室那一段真的好浪漫，成年人的推拉。', likes: 2800, avatarColor: 'bg-blue-400' },
-            { id: 'f3', username: '江哲的籃球', content: '弟弟濕身誘惑誰頂得住啊！', likes: 3200, avatarColor: 'bg-yellow-400' }
+            { id: 'f2', username: '叶闻笙的畫筆', content: '雨夜工作室那一段真的好浪漫，成年人的推拉。', likes: 2800, avatarColor: 'bg-blue-400' },
+            { id: 'f3', username: '江烈的籃球', content: '弟弟濕身誘惑誰頂得住啊！', likes: 3200, avatarColor: 'bg-yellow-400' }
         ]
     },
     'ep9': {
@@ -710,7 +710,7 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
             { id: 1, rank: 1, topic: "#心動5最終抉擇#", tag: "爆", readCount: "35亿", discussCount: "150萬", comments: [], detailedPosts: [] },
             { id: 2, rank: 2, topic: "#蘇若到底選誰#", tag: "沸", readCount: "18亿", discussCount: "80萬", comments: [], detailedPosts: [] },
             { id: 3, rank: 3, topic: "#陸星辭 餘生合約#", tag: "热", readCount: "10亿", discussCount: "40萬", comments: [], detailedPosts: [] },
-            { id: 4, rank: 4, topic: "#江哲 機車婚禮#", tag: "新", readCount: "8亿", discussCount: "25萬", comments: [], detailedPosts: [] }
+            { id: 4, rank: 4, topic: "#江烈 機車婚禮#", tag: "新", readCount: "8亿", discussCount: "25萬", comments: [], detailedPosts: [] }
         ],
         cpRanking: [
              { id: 1, name: "星蘇", members: ["陸", "蘇"], hot: 500000, desc: "全網都在嗑", trend: 'up', tags: ["斷層第一"], observerComment: "如果是這個結局，那就是戀綜天花板。", fanComments: [], relatedCharId: 'lu', superTopic: { title: "星蘇", level: "LV20", readCount: "50億", postCount: "50萬", posts: [] } },
@@ -722,8 +722,8 @@ const EPISODE_SOCIAL_DATA: Record<string, EpisodeSocialData> = {
         ],
         fanDiscussions: [
             { id: 'f1', username: 'HE愛好者', content: '求求了，一定要是星蘇啊！他們是天造地設的一對！', likes: 10000, avatarColor: 'bg-red-400' },
-            { id: 'f2', username: '年下不香嗎', content: '江哲那麼好，蘇若不要選他我會哭死的！', likes: 8000, avatarColor: 'bg-orange-400' },
-            { id: 'f3', username: '理智粉', content: '沈予最適合過日子，希望能選沈予。', likes: 6000, avatarColor: 'bg-blue-400' }
+            { id: 'f2', username: '年下不香嗎', content: '江烈那麼好，蘇若不要選他我會哭死的！', likes: 8000, avatarColor: 'bg-orange-400' },
+            { id: 'f3', username: '理智粉', content: '叶闻笙最適合過日子，希望能選叶闻笙。', likes: 6000, avatarColor: 'bg-blue-400' }
         ]
     }
 };
@@ -2424,7 +2424,7 @@ const PlayerIntroDialogue = ({
 }) => {
     const [showText, setShowText] = useState(false);
     const [dialogueText, setDialogueText] = useState('');
-    const fullText = "大家好，我是新来的嘉宾苏若。刚才谢谢你们帮忙。";
+    const fullText = "大家好，我是新来的嘉宾林柚。刚才谢谢你们帮忙。";
     
     useEffect(() => {
         // 延迟显示对话
@@ -2474,7 +2474,7 @@ const PlayerIntroDialogue = ({
                     {/* 说话者标识 */}
                     <div className="mb-4">
                         <div className="inline-block px-4 py-2 rounded-full bg-pink-500/30 border border-pink-400/50">
-                            <span className="text-pink-200 font-bold text-sm">你（苏若）</span>
+                            <span className="text-pink-200 font-bold text-sm">你（林柚）</span>
                         </div>
                     </div>
                     
@@ -2550,7 +2550,7 @@ const DecisionCardSelector = ({
                                     {/* 文本信息 - 横向布局 */}
                                     <div className="relative z-10 flex-1 text-left">
                                         <h4 className="font-bold text-white text-lg mb-1 group-hover:text-pink-200 transition-colors">
-                                            {opt.id === 'opt-lu-ep1' ? '陆星辞' : opt.id === 'opt-shen-ep1' ? '沈予' : opt.id === 'opt-jiang-ep1' ? '江哲' : opt.label}
+                                            {opt.id === 'opt-lu-ep1' ? '顾易臣' : opt.id === 'opt-shen-ep1' ? '叶闻笙' : opt.id === 'opt-jiang-ep1' ? '江烈' : opt.label}
                                         </h4>
                                         <p className="text-sm text-white/70 group-hover:text-white/90">
                                             {opt.id === 'opt-lu-ep1' ? '刚才觉得他很干练' : opt.id === 'opt-shen-ep1' ? '刚才觉得他很贴心' : opt.id === 'opt-jiang-ep1' ? '刚才觉得他很靠谱' : opt.desc}
@@ -2646,7 +2646,7 @@ export default function LoveSignalSim() {
   const [showDecisionCardSelector, setShowDecisionCardSelector] = useState(false);
   const [decisionCardOptions, setDecisionCardOptions] = useState<StoryOption[]>([]);
   
-  // 内心状态对话序列（用于 ep1 回应陆星辞后显示其他两人的内心状态）
+  // 内心状态对话序列（用于 ep1 回应顾易臣后显示其他两人的内心状态）
   const [innerThoughtsSequence, setInnerThoughtsSequence] = useState<{ dialogues: Dialogue[], currentIndex: number } | null>(null);
   
   // 待显示的内心状态选项（用于在剧情结果关闭后显示）
@@ -2765,7 +2765,7 @@ export default function LoveSignalSim() {
           const optionIds = scenario.options.map(opt => opt.id);
           const currentIndex = optionIds.indexOf(option.id);
           
-          // 如果是第一个选项（陆星辞），初始化自动播放序列
+          // 如果是第一个选项（顾易臣），初始化自动播放序列
           // 这样完成第一个后会自动播放后续选项
           if (currentIndex === 0 && optionIds.length > 1) {
               setAutoPlaySequence({ scenario, optionIds, currentIndex: 0 });
@@ -2883,11 +2883,11 @@ export default function LoveSignalSim() {
       if (currentScenario.id === 'ep3' && charId === 'jiang' && type === 'leave') {
           const hiddenStory = {
               ...decisionOption,
-              target: "江哲 · 隱藏劇情",
+              target: "江烈 · 隱藏劇情",
               avatar: "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=800&auto=format&fit=crop", // 雨中撑伞图
-              story_result: "你選擇退後半步，避開了這過於熾熱的荷爾蒙場域。\n“那我先回去了。”你轉身走向雨幕。\n\n身後沒有挽留的聲音，只有急促的腳步聲伴隨著水花濺起的聲響。一把黑傘在頭頂撐開，隔絕了漫天大雨。\n\n江哲站在離你一臂之遙的地方，渾身濕透，水珠順著髮梢滴落，眼神卻倔強又溫柔：“我可以不靠近，但不能看著你淋雨。傘給你，我跑回去很快的！”\n\n【觸發隱藏支線：克制的守護者】",
+              story_result: "你選擇退後半步，避開了這過於熾熱的荷爾蒙場域。\n“那我先回去了。”你轉身走向雨幕。\n\n身後沒有挽留的聲音，只有急促的腳步聲伴隨著水花濺起的聲響。一把黑傘在頭頂撐開，隔絕了漫天大雨。\n\n江烈站在離你一臂之遙的地方，渾身濕透，水珠順著髮梢滴落，眼神卻倔強又溫柔：“我可以不靠近，但不能看著你淋雨。傘給你，我跑回去很快的！”\n\n【觸發隱藏支線：克制的守護者】",
               cg_title: "雨中撐傘 · 隱忍守護",
-              buff: "江哲好感度 +50 (觸發隱藏HE關鍵)"
+              buff: "江烈好感度 +50 (觸發隱藏HE關鍵)"
           };
 
           setCharacters(prev => prev.map(c => {
@@ -2925,18 +2925,18 @@ export default function LoveSignalSim() {
           setActiveStory({data: decisionOption, isDate: false});
           
           // 如果是 ep1 且回应了某个角色，显示其他两人的内心状态
-          if (currentScenario.id === 'ep1' && (charName === '陆星辞' || charName === '沈予' || charName === '江哲')) {
+          if (currentScenario.id === 'ep1' && (charName === '顾易臣' || charName === '叶闻笙' || charName === '江烈')) {
               let innerThoughts: Dialogue[] = [];
               let innerThoughtsId = '';
               let innerThoughtsTitle = '';
               let innerThoughtsDesc = '';
               let introText = '';
               
-              if (charName === '陆星辞') {
-                  // 回应陆星辞后，显示沈予和江哲的内心状态
+              if (charName === '顾易臣') {
+                  // 回应顾易臣后，显示叶闻笙和江烈的内心状态
                   innerThoughtsId = 'inner-thoughts-ep1-lu';
                   innerThoughtsTitle = '內心獨白 · 暗流湧動';
-                  innerThoughtsDesc = '沈予與江哲的內心獨白';
+                  innerThoughtsDesc = '叶闻笙與江烈的內心獨白';
                   introText = '看著你們的背影消失在玄關...';
                   innerThoughts = [
                       {
@@ -2944,33 +2944,33 @@ export default function LoveSignalSim() {
                           text: '看著你們的背影消失在玄關，客廳裡的空氣似乎靜止了。'
                       },
                       {
-                          speaker: '沈予',
+                          speaker: '叶闻笙',
                           text: '（推了推眼鏡）陸星辭...一如既往地先發制人。',
                           characterId: 'shen',
                           emotion: 'normal'
                       },
                       {
                           speaker: 'narrator',
-                          text: '沈予的目光在空蕩的門口停留了兩秒，指尖無意識地敲擊著沙發扶手。'
+                          text: '叶闻笙的目光在空蕩的門口停留了兩秒，指尖無意識地敲擊著沙發扶手。'
                       },
                       {
-                          speaker: '沈予',
+                          speaker: '叶闻笙',
                           text: '看來這場遊戲，會比我想像的更有趣。',
                           characterId: 'shen',
                           emotion: 'normal'
                       },
                       {
                           speaker: 'narrator',
-                          text: '另一邊，江哲靠在牆邊，笑容依舊燦爛，眼神卻多了幾分深意。'
+                          text: '另一邊，江烈靠在牆邊，笑容依舊燦爛，眼神卻多了幾分深意。'
                       },
                       {
-                          speaker: '江哲',
+                          speaker: '江烈',
                           text: '（輕笑）老陸動作還真快啊...',
                           characterId: 'jiang',
                           emotion: 'normal'
                       },
                       {
-                          speaker: '江哲',
+                          speaker: '江烈',
                           text: '不過，接下來才是真正的好戲。姐姐，我們很快就會再見的。',
                           characterId: 'jiang',
                           emotion: 'normal'
@@ -2980,11 +2980,11 @@ export default function LoveSignalSim() {
                           text: '別墅的夜晚，才剛剛開始。'
                       }
                   ];
-              } else if (charName === '沈予') {
-                  // 回应沈予后，显示陆星辞和江哲的内心状态
+              } else if (charName === '叶闻笙') {
+                  // 回应叶闻笙后，显示顾易臣和江烈的内心状态
                   innerThoughtsId = 'inner-thoughts-ep1-shen';
                   innerThoughtsTitle = '內心獨白 · 觀察者的注視';
-                  innerThoughtsDesc = '陸星辭與江哲的內心獨白';
+                  innerThoughtsDesc = '陸星辭與江烈的內心獨白';
                   introText = '看著你們走向二樓，客廳裡的氛圍悄然改變...';
                   innerThoughts = [
                       {
@@ -2996,8 +2996,8 @@ export default function LoveSignalSim() {
                           text: '陸星辭放下手中的雜誌，鏡片後的目光追隨著你們的背影，嘴角勾起一抹難以察覺的弧度。'
                       },
                       {
-                          speaker: '陆星辞',
-                          text: '（低語）沈予...還是那麼謹慎。',
+                          speaker: '顾易臣',
+                          text: '（低語）叶闻笙...還是那麼謹慎。',
                           characterId: 'lu',
                           emotion: 'normal'
                       },
@@ -3006,23 +3006,23 @@ export default function LoveSignalSim() {
                           text: '他輕撫著雜誌的封面，彷彿在思考著什麼。'
                       },
                       {
-                          speaker: '陆星辞',
+                          speaker: '顾易臣',
                           text: '不過，這場遊戲才剛剛開始。我會讓你知道，誰才是真正適合你的人。',
                           characterId: 'lu',
                           emotion: 'normal'
                       },
                       {
                           speaker: 'narrator',
-                          text: '另一邊，江哲收起了笑容，眼神中閃過一絲複雜的情緒。'
+                          text: '另一邊，江烈收起了笑容，眼神中閃過一絲複雜的情緒。'
                       },
                       {
-                          speaker: '江哲',
-                          text: '（握緊拳頭）沈予哥...還真是溫柔啊。',
+                          speaker: '江烈',
+                          text: '（握緊拳頭）叶闻笙哥...還真是溫柔啊。',
                           characterId: 'jiang',
                           emotion: 'normal'
                       },
                       {
-                          speaker: '江哲',
+                          speaker: '江烈',
                           text: '但我不會輸的。姐姐，我會用我的方式，讓你看到真正的我。',
                           characterId: 'jiang',
                           emotion: 'normal'
@@ -3036,11 +3036,11 @@ export default function LoveSignalSim() {
                           text: '別墅的夜晚，暗流湧動。'
                       }
                   ];
-              } else if (charName === '江哲') {
-                  // 回应江哲后，显示陆星辞和沈予的内心状态
+              } else if (charName === '江烈') {
+                  // 回应江烈后，显示顾易臣和叶闻笙的内心状态
                   innerThoughtsId = 'inner-thoughts-ep1-jiang';
                   innerThoughtsTitle = '內心獨白 · 少年的勝利';
-                  innerThoughtsDesc = '陸星辭與沈予的內心獨白';
+                  innerThoughtsDesc = '陸星辭與叶闻笙的內心獨白';
                   introText = '看著你們歡快的背影，客廳裡的空氣似乎凝結了...';
                   innerThoughts = [
                       {
@@ -3052,8 +3052,8 @@ export default function LoveSignalSim() {
                           text: '陸星辭輕推眼鏡，目光深沉地注視著你們離去的方向。'
                       },
                       {
-                          speaker: '陆星辞',
-                          text: '（冷笑）江哲...還真是直球啊。',
+                          speaker: '顾易臣',
+                          text: '（冷笑）江烈...還真是直球啊。',
                           characterId: 'lu',
                           emotion: 'normal'
                       },
@@ -3062,17 +3062,17 @@ export default function LoveSignalSim() {
                           text: '他合上雜誌，指尖輕敲著扶手，眼神中閃過一絲危險的光芒。'
                       },
                       {
-                          speaker: '陆星辞',
+                          speaker: '顾易臣',
                           text: '不過，直球也有直球的弱點。我會用更巧妙的方式，贏得你的心。',
                           characterId: 'lu',
                           emotion: 'normal'
                       },
                       {
                           speaker: 'narrator',
-                          text: '另一邊，沈予沉默不語，手中的咖啡杯輕輕搖晃。'
+                          text: '另一邊，叶闻笙沉默不語，手中的咖啡杯輕輕搖晃。'
                       },
                       {
-                          speaker: '沈予',
+                          speaker: '叶闻笙',
                           text: '（輕嘆）年輕...確實是優勢。',
                           characterId: 'shen',
                           emotion: 'normal'
@@ -3082,7 +3082,7 @@ export default function LoveSignalSim() {
                           text: '他推了推眼鏡，目光中帶著一絲不易察覺的複雜情緒。'
                       },
                       {
-                          speaker: '沈予',
+                          speaker: '叶闻笙',
                           text: '但成熟和穩重，也有它獨特的魅力。我會證明給你看。',
                           characterId: 'shen',
                           emotion: 'normal'
