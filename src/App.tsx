@@ -180,11 +180,21 @@ interface HotSearchItem {
   rank: number;
   topic: string;
   tag?: '爆' | '热' | '新' | '沸';
-  readCount: string; 
-  discussCount: string; 
+  readCount: string;
+  discussCount: string;
   comments: string[];
-  detailedPosts?: WeiboPost[]; 
+  detailedPosts?: WeiboPost[];
 }
+
+interface WeiboTopicDetail {
+  title: string;
+  readCount: string;
+  discussCount: string;
+  posts: WeiboPost[];
+  level?: string;
+}
+
+type StoryOverlayData = StoryOption | DateScenario | EndingScenario;
 
 interface Dialogue {
     speaker: string; // 说话者名字，'narrator' 表示旁白
@@ -1616,16 +1626,12 @@ const ObservationRoomModal = ({ posts, onClose }: { posts: ObserverPost[], onClo
     );
 };
 
-const WeiboDetailView = ({ topic, onBack }: { topic: HotSearchItem | CPItem['superTopic'] & {topic?:string}, onBack: () => void }) => {
-    const isHotSearchItem = (t: typeof topic): t is HotSearchItem => 'detailedPosts' in t || 'discussCount' in t;
-    
-    const title = isHotSearchItem(topic) ? topic.topic : topic.title;
-    const initialPosts = isHotSearchItem(topic) 
-        ? (topic.detailedPosts || [])
-        : topic.posts || [];
-    const readCount = isHotSearchItem(topic) ? topic.readCount : topic.readCount;
-    const discussCount = isHotSearchItem(topic) ? topic.discussCount : topic.postCount;
-    const level = isHotSearchItem(topic) ? undefined : topic.level;
+const WeiboDetailView = ({ topic, onBack }: { topic: WeiboTopicDetail, onBack: () => void }) => {
+    const title = topic.title;
+    const initialPosts = topic.posts || [];
+    const readCount = topic.readCount;
+    const discussCount = topic.discussCount;
+    const level = topic.level;
 
     const [posts, setPosts] = useState(initialPosts || []);
     const [inputText, setInputText] = useState("");
@@ -1997,25 +2003,31 @@ const EndingSelector = ({ characters, onClose, onSelect }: { characters: Charact
     );
 };
 
-const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolean, onClose: () => void }) => {
+const StoryOverlay = ({ option, isDate, onClose }: { option: StoryOverlayData, isDate: boolean, onClose: () => void }) => {
     // 使用惰性初始化避免在渲染期间调用 Math.random()
     const [sceneNumber] = useState(() => Math.floor(Math.random() * 9) + 1);
-    
+
+    const imgSrc = isDate ? ('img' in option ? option.img : '') : ('avatar' in option ? option.avatar : '');
+    const heading = isDate ? option.title : ('target' in option ? option.target : option.title);
+    const subtitle = ('cgTitle' in option ? option.cgTitle : undefined) || ('cg_title' in option ? option.cg_title : undefined) || ('keyword' in option ? option.keyword : '');
+    const storyText = isDate ? option.story : (('story_result' in option ? option.story_result : undefined) || option.story);
+    const buff = 'buff' in option ? option.buff : undefined;
+
     return (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
             {/* Heart Bloom Effect on Show */}
             <HeartBloom />
-            
+
             <div className="bg-gray-900/95 p-3 pb-8 w-full max-w-sm shadow-2xl transform rotate-1 animate-scaleUp relative rounded-lg border border-white/10 backdrop-blur-xl">
                 <div className="absolute top-2 left-2 text-[10px] font-mono text-red-500 font-bold z-30 animate-pulse">● REC</div>
                 <div className="absolute top-2 right-2 text-[10px] font-mono text-gray-400 font-bold z-30">CAM 01</div>
-                
+
                 <button onClick={onClose} className="absolute -top-3 -right-3 bg-white text-black rounded-full p-2 shadow-lg z-20 hover:scale-110 transition-transform"><X size={16}/></button>
-                
+
                 {/* Monitor Frame */}
                 <div className="relative aspect-[4/5] bg-black mb-4 overflow-hidden shadow-inner border-2 border-gray-800 rounded-lg">
-                      <img src={isDate ? option.img : option.avatar} className="w-full h-full object-cover opacity-90" />
-                      
+                      <img src={imgSrc} className="w-full h-full object-cover opacity-90" />
+
                       {/* Viewfinder Overlay */}
                       <div className="absolute inset-0 border-[20px] border-transparent pointer-events-none">
                           <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
@@ -2027,27 +2039,27 @@ const StoryOverlay = ({ option, isDate, onClose }: { option: any, isDate: boolea
 
                       <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                           <div className="flex justify-between items-end">
-                              <h3 className="text-xl font-bold font-serif italic">{isDate ? option.title : option.target}</h3>
+                              <h3 className="text-xl font-bold font-serif italic">{heading}</h3>
                               <span className="text-[10px] opacity-80 font-mono tracking-widest">SCENE 0{sceneNumber}</span>
                           </div>
                           <div className="text-xs text-pink-200 mt-1 flex items-center gap-1">
-                              <Clapperboard size={12} fill="currentColor" /> {option.cgTitle || option.cg_title || option.keyword}
+                              <Clapperboard size={12} fill="currentColor" /> {subtitle}
                           </div>
                       </div>
                 </div>
 
                 <div className="px-2">
                       <p className="text-sm text-gray-300 leading-relaxed font-handwriting text-justify mb-4 first-letter:text-2xl first-letter:text-pink-500 first-letter:font-bold">
-                          {isDate ? option.story : (option.story_result || option.story)}
+                          {storyText}
                       </p>
-                      
+
                       {/* 结局加成展示 */}
-                      {option.buff && (
+                      {buff && (
                           <div className="bg-pink-900/30 border border-pink-500/30 rounded-lg p-3 flex items-center gap-3 animate-pulse-slow mb-4 backdrop-blur-sm">
                               <div className="bg-pink-500 p-2 rounded-full text-white shadow-lg"><ThumbsUp size={16} /></div>
                               <div className="flex-1">
                                   <h4 className="text-xs font-bold text-pink-300">结局影响判定</h4>
-                                  <p className="text-[10px] text-pink-400/80">{option.buff}</p>
+                                  <p className="text-[10px] text-pink-400/80">{buff}</p>
                               </div>
                           </div>
                       )}
@@ -2596,7 +2608,7 @@ const DecisionCardSelector = ({
 export default function LoveSignalSim() {
   const [activeTab, setActiveTab] = useState<'home' | 'social' | 'message' | 'profile'>('home');
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
-  const [selectedTopic, setSelectedTopic] = useState<any | null>(null); 
+  const [selectedTopic, setSelectedTopic] = useState<WeiboTopicDetail | null>(null);
   const [chats, setChats] = useState(INITIAL_CHATS);
   const [characters, setCharacters] = useState(CHARACTERS);
   const [currentScenarioIdx, setCurrentScenarioIdx] = useState(0);
@@ -2606,7 +2618,7 @@ export default function LoveSignalSim() {
   const [showDateSelector, setShowDateSelector] = useState(false);
   const [showEndingSelector, setShowEndingSelector] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [activeStory, setActiveStory] = useState<{data: any, isDate: boolean} | null>(null);
+  const [activeStory, setActiveStory] = useState<{data: StoryOverlayData, isDate: boolean} | null>(null);
   const [showHeartBloom, setShowHeartBloom] = useState(false);
   const [expandedCpId, setExpandedCpId] = useState<number | null>(null);
   const [viewingProfile, setViewingProfile] = useState<string | null>(null);
@@ -3716,15 +3728,15 @@ export default function LoveSignalSim() {
           {/* Bottom Navigation - Studio Style with Glass */}
           {!activeChatId && !selectedTopic && (
               <div className="h-[80px] bg-black/60 backdrop-blur-xl border-t border-white/10 flex justify-around items-center px-2 pb-4 absolute bottom-0 w-full z-40">
-                  {[
-                      { id: 'home', icon: Clapperboard, label: '現場 (Set)' },
-                      { id: 'social', icon: Radio, label: '信號 (Air)', hasDot: hasNewSocialInfo },
-                      { id: 'message', icon: MessageCircle, label: '私麥 (Mic)', badge: 3 },
-                      { id: 'profile', icon: User, label: '嘉賓 (Cast)' },
-                  ].map(tab => (
-                      <button 
+                  {([
+                      { id: 'home' as const, icon: Clapperboard, label: '現場 (Set)' },
+                      { id: 'social' as const, icon: Radio, label: '信號 (Air)', hasDot: hasNewSocialInfo },
+                      { id: 'message' as const, icon: MessageCircle, label: '私麥 (Mic)', badge: 3 },
+                      { id: 'profile' as const, icon: User, label: '嘉賓 (Cast)' },
+                  ]).map(tab => (
+                      <button
                           key={tab.id}
-                          onClick={() => handleTabChange(tab.id as any)}
+                          onClick={() => handleTabChange(tab.id)}
                           className={`flex flex-col items-center gap-1 p-2 w-16 transition-all ${activeTab === tab.id ? 'text-pink-400 scale-105' : 'text-gray-500 hover:text-gray-300'}`}
                       >
                           <div className="relative">
