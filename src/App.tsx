@@ -926,38 +926,125 @@ const EpisodeOpening = ({ scenario, onFinished }: { scenario: StoryScenario, onF
 };
 
 // 邀请卡片组件（使用背景图片）
-const InvitationCard = ({ scenario: _scenario, onConfirm }: { scenario: StoryScenario, onConfirm: () => void }) => {
+const InvitationCard = ({ scenario, onConfirm }: { scenario: StoryScenario, onConfirm: () => void }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const [isShaking, setIsShaking] = useState(false);
+    
     // 背景图片URL - 使用 public/images/kaipian.gif
     const backgroundImageUrl = '/images/kaipian.gif';
     
+    const handleShake = () => {
+        setIsShaking(true);
+        setTimeout(() => setIsShaking(false), 500);
+    };
+    
     return (
         <div 
-            className="fixed inset-0 z-[200] flex items-center justify-center animate-fadeIn overflow-hidden cursor-pointer"
+            className="fixed inset-0 z-[200] flex items-center justify-center animate-fadeIn overflow-hidden"
             onClick={onConfirm}
         >
-            {/* 背景图片 - 全屏显示 */}
-            <img 
-                src={backgroundImageUrl}
-                alt="邀请函"
-                className="absolute inset-0 w-full h-full object-cover"
-            />
+            {/* 背景图片 - 全屏显示，带模糊效果 */}
+            <div className="absolute inset-0">
+                <img 
+                    src={backgroundImageUrl}
+                    alt="邀请函"
+                    className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+            </div>
             
-            {/* 确认按钮 - 底部居中 */}
-            <button 
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onConfirm();
-                }}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 px-8 py-4 bg-white/20 backdrop-blur-md text-white rounded-full font-bold text-lg shadow-2xl hover:bg-white/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group border-2 border-white/40"
+            {/* 邀请卡片主体 */}
+            <div 
+                className={`relative z-10 w-full max-w-md mx-4 bg-gradient-to-br from-purple-900/90 via-pink-900/90 to-indigo-900/90 backdrop-blur-xl rounded-3xl border-2 border-white/30 shadow-2xl p-8 transform transition-all duration-500 ${isHovered ? 'scale-105' : 'scale-100'} ${isShaking ? 'animate-shake' : ''}`}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onClick={(e) => e.stopPropagation()}
             >
-                <Sparkles size={20} className="group-hover:animate-pulse" />
-                <span>接受邀请</span>
-                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            
-            {/* 点击提示 */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-xs font-mono animate-pulse pointer-events-none z-10">
-                点击任意位置继续
+                {/* 装饰性星星 */}
+                <div className="absolute top-4 right-4">
+                    <Sparkles size={24} className="text-yellow-300 animate-pulse" />
+                </div>
+                
+                {/* 标题 */}
+                <div className="text-center mb-6">
+                    <h1 className="text-4xl font-bold text-white mb-2" style={{
+                        textShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(236, 72, 153, 0.5)',
+                        fontFamily: 'serif'
+                    }}>
+                        心动信号
+                    </h1>
+                    <p className="text-white/80 text-sm">诚挚邀请您参与《心动信号》第5季的拍摄</p>
+                </div>
+                
+                {/* 场景信息卡片 */}
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-6 border border-white/20">
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-white/30">
+                            <img src={scenario.coverImage} alt={scenario.episodeTitle} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="text-xs text-pink-400 font-bold uppercase tracking-wider">{scenario.phase}</span>
+                                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                                    scenario.rarity === 'SSR' ? 'bg-yellow-500 text-black' :
+                                    scenario.rarity === 'SR' ? 'bg-purple-500 text-white' :
+                                    'bg-blue-500 text-white'
+                                }`}>
+                                    {scenario.rarity}
+                                </span>
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-1">{scenario.episodeTitle}</h3>
+                            <p className="text-white/70 text-sm italic">{scenario.slogan}</p>
+                        </div>
+                    </div>
+                    
+                    {/* 场景详情 */}
+                    <div className="space-y-2 text-sm">
+                        <div className="flex items-center gap-2 text-white/80">
+                            <MapPin size={16} className="text-pink-400" />
+                            <span>{scenario.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-white/80">
+                            <CloudRain size={16} className="text-blue-400" />
+                            <span>{scenario.weather}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-white/80">
+                            <Film size={16} className="text-purple-400" />
+                            <span>{scenario.task}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                {/* 交互按钮 */}
+                <div className="space-y-3">
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onConfirm();
+                        }}
+                        onMouseEnter={handleShake}
+                        className="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-bold text-lg shadow-2xl hover:from-pink-600 hover:to-purple-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group border-2 border-white/30"
+                    >
+                        <Sparkles size={20} className="group-hover:animate-pulse" />
+                        <span>接受邀请</span>
+                        <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                    
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleShake();
+                        }}
+                        className="w-full py-2 text-white/60 text-sm hover:text-white/80 transition-colors"
+                    >
+                        点击卡片任意位置也可以继续
+                    </button>
+                </div>
+                
+                {/* 底部提示 */}
+                <div className="mt-6 text-center text-white/40 text-xs font-mono animate-pulse">
+                    点击任意位置继续
+                </div>
             </div>
         </div>
     );
@@ -3360,20 +3447,13 @@ export default function LoveSignalSim() {
                                              className={`flex-shrink-0 w-80 snap-center relative transition-all duration-500 cursor-pointer ${isCurrent ? 'scale-100 opacity-100' : 'scale-95 opacity-60'}`}
                                              onClick={() => {
                                                  if (isLocked) return;
-                                                 // 只有点击当前场景时才显示开屏动画
-                                                 if (isCurrent) {
-                                                     // 保存场景信息，开屏动画结束后使用
+                                                 // 如果是第一章，显示邀请卡片
+                                                 if (scenario.id === 'ep1') {
                                                      setInvitationScenario(scenario);
-                                                     // 显示开屏动画
-                                                     setPlayingOpening(true);
+                                                     setShowInvitationCard(true);
                                                  } else {
-                                                     // 已完成场景直接显示详情，不需要开屏动画
-                                                     if (scenario.id === 'ep1') {
-                                                         setInvitationScenario(scenario);
-                                                         setShowInvitationCard(true);
-                                                     } else {
-                                                         setExpandedScenario(scenario);
-                                                     }
+                                                     // 其他章节直接显示详情
+                                                     setExpandedScenario(scenario);
                                                  }
                                              }}
                                         >
